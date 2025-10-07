@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <NonVisualComponents>
+    <Menu class="javax.swing.JMenuBar" name="menuHome">
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="meniDokumenti">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Dokumenti"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="itemKreirajEvidencija">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Kreiraj Evidencija Kazni"/>
+              </Properties>
+            </MenuItem>
+            <Menu class="javax.swing.JMenu" name="subPretraga">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Pretrazi Evidencija Kazni"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="itemKritEvid">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Kriterijum Evidencija"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemKritKazna">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Kriterijum Kazna"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemKritPU">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Kriterijum Policijska Uprava"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemKritVozilo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Kriterijum Vozilo"/>
+                  </Properties>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="meniPruzalacUsluge">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Pruzalac Usluge"/>
+          </Properties>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="subPU">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Policijska Uprava"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="itemKreirajPU">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Kreiraj Policijska Uprava"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemKreirajPUActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemObrisiPU">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Obrisi Policijska Uprava"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemPromeniPU">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Promeni Policijska Uprava"/>
+                  </Properties>
+                </MenuItem>
+                <Menu class="javax.swing.JMenu" name="subPretragaPU">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Pretrazi Policijska Uprava"/>
+                  </Properties>
+                  <SubComponents>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaNazivPU">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Naziv"/>
+                      </Properties>
+                    </MenuItem>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaLokacijaPU">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Lokacija"/>
+                      </Properties>
+                    </MenuItem>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaRaskrsnicaPU">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Raskrsnica"/>
+                      </Properties>
+                    </MenuItem>
+                  </SubComponents>
+                </Menu>
+              </SubComponents>
+            </Menu>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="meniPrimalacUsluge">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Primalac Usluge"/>
+          </Properties>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="subVozilo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Vozilo"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="itemKreirajVozilo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Kreiraj Vozilo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemObrisiVozilo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Obrisi Vozilo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemPromeniVozilo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Promeni Vozilo"/>
+                  </Properties>
+                </MenuItem>
+                <Menu class="javax.swing.JMenu" name="subPretragaVozilo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Pretrazi Vozilo"/>
+                  </Properties>
+                  <SubComponents>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaRegOznakaVozilo">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Registraciona Oznaka"/>
+                      </Properties>
+                    </MenuItem>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaVlasnikVozilo">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Prebivaliste Vlasnika"/>
+                      </Properties>
+                    </MenuItem>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaMarkaVozilo">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Marka Vozila"/>
+                      </Properties>
+                    </MenuItem>
+                  </SubComponents>
+                </Menu>
+              </SubComponents>
+            </Menu>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="meniSifarnici">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Sifarnici"/>
+          </Properties>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="subVlasnik">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Vlasnik"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="itemKreirajVlasnik">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Kreiraj Vlasnika"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemObrisiVlasnik">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Obrisi Vlasnika"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemPromeniVlasnik">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Promeni Vlasnika"/>
+                  </Properties>
+                </MenuItem>
+                <Menu class="javax.swing.JMenu" name="subPretragaVlasnik">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Pretrazi Vlasnika"/>
+                  </Properties>
+                  <SubComponents>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaJMBGVlasnik">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum JMBG"/>
+                      </Properties>
+                    </MenuItem>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaGradVlasnik">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Prebivaliste"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemPretragaGradVlasnikActionPerformed"/>
+                      </Events>
+                    </MenuItem>
+                  </SubComponents>
+                </Menu>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="subKazna">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Kazna"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="itemKreirajKazna">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Kreiraj Kazna"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemKreirajKaznaActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemObrisiKazna">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Obrisi Kazna"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemPromeniKazna">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Promeni Kazna"/>
+                  </Properties>
+                </MenuItem>
+                <Menu class="javax.swing.JMenu" name="subKaznaPretraga">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Pretrazi Kazna"/>
+                  </Properties>
+                  <SubComponents>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaNazivKazna">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Naziv"/>
+                      </Properties>
+                    </MenuItem>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaKategorijaKazna">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Kategorija"/>
+                      </Properties>
+                    </MenuItem>
+                  </SubComponents>
+                </Menu>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="subRaskrsnica">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Raskrsnica"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="itemUbaciRaskrsnica">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Ubaci Raskrsnica"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemUbaciRaskrsnicaActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemObrisiRaskrsnica">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Obrisi Raskrsnica"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="itemPromeniRaskrsnica">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Promeni Raskrsnica"/>
+                  </Properties>
+                </MenuItem>
+                <Menu class="javax.swing.JMenu" name="subRaskrsnicaPretraga">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Pretrazi Raskrsnica"/>
+                  </Properties>
+                  <SubComponents>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaNazivRaskrsnica">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Naziv"/>
+                      </Properties>
+                    </MenuItem>
+                    <MenuItem class="javax.swing.JMenuItem" name="itemPretragaLokacijaRaskrsnica">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kriterijum Lokacija"/>
+                      </Properties>
+                    </MenuItem>
+                  </SubComponents>
+                </Menu>
+              </SubComponents>
+            </Menu>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="meniPodesavanja">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Podesavanja softverskog sistema"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="meniOProgramu">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="O Programu"/>
+          </Properties>
+        </Menu>
+      </SubComponents>
+    </Menu>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="menuHome"/>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <EmptySpace min="0" pref="722" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <EmptySpace min="0" pref="374" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+</Form>
