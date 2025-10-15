@@ -42,8 +42,8 @@ public class LogInForm extends javax.swing.JDialog {
             PolicijskaUprava pu = new PolicijskaUprava(username, password);
             try {
                 if(Controller.getInstance().prijaviPolicijskaUprava(pu) != null) {
-                    new HomeForm(null, true, pu).setVisible(true);
                     this.setVisible(false);
+                    new HomeForm(null, true, pu).setVisible(true);
                 }
             } catch (Exception e) { 
                 JOptionPane.showMessageDialog(this, "Netacni podaci!\nPreostalo pokusaja: " + --LOGIN_POKUSAJI, "Greska", JOptionPane.ERROR_MESSAGE);

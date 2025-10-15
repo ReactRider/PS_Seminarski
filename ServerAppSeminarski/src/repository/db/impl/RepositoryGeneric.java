@@ -10,27 +10,67 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
 
     @Override
     public List<OpstaDomenskaKlasa> getAll(OpstaDomenskaKlasa t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<OpstaDomenskaKlasa> lista=new ArrayList<>();
+        String query="SELECT * FROM "+t.getTableName();
+        Connection connection=DBConnectionFactory.getInstance().getConnection();
+        Statement s=connection.createStatement();
+        ResultSet rs=s.executeQuery(query);
+        lista=t.getList(rs);
+        s.close();
+        rs.close();
+        return lista;
+    
     }
 
     @Override
     public long add(OpstaDomenskaKlasa t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        long id=0l;
+        String query="INSERT INTO "+t.getTableName()+" ("+t.getColumnsForInsert()+") VALUES ("+t.getValuesForInsert()+")";
+       Connection connection=DBConnectionFactory.getInstance().getConnection();
+       Statement s=connection.createStatement();
+       s.execute(query, Statement.RETURN_GENERATED_KEYS);
+       ResultSet rs=s.getGeneratedKeys();
+       while(rs.next()){
+           id=rs.getLong(1);
+       }
+       return id;
     }
 
     @Override
     public boolean edit(OpstaDomenskaKlasa t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query="UPDATE "+t.getTableName()+" SET "+t.getValueForUpdate()+" WHERE "+t.getConditionForUpdate();
+        Connection conn=DBConnectionFactory.getInstance().getConnection();
+        Statement s=conn.createStatement();
+        int b=s.executeUpdate(query);
+        s.close();
+        if(b!=0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
     public boolean delete(OpstaDomenskaKlasa t, OpstaDomenskaKlasa t2) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query="DELETE FROM "+t.getTableName()+" WHERE "+t.getConditionForDelete(t2);
+        Connection conn=DBConnectionFactory.getInstance().getConnection();
+        Statement s=conn.createStatement();
+        int i=s.executeUpdate(query);
+        s.close();
+        return true;
     }
 
     @Override
     public List<OpstaDomenskaKlasa> getByODK(OpstaDomenskaKlasa t, OpstaDomenskaKlasa t2, String s) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<OpstaDomenskaKlasa> list=new ArrayList<>();
+        String query="SELECT * FROM "+t.getTableName()+" WHERE "+t.getConditionForFind(s, t2);
+        Connection conn=DBConnectionFactory.getInstance().getConnection();
+        Statement statement=conn.createStatement();
+        ResultSet rs=statement.executeQuery(query);
+        list=t.getList(rs);
+        statement.close();
+        rs.close();
+        return list;
     }
 
     @Override
