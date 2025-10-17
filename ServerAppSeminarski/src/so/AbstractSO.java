@@ -11,11 +11,11 @@ public abstract class AbstractSO {
         this.repository = new RepositoryGeneric();
     }
     
-    public Object execute(Object o) throws Exception {
+    public Object execute(Object o, Object o1, String s) throws Exception {
         try {
             preconditions(o);
             startTransaction();
-            Object obj = executeOperation(o);
+            Object obj = executeOperation(o,o1,s);
             commitTransaction();
             return obj;
         } catch(Exception ex) {
@@ -30,7 +30,7 @@ public abstract class AbstractSO {
         ((DbRepository)repository).connect();
     }
     
-    protected abstract Object executeOperation(Object o) throws Exception;
+    protected abstract Object executeOperation(Object o, Object o1, String s) throws Exception;
     
     protected void commitTransaction() throws Exception {
         ((DbRepository)repository).commit();

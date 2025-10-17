@@ -33,34 +33,38 @@ public class PretraziVoziloForm extends javax.swing.JDialog {
         txtModel.setVisible(false);
         
         btnPretraga.addActionListener(e -> {
-            if(!check_reg()) {
-                JOptionPane.showMessageDialog(this, "Neispravna registraciona oznaka!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            Vozilo v = Controller.getInstance().pretraziVozilo(new Vozilo(txtRegistracija.getText()));
-                
-            if(v == null) {
-                txtID.setText("");
-                txtMarka.setText("");
-                txtModel.setText("");
-                JOptionPane.showMessageDialog(this, "Ne postoji rezultat pretrage!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            try{
+                if(!check_reg()) {
+                    JOptionPane.showMessageDialog(this, "Neispravna registraciona oznaka!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            txtID.setVisible(true);
-            txtID.setText(v.getId_vozilo()+"");
-            txtID.setEnabled(false);
-            lblId.setVisible(true);
-            txtMarka.setVisible(true);
-            txtMarka.setText(v.getMarka());
-            txtMarka.setEnabled(false);
-            lblMarka.setVisible(true);
-            txtModel.setVisible(true);
-            txtModel.setText(v.getModel());
-            txtModel.setEnabled(false);
-            lblModel.setVisible(true);
-            
+                Vozilo v = Controller.getInstance().pretraziVozilo(new Vozilo(txtRegistracija.getText()));
+
+                if(v == null) {
+                    txtID.setText("");
+                    txtMarka.setText("");
+                    txtModel.setText("");
+                    JOptionPane.showMessageDialog(this, "Ne postoji rezultat pretrage!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                txtID.setVisible(true);
+                txtID.setText(v.getId_vozilo()+"");
+                txtID.setEnabled(false);
+                lblId.setVisible(true);
+                txtMarka.setVisible(true);
+                txtMarka.setText(v.getMarka());
+                txtMarka.setEnabled(false);
+                lblMarka.setVisible(true);
+                txtModel.setVisible(true);
+                txtModel.setText(v.getModel());
+                txtModel.setEnabled(false);
+                lblModel.setVisible(true);
+
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Greska pri pretrazi vozila","Greska",JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
     

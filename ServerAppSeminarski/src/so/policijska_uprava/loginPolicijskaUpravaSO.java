@@ -20,7 +20,7 @@ public class loginPolicijskaUpravaSO extends AbstractSO {
     }
 
     @Override
-    protected Object executeOperation(Object o) throws Exception {
+    protected Object executeOperation(Object o, Object o1, String s) throws Exception {
         return repository.login((PolicijskaUprava) o);
     }
    

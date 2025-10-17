@@ -11,7 +11,12 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
     @Override
     public List<OpstaDomenskaKlasa> getAll(OpstaDomenskaKlasa t) throws Exception {
         List<OpstaDomenskaKlasa> lista=new ArrayList<>();
-        String query="SELECT * FROM "+t.getTableName();
+        String query="";
+        if(t instanceof Vozilo){
+            query="SELECT * FROM "+t.getJoinCondition();
+        }else{
+            query="SELECT * FROM "+t.getTableName();
+        }
         Connection connection=DBConnectionFactory.getInstance().getConnection();
         Statement s=connection.createStatement();
         ResultSet rs=s.executeQuery(query);
@@ -63,7 +68,14 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
     @Override
     public List<OpstaDomenskaKlasa> getByODK(OpstaDomenskaKlasa t, OpstaDomenskaKlasa t2, String s) throws Exception {
         List<OpstaDomenskaKlasa> list=new ArrayList<>();
-        String query="SELECT * FROM "+t.getTableName()+" WHERE "+t.getConditionForFind(s, t2);
+        String query="";
+        if(t2 instanceof Vlasnik){
+            query="SELECT * FROM "+t.getJoinCondition()+" WHERE "+t.getConditionForFind(s, t2);
+        }else if(t2 instanceof Raskrsnica){
+            query="SELECT * FROM "+t.getJoinCondition()+" WHERE "+t.getConditionForFind(s, t2);
+        }else{
+            query="SELECT * FROM "+t.getTableName()+" WHERE "+t.getConditionForFind(s, t2);
+        }
         Connection conn=DBConnectionFactory.getInstance().getConnection();
         Statement statement=conn.createStatement();
         ResultSet rs=statement.executeQuery(query);

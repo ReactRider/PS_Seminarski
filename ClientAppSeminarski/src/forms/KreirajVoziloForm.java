@@ -35,13 +35,20 @@ public class KreirajVoziloForm extends javax.swing.JDialog {
         
         btnPromeni.addActionListener(e -> {
             if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) == 0) {
-                if(Controller.getInstance().promeniVozilo(new Vozilo(Long.parseLong(txtID.getText()), (Vlasnik)comboVlasnici.getSelectedItem()))) {
-                    JOptionPane.showMessageDialog(null, "Vozilo promenjeno!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                    this.setVisible(false);
-                    new PromeniVoziloForm(null, true).setVisible(true);
+                try{
+                    boolean b=Controller.getInstance().promeniVozilo(new Vozilo(Long.parseLong(txtID.getText()), (Vlasnik)comboVlasnici.getSelectedItem()));
+                    if(b) {
+                        JOptionPane.showMessageDialog(null, "Vozilo promenjeno!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                        this.setVisible(false);
+                        new PromeniVoziloForm(null, true).setVisible(true);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Greska pri promeni vozila!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    }
+                }catch(Exception exc){
+                    JOptionPane.showMessageDialog(this, "Greska pri promeni vozilo!","Greska",JOptionPane.ERROR_MESSAGE);
                 }
-                else
-                    JOptionPane.showMessageDialog(null, "Greska pri promeni vozila!", "Greska", JOptionPane.ERROR_MESSAGE);
+                
             } 
                
         });
@@ -69,10 +76,14 @@ public class KreirajVoziloForm extends javax.swing.JDialog {
     }
     
     private void ucitajVlasnike() {
+        try{
        ArrayList<Vlasnik> vlasnici = Controller.getInstance().vratiListuSviVlasnik();
        for(Vlasnik v : vlasnici) 
            comboVlasnici.addItem(v);
        comboVlasnici.setSelectedItem(null);
+        }catch(Exception greska){
+            JOptionPane.showMessageDialog(this, "Greska pri ucitavanju vlasnika!","Greska",JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void prepareForInsert() {
@@ -85,38 +96,46 @@ public class KreirajVoziloForm extends javax.swing.JDialog {
         txtID.setVisible(false);
         
         btnKreiraj.addActionListener(e -> {
-            if(!check_reg()) {
-                JOptionPane.showMessageDialog(this, "Neispravna registraciona oznaka", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
-                return;
-            
-            String marka = txtMarka.getText();
-            String model = txtModel.getText();
-            String reg_oznaka = txtRegistracija.getText();
-            
-            if(marka.equals("") || model.equals("") || reg_oznaka.equals("") || comboVlasnici.getSelectedItem() == null) {
-                JOptionPane.showMessageDialog(this, "Popunite sva polja", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            } 
-            
-            if(Controller.getInstance().pretraziVozilo(new Vozilo(reg_oznaka)) != null) {
-                JOptionPane.showMessageDialog(this, "Vozilo sa unetom registracionom oznakom vec postoji!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if(Controller.getInstance().kreirajVozilo(new Vozilo(reg_oznaka, marka, model, (Vlasnik) comboVlasnici.getSelectedItem()))) 
-                JOptionPane.showMessageDialog(this, "Vozilo kreirano.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-            else
-                JOptionPane.showMessageDialog(this, "Greska.", "Greska", JOptionPane.ERROR_MESSAGE);
-            
-            if(JOptionPane.showConfirmDialog(this, "Da li zelite uneti novo vozilo?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
-                this.setVisible(false);
-            else
-                prepareForNewInsert();
+            try{
+                if(!check_reg()) {
+                    JOptionPane.showMessageDialog(this, "Neispravna registraciona oznaka", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
+                if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
+                    return;
+
+                String marka = txtMarka.getText();
+                String model = txtModel.getText();
+                String reg_oznaka = txtRegistracija.getText();
+
+                if(marka.equals("") || model.equals("") || reg_oznaka.equals("") || comboVlasnici.getSelectedItem() == null) {
+                    JOptionPane.showMessageDialog(this, "Popunite sva polja", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } 
+
+
+                Vozilo pronadjeno_vozilo=Controller.getInstance().pretraziVozilo(new Vozilo(reg_oznaka));
+
+                if(pronadjeno_vozilo != null) {
+                    JOptionPane.showMessageDialog(this, "Vozilo sa unetom registracionom oznakom vec postoji!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                long id_kreiranog_vozila=Controller.getInstance().kreirajVozilo(new Vozilo(reg_oznaka, marka, model, (Vlasnik) comboVlasnici.getSelectedItem()));
+                
+                if(id_kreiranog_vozila!=0) 
+                    JOptionPane.showMessageDialog(this, "Vozilo kreirano.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(this, "Greska.", "Greska", JOptionPane.ERROR_MESSAGE);
+
+                if(JOptionPane.showConfirmDialog(this, "Da li zelite uneti novo vozilo?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
+                    this.setVisible(false);
+                else
+                    prepareForNewInsert();
+            }catch(Exception g){
+                JOptionPane.showMessageDialog(this, "Greska","Greska",JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
     

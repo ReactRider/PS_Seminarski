@@ -71,26 +71,29 @@ public class PretraziVlasnikForm extends javax.swing.JDialog {
          this.remove(jScrollPane1);
          
         btnPretraga.addActionListener(e-> {
-            if(check_jmbg()) {
-                Vlasnik vl = Controller.getInstance().pretraziVlasnik(new Vlasnik(txtJMBG.getText()));
-                ucitajGradove("");
-                
-                if(vl == null) {
-                    txtID.setText("");
-                    txtIme.setText("");
-                    txtPrezime.setText("");
-                    comboGrad.setSelectedItem(null);
-                    JOptionPane.showMessageDialog(this, "Ne postoji rezultat pretrage!", "Poruka", JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-                
-                txtID.setText(vl.getId_vlasnik()+"");
-                txtIme.setText(vl.getIme());
-                txtPrezime.setText(vl.getPrezime());
-                comboGrad.setSelectedItem(vl.getGrad());
-            } else
-                JOptionPane.showMessageDialog(this, "Neispravan JMBG", "Greska", JOptionPane.ERROR_MESSAGE);
-            
+            try{
+                if(check_jmbg()) {
+                    Vlasnik vl = Controller.getInstance().pretraziVlasnik(new Vlasnik(txtJMBG.getText()));
+                    ucitajGradove("");
+
+                    if(vl == null) {
+                        txtID.setText("");
+                        txtIme.setText("");
+                        txtPrezime.setText("");
+                        comboGrad.setSelectedItem(null);
+                        JOptionPane.showMessageDialog(this, "Ne postoji rezultat pretrage!", "Poruka", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+
+                    txtID.setText(vl.getId_vlasnik()+"");
+                    txtIme.setText(vl.getIme());
+                    txtPrezime.setText(vl.getPrezime());
+                    comboGrad.setSelectedItem(vl.getGrad());
+                } else
+                    JOptionPane.showMessageDialog(this, "Neispravan JMBG", "Greska", JOptionPane.ERROR_MESSAGE);
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Greska pri pretrazi vlasnika","Greska",JOptionPane.ERROR_MESSAGE);
+            }
         });
         
         

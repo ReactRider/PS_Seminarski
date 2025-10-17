@@ -4,13 +4,16 @@
  */
 package domain;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author Stefan
  */
-public class Kazna {
+public class Kazna implements OpstaDomenskaKlasa{
     private long id_kazna;
     private String naziv;
     private KategorijaKazna kategorija;
@@ -27,6 +30,10 @@ public class Kazna {
         this.naziv = naziv;
         this.kategorija = kategorija;
         this.iznos = iznos;
+    }
+    
+    public Kazna(){
+        
     }
     
     public Kazna(KategorijaKazna kategorija) {
@@ -106,6 +113,75 @@ public class Kazna {
     @Override
     public String toString() {
         return "Kazna{" + "id_kazna=" + id_kazna + ", naziv=" + naziv + ", kategorija=" + kategorija + ", iznos=" + iznos + '}';
+    }
+
+    @Override
+    public String getTableName() {
+        return "kazna";
+    }
+
+    @Override
+    public String getColumnsForInsert() {
+        return "naziv,kategorija,iznos";
+    }
+
+    @Override
+    public String getValuesForInsert() {
+        return "'"+this.naziv+"', '"+this.kategorija+"', "+this.iznos;
+    }
+
+    @Override
+    public String getCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getJoinCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getConditionForDelete(OpstaDomenskaKlasa t) {
+        return "id="+this.id_kazna;
+    }
+
+    @Override
+    public String getValueForUpdate() {
+        return "naziv='"+this.naziv+"', kategorija='"+this.kategorija+"', iznos="+this.iznos;
+    }
+
+    @Override
+    public String getConditionForUpdate() {
+        return "id="+this.id_kazna;
+    }
+
+    @Override
+    public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
+        if(s.equals("jedan")){
+            return "naziv='"+this.naziv+"'";
+        }else if(s.equals("lista")){
+            return "kategorija='"+this.kategorija+"'";
+        }
+        return "";
+    }
+
+    @Override
+    public OpstaDomenskaKlasa getObject(ResultSet rs) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<OpstaDomenskaKlasa> getList(ResultSet rs) throws Exception {
+        List<OpstaDomenskaKlasa> list=new ArrayList<>();
+        while(rs.next()){
+            String naziv=rs.getString("kazna.naziv");
+            double iznos=rs.getDouble("kazna.iznos");
+            long id=rs.getLong("kazna.id");
+            KategorijaKazna kategorijaKaz=KategorijaKazna.valueOf(rs.getString("kazna.kategorija_kazne"));
+            Kazna k=new Kazna(id, naziv, kategorijaKaz,iznos);
+            list.add(k);
+        }
+        return list;
     }
     
     

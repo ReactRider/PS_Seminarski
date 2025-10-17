@@ -56,19 +56,23 @@ public class PretraziRaskrsnicaForm extends javax.swing.JDialog {
         this.add(btnPretrazi);
         
          btnPretrazi.addActionListener( e -> {
-            if(txtNaziv.getText().equals("")) {
-                JOptionPane.showMessageDialog(this, "Unesite naziv", "Greska", JOptionPane.ERROR_MESSAGE);
-                comboGradovi.setSelectedItem(null);
-                return;
-            }
-            
-            Raskrsnica r = Controller.getInstance().pretraziRaskrsnica(new Raskrsnica(txtNaziv.getText(), ""));
-            if(r == null) {
-                JOptionPane.showMessageDialog(this, "Nema rezultata pretrage", "Poruka", JOptionPane.INFORMATION_MESSAGE);
-                comboGradovi.setSelectedItem(null);
-                return;
-            } 
-            comboGradovi.setSelectedItem(r.getGrad());
+             try{
+                if(txtNaziv.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Unesite naziv", "Greska", JOptionPane.ERROR_MESSAGE);
+                    comboGradovi.setSelectedItem(null);
+                    return;
+                }
+
+                Raskrsnica r = Controller.getInstance().pretraziRaskrsnica(new Raskrsnica(txtNaziv.getText(), ""));
+                if(r == null) {
+                    JOptionPane.showMessageDialog(this, "Nema rezultata pretrage", "Poruka", JOptionPane.INFORMATION_MESSAGE);
+                    comboGradovi.setSelectedItem(null);
+                    return;
+                } 
+                comboGradovi.setSelectedItem(r.getGrad());
+             }catch(Exception greska){
+                 JOptionPane.showMessageDialog(this, "Greska pri pretrazi raskrsnice","Greska",JOptionPane.ERROR_MESSAGE);
+             }
         });
         
     }

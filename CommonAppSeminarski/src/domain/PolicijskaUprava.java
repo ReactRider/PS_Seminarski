@@ -5,6 +5,7 @@
 package domain;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,14 +20,20 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
     private String grad;
     private String opstina;
     private String adresa;
+    private String policajac;
+    
+    public PolicijskaUprava(){
+        
+    }
 
-    public PolicijskaUprava(Long id, String username, String password, String grad, String opstina, String adresa) {
+    public PolicijskaUprava(Long id, String username, String password, String grad, String opstina, String adresa, String policajac) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.grad = grad;
         this.opstina = opstina;
         this.adresa = adresa;
+        this.policajac=policajac;
     }
 
     public PolicijskaUprava(String username, String password, String grad, String opstina, String adresa) {
@@ -118,6 +125,15 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
         this.password = password;
     }
 
+    public String getPolicajac() {
+        return policajac;
+    }
+
+    public void setPolicajac(String policajac) {
+        this.policajac = policajac;
+    }
+
+    
     @Override
     public String toString() {
         return username + ", " + grad;
@@ -166,37 +182,45 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
 
     @Override
     public String getColumnsForInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "username, password, grad, opstina, adresa, policajac";
     }
 
     @Override
     public String getValuesForInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "'"+this.username+"', '"+this.password+"', '"+this.grad+"', '"+this.opstina+"', '"+this.adresa+"', '"+this.policajac+"'";
     }
 
     @Override
     public String getJoinCondition() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "policijska_uprava pu JOIN purask pr ON pu.id=pr.id_pu";
     }
 
     @Override
     public String getConditionForDelete(OpstaDomenskaKlasa t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "id="+this.id;
     }
 
     @Override
     public String getValueForUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "username='"+this.username+"', password='"+this.password+"', adresa='"+this.adresa+"'";
     }
 
     @Override
     public String getConditionForUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "id="+this.id;
     }
 
     @Override
     public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(t2 instanceof Raskrsnica){
+            if(s.equals("lista")){
+                return "pr.id_raskrsnica="+((Raskrsnica) t2).getId_raskrsnica();
+            }else{
+                return "grad='"+this.grad+"'";
+            }
+        }else{
+            return "username='"+this.username+"'";
+        }
     }
 
     @Override
@@ -207,13 +231,26 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
         String grad = rs.getString("policijska_uprava.grad");
         String opstina = rs.getString("policijska_uprava.opstina");
         String adresa = rs.getString("policijska_uprava.adresa");
+        String policajac=rs.getString("policijska_uprava.policajac");
 
-        return new PolicijskaUprava(id, username, password, grad, opstina, adresa);
+        return new PolicijskaUprava(id, username, password, grad, opstina, adresa, policajac);
     }
 
     @Override
     public List<OpstaDomenskaKlasa> getList(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<OpstaDomenskaKlasa> list=new ArrayList<>();
+        while(rs.next()){
+            long id=rs.getLong("policijska_uprava.id");
+            String username = rs.getString("policijska_uprava.username");
+            String password = rs.getString("policijska_uprava.password");
+            String grad = rs.getString("policijska_uprava.grad");
+            String opstina = rs.getString("policijska_uprava.opstina");
+            String adresa = rs.getString("policijska_uprava.adresa");
+            String policajac=rs.getString("policijska_uprava.policajac");
+            PolicijskaUprava pu=new PolicijskaUprava(id, username, password, grad, opstina, adresa, policajac);
+            list.add(pu);
+        }
+        return list;
     }
 
     @Override

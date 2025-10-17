@@ -43,28 +43,32 @@ public class UbaciRaskrsnicaForm extends javax.swing.JDialog {
         prepareForInsert();
         
         btnKreiraj.addActionListener( e-> {
-            String naziv = txtNazivRaskrsnice.getText();
-            String grad = (String)comboGradovi.getSelectedItem();
-        
-            if(checkFields(naziv, grad)) {
-                if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) == 0) {
-                    if(!Controller.getInstance().daLiPostojiRaskrsnica(naziv, grad)) {
-                        if(Controller.getInstance().ubaciRaskrsnica(new Raskrsnica(naziv, grad))) {
-                            JOptionPane.showMessageDialog(this, "Raskrsnica sacuvana!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+            try{
+                String naziv = txtNazivRaskrsnice.getText();
+                String grad = (String)comboGradovi.getSelectedItem();
 
-                            if(JOptionPane.showConfirmDialog(this, "Novi unos?", "Potvrda", JOptionPane.YES_NO_OPTION) == 0) {
-                                txtNazivRaskrsnice.setText("");
-                                comboGradovi.setSelectedItem(null);
+                if(checkFields(naziv, grad)) {
+                    if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) == 0) {
+                        if(!Controller.getInstance().daLiPostojiRaskrsnica(naziv, grad)) {
+                            long id_kreirane_ras=Controller.getInstance().ubaciRaskrsnica(new Raskrsnica(naziv, grad));
+                            if(id_kreirane_ras!=0) {
+                                JOptionPane.showMessageDialog(this, "Raskrsnica sacuvana!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+
+                                if(JOptionPane.showConfirmDialog(this, "Novi unos?", "Potvrda", JOptionPane.YES_NO_OPTION) == 0) {
+                                    txtNazivRaskrsnice.setText("");
+                                    comboGradovi.setSelectedItem(null);
+                                } else 
+                                    this.setVisible(false);
                             } else 
-                                this.setVisible(false);
+                                JOptionPane.showMessageDialog(this, "Raskrsnica nije sacuvana!", "Greska", JOptionPane.ERROR_MESSAGE);
                         } else 
-                            JOptionPane.showMessageDialog(this, "Raskrsnica nije sacuvana!", "Greska", JOptionPane.ERROR_MESSAGE);
-                    } else 
-                        JOptionPane.showMessageDialog(this, "Raskrsnica sa unetim nazivom vec postoji", "Greska", JOptionPane.ERROR_MESSAGE);
-                }
-            } else
-                JOptionPane.showMessageDialog(this, "Neispravni podaci!", "Greska", JOptionPane.ERROR_MESSAGE);
-            
+                            JOptionPane.showMessageDialog(this, "Raskrsnica sa unetim nazivom vec postoji", "Greska", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else
+                    JOptionPane.showMessageDialog(this, "Neispravni podaci!", "Greska", JOptionPane.ERROR_MESSAGE);
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Greska pri preiranju raskrsnice","Greska",JOptionPane.ERROR_MESSAGE);
+            }
         });
         
     }
@@ -76,17 +80,21 @@ public class UbaciRaskrsnicaForm extends javax.swing.JDialog {
         prepareForUpdate(r);
         
         btnPromeni.addActionListener( e -> {
-            String naziv = txtNazivRaskrsnice.getText();
-            String grad = (String)comboGradovi.getSelectedItem();
-            if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
-                return;
-            if(Controller.getInstance().promeniRaskrsnica(new Raskrsnica(Long.parseLong(txtID.getText()), naziv, grad))) {
-                JOptionPane.showMessageDialog(this, "Raskrsnica promenjena.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                this.setVisible(false);
-                new PromeniRaskrsnicaForm(null, true).setVisible(true);
-            } else 
-                JOptionPane.showMessageDialog(this, "Greska pri promeni raskrsnice", "Greska", JOptionPane.ERROR_MESSAGE);
-        });
+            try{
+                String naziv = txtNazivRaskrsnice.getText();
+                String grad = (String)comboGradovi.getSelectedItem();
+                if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
+                    return;
+                if(Controller.getInstance().promeniRaskrsnica(new Raskrsnica(Long.parseLong(txtID.getText()), naziv, grad))) {
+                    JOptionPane.showMessageDialog(this, "Raskrsnica promenjena.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                    this.setVisible(false);
+                    new PromeniRaskrsnicaForm(null, true).setVisible(true);
+                } else 
+                    JOptionPane.showMessageDialog(this, "Greska pri promeni raskrsnice", "Greska", JOptionPane.ERROR_MESSAGE);
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Greska pri promeni raskrsnice","Greska",JOptionPane.ERROR_MESSAGE);
+            }
+            });
                 
     }
     

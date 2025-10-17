@@ -7,6 +7,7 @@ package forms;
 import domain.Kazna;
 import javax.swing.JOptionPane;
 import controller.Controller;
+import domain.KategorijaKazna;
 import java.util.ArrayList;
 import table_models.KaznaTableModel;
 
@@ -80,6 +81,7 @@ public class PretraziKaznaForm extends javax.swing.JDialog {
         
         
         btnPretragaKazna.addActionListener( e -> {
+            try{
             if(!check_naziv()) {
                 JOptionPane.showMessageDialog(this, "Neispravan unos naziva kazne", "Greska", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -96,6 +98,9 @@ public class PretraziKaznaForm extends javax.swing.JDialog {
                 comboKategorija.setSelectedItem(null);
                 txtIznos.setText("");
                 JOptionPane.showMessageDialog(this, "Nema rezultata pretrage!", "Poruka", JOptionPane.INFORMATION_MESSAGE);
+            }
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Greska pri pretrazi kazne","Greska",JOptionPane.ERROR_MESSAGE);
             }
         });
     }

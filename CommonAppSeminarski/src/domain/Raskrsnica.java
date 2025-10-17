@@ -4,13 +4,16 @@
  */
 package domain;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author Stefan
  */
-public class Raskrsnica {
+public class Raskrsnica implements OpstaDomenskaKlasa{
     private long id_raskrsnica;
     private String naziv;
     private String grad;
@@ -86,6 +89,76 @@ public class Raskrsnica {
     @Override
     public String toString() {
         return naziv;
+    }
+
+    @Override
+    public String getTableName() {
+        return "raskrsnica";
+    }
+
+    @Override
+    public String getColumnsForInsert() {
+        return "naziv, grad";
+    }
+
+    @Override
+    public String getValuesForInsert() {
+        return "'"+this.naziv+"', '"+this.grad+"'";
+    }
+
+    @Override
+    public String getCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getJoinCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getConditionForDelete(OpstaDomenskaKlasa t) {
+        return "id="+this.id_raskrsnica;
+    }
+
+    @Override
+    public String getValueForUpdate() {
+        return "naziv='"+this.naziv+"', grad='"+this.grad+"'";
+    }
+
+    @Override
+    public String getConditionForUpdate() {
+        return "id="+this.id_raskrsnica;                 
+    }
+
+    @Override
+    public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
+        if(s.equals("jedan")){
+            return "naziv='"+this.naziv+"'";
+        }else{
+            return "grad='"+this.grad+"'";
+        }
+    }
+
+    @Override
+    public OpstaDomenskaKlasa getObject(ResultSet rs) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<OpstaDomenskaKlasa> getList(ResultSet rs) throws Exception {
+        List<OpstaDomenskaKlasa> list=new ArrayList<>();
+        while(rs.next()){
+            long id=rs.getLong("raskrsnica.id");
+            String naziv=rs.getString("raskrsnica.naziv");
+            String grad=rs.getString("raskrsnica.grad");
+            Raskrsnica r=new Raskrsnica();
+            r.setId_raskrsnica(id);
+            r.setNaziv(naziv);
+            r.setGrad(grad);
+            list.add(r);
+        }
+        return list;
     }
     
     

@@ -24,6 +24,7 @@ public class PretraziPUForm extends javax.swing.JDialog {
         prepare();
         
         btnPretrazi.addActionListener( e -> {
+            try{
             String naziv = txtNaziv.getText();
             
             if(naziv.equals("")) {
@@ -60,7 +61,9 @@ public class PretraziPUForm extends javax.swing.JDialog {
             txtAdresa.setEnabled(false);
             
             
-            
+            }catch(Exception gr){
+                JOptionPane.showMessageDialog(this, "Greska pri pretrazi policijske uprave","GReska",JOptionPane.ERROR_MESSAGE);
+            }
             
         });
         

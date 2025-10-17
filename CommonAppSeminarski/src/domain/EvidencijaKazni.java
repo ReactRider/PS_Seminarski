@@ -4,13 +4,16 @@
  */
 package domain;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author Stefan
  */
-public class EvidencijaKazni {
+public class EvidencijaKazni implements OpstaDomenskaKlasa{
     private Long id_evidencija;
     private double iznos_total;
     private Long br_kazni_I;
@@ -19,6 +22,7 @@ public class EvidencijaKazni {
     private double bazni_ponder;
     private PolicijskaUprava pu;
     private Vozilo vozilo;
+    private List<StavkaEvidencije> stavke_ev;
 
     public EvidencijaKazni(Long id_evidencija, Long br_kazni_I, Long br_kazni_II, Long br_kazni_III, double bazni_ponder, PolicijskaUprava pu, Vozilo vozilo) {
         this.id_evidencija = id_evidencija;
@@ -122,6 +126,16 @@ public class EvidencijaKazni {
         this.vozilo = vozilo;
     }
 
+    public List<StavkaEvidencije> getStavke_ev() {
+        return stavke_ev;
+    }
+
+    public void setStavke_ev(List<StavkaEvidencije> stavke_ev) {
+        this.stavke_ev = stavke_ev;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "EvidencijaKazni{" + "id_evidencija=" + id_evidencija + ", iznos_total=" + iznos_total + ", br_kazni_I=" + br_kazni_I + ", br_kazni_II=" + br_kazni_II + ", br_kazni_III=" + br_kazni_III + ", bazni_ponder=" + bazni_ponder + ", pu=" + pu + ", vozilo=" + vozilo + '}';
@@ -167,6 +181,110 @@ public class EvidencijaKazni {
             return false;
         }
         return Objects.equals(this.vozilo, other.vozilo);
+    }
+
+    @Override
+    public String getTableName() {
+        return "evidencija_kazni";
+    }
+
+    @Override
+    public String getColumnsForInsert() {
+        return "iznos_total, br_kazni_I_kat, br_kazni_II_kat, br_kazni_III_kat, bazni_ponder, id_pu, id_vozilo";
+    }
+
+    @Override
+    public String getValuesForInsert() {
+        return this.iznos_total+", "+this.br_kazni_I+", "+this.br_kazni_II+", "+this.br_kazni_III+", "+this.bazni_ponder+", "+this.pu.getId()+", "+this.vozilo.getId_vozilo();
+    }
+
+    @Override
+    public String getCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getJoinCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getConditionForDelete(OpstaDomenskaKlasa t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getValueForUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getConditionForUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public OpstaDomenskaKlasa getObject(ResultSet rs) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<OpstaDomenskaKlasa> getList(ResultSet rs) throws Exception {
+        List<OpstaDomenskaKlasa> list=new ArrayList<>();
+        while(rs.next()){
+            //ek je evidencija_kacni, pu je policijska_uprava, v je vozilo, vl je vlasnik
+            long id_ek=rs.getLong("ek.id");
+            double iznos_total=rs.getDouble("ek.iznos_total");
+            double ponder=rs.getDouble("ek.bazni_ponder");
+            long brKazniI=rs.getInt("ek.broj_kazni_kategorije_I");
+            long brKazniII=rs.getInt("ek.broj_kazni_kategorije_II");
+            long brKazniIII=rs.getInt("ek.broj_kazni_kategorije_III");
+            long id_pu=rs.getLong("pu.id");
+            long id_v=rs.getLong("v.id");
+            String username = rs.getString("pu.username");
+            String password = rs.getString("pu.password");
+            String grad_pu = rs.getString("pu.grad");
+            String opstina = rs.getString("pu.opstina");
+            String adresa = rs.getString("pu.adresa");
+            String policajac=rs.getString("pu.policajac");
+            PolicijskaUprava pu=new PolicijskaUprava(id_pu, username, password, grad_pu, opstina, adresa, policajac);
+            String registracija=rs.getString("v.reg_oznaka");
+            String marka=rs.getString("v.marka");
+            String model=rs.getString("v.model");
+            Vlasnik vlasnik=new Vlasnik();
+            long id_vlasnik=rs.getLong("vl.id");
+            String ime=rs.getString("vl.ime");
+            String prezime=rs.getString("vl.prezime");
+            String jmbg=rs.getString("vl.jmbg");
+            String grad_vlasnik=rs.getString("vl.grad");
+            vlasnik.setId_vlasnik(id_vlasnik);
+            vlasnik.setIme(ime);
+            vlasnik.setPrezime(prezime);
+            vlasnik.setJmbg(jmbg);
+            vlasnik.setGrad(grad_vlasnik);
+            Vozilo vozilo=new Vozilo();
+            vozilo.setId_vozilo(id_v);
+            vozilo.setReg_oznaka(registracija);
+            vozilo.setMarka(marka);
+            vozilo.setModel(model);
+            vozilo.setVlasnik(vlasnik);
+            EvidencijaKazni evidencija=new EvidencijaKazni();
+            evidencija.setId_evidencija(id_ek);
+            evidencija.setBazni_ponder(ponder);
+            evidencija.setBr_kazni_I(brKazniI);
+            evidencija.setBr_kazni_II(brKazniII);
+            evidencija.setBr_kazni_III(brKazniIII);
+            //sta se radi sa totalnim iznosom
+            evidencija.setPu(pu);
+            evidencija.setVozilo(vozilo);
+            list.add(evidencija);
+        }
+        return list;
     }
     
     

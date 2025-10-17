@@ -70,27 +70,31 @@ public class KreirajKaznaForm extends javax.swing.JDialog {
          btnPromeni.setVisible(true);
          
          btnPromeni.addActionListener(e -> {
-            
-            if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
-                return;
+            try{
+                if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
+                    return;
 
-            if(Controller.getInstance().pretraziKazna(new Kazna(txtNaziv.getText())) != null) {
-                JOptionPane.showMessageDialog(this, "Dati naziv kazne je zauzet!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+                if(Controller.getInstance().pretraziKazna(new Kazna(txtNaziv.getText())) != null) {
+                    JOptionPane.showMessageDialog(this, "Dati naziv kazne je zauzet!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            if(comboKategorija.getSelectedItem() == null) {
-                JOptionPane.showMessageDialog(this, "Izaberite kategoriju kazne!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+                if(comboKategorija.getSelectedItem() == null) {
+                    JOptionPane.showMessageDialog(this, "Izaberite kategoriju kazne!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            if(Controller.getInstance().promeniKazna(new Kazna(Long.parseLong(txtID.getText()) , txtNaziv.getText(), (KategorijaKazna)comboKategorija.getSelectedItem(), Double.parseDouble(txtIznos.getText())))) {
-                JOptionPane.showMessageDialog(this, "Kazna je promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                this.setVisible(false);
-                new PromeniKaznaForm(null, true).setVisible(true);
+                if(Controller.getInstance().promeniKazna(new Kazna(Long.parseLong(txtID.getText()) , txtNaziv.getText(), (KategorijaKazna)comboKategorija.getSelectedItem(), Double.parseDouble(txtIznos.getText())))) {
+                    JOptionPane.showMessageDialog(this, "Kazna je promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                    this.setVisible(false);
+                    new PromeniKaznaForm(null, true).setVisible(true);
+                }
+                else 
+                    JOptionPane.showMessageDialog(this, "Greska pri promeni kazne!", "Greska", JOptionPane.ERROR_MESSAGE);
+
+            }catch(Exception g){
+                JOptionPane.showMessageDialog(this, "Greska pri pozivu neke funkcije!","Greska",JOptionPane.ERROR_MESSAGE);
             }
-            else 
-                JOptionPane.showMessageDialog(this, "Greska pri promeni kazne!", "Greska", JOptionPane.ERROR_MESSAGE);
         });
      }
 
@@ -205,32 +209,36 @@ public class KreirajKaznaForm extends javax.swing.JDialog {
         btnPromeni.setVisible(false);
         
         btnKreiraj.addActionListener(e -> {
-                      
-            if(Controller.getInstance().pretraziKazna(new Kazna(txtNaziv.getText())) != null) {
-                JOptionPane.showMessageDialog(this, "Naziv kazne je zauzet!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
+            try{          
+                if(Controller.getInstance().pretraziKazna(new Kazna(txtNaziv.getText())) != null) {
+                    JOptionPane.showMessageDialog(this, "Naziv kazne je zauzet!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if(comboKategorija.getSelectedItem() == null) {
+                    JOptionPane.showMessageDialog(this, "Izaberite kategoriju kazne!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
+                    return;
+
+                long id_kreirane_kazne=Controller.getInstance().kreirajKazna(new Kazna(txtNaziv.getText(), (KategorijaKazna)comboKategorija.getSelectedItem(), Double.parseDouble(txtIznos.getText())));
+                
+                if(id_kreirane_kazne!=0) 
+                    JOptionPane.showMessageDialog(this, "Kazna je kreirana!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                else {
+                    JOptionPane.showMessageDialog(this, "Greska pri kreiranju kazne!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if(JOptionPane.showConfirmDialog(this, "Da li zelite uneti novu kaznu?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
+                    this.setVisible(false);
+                else
+                    prepareForNewInsert();
+            }catch(Exception gr){
+                JOptionPane.showMessageDialog(this, "Greska pri pozivu neke funkcije!","Greska",JOptionPane.ERROR_MESSAGE);
             }
-            
-            if(comboKategorija.getSelectedItem() == null) {
-                JOptionPane.showMessageDialog(this, "Izaberite kategoriju kazne!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-           
-            if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
-                return;
- 
-            if(Controller.getInstance().kreirajKazna(new Kazna(txtNaziv.getText(), (KategorijaKazna)comboKategorija.getSelectedItem(), Double.parseDouble(txtIznos.getText())))) 
-                JOptionPane.showMessageDialog(this, "Kazna je kreirana!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-            else {
-                JOptionPane.showMessageDialog(this, "Greska pri kreiranju kazne!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if(JOptionPane.showConfirmDialog(this, "Da li zelite uneti novu kaznu?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
-                this.setVisible(false);
-            else
-                prepareForNewInsert();
-            
         });
     }
     

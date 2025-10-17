@@ -46,6 +46,7 @@ public class KreirajVlasnikForm extends javax.swing.JDialog {
         prepareForUpdate(v);
         
         btnPromeni.addActionListener(e -> {
+            try{
             String ime = txtIme.getText();
             String prezime = txtPrezime.getText();
             String grad = (String)comboGrad.getSelectedItem();
@@ -64,7 +65,9 @@ public class KreirajVlasnikForm extends javax.swing.JDialog {
                 else
                     JOptionPane.showMessageDialog(null, "Greska pri promeni vlasnika!", "Greska", JOptionPane.ERROR_MESSAGE);
             } 
-               
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Greska pri menjanju vlasnika","Greska",JOptionPane.ERROR_MESSAGE);
+            }    
         });
     }
     
@@ -103,39 +106,44 @@ public class KreirajVlasnikForm extends javax.swing.JDialog {
         ucitajGradove();
         
         btnKreiraj.addActionListener(e -> {
-            String ime = txtIme.getText();
-            String prezime = txtPrezime.getText();
-            String jmbg = txtJMBG.getText();
-            String grad = (String)comboGrad.getSelectedItem();
-            
-            if(ime.equals("") || prezime.equals("") || jmbg.equals("") || grad == null) {
-                JOptionPane.showMessageDialog(this, "Popunite sva polja", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if(!check_jmbg()) {
-                JOptionPane.showMessageDialog(this, "Neispravan JMBG!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if(Controller.getInstance().pretraziVlasnik(new Vlasnik(jmbg)) != null) {
-                JOptionPane.showMessageDialog(this, "Vlasnik sa unetim JMBG-om vec postoji!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
-                return;
-           
-            if(Controller.getInstance().kreirajVlasnik(new Vlasnik(ime, prezime, jmbg, grad))) 
-                JOptionPane.showMessageDialog(this, "Vlasnik kreiran.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-            else
-                JOptionPane.showMessageDialog(this, "Greska.", "Greska", JOptionPane.ERROR_MESSAGE);
-            
-            if(JOptionPane.showConfirmDialog(this, "Da li zelite uneti novog vlasnika?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
-                this.setVisible(false);
-            else
-                prepareForNewInsert();
+            try{
+                String ime = txtIme.getText();
+                String prezime = txtPrezime.getText();
+                String jmbg = txtJMBG.getText();
+                String grad = (String)comboGrad.getSelectedItem();
 
+                if(ime.equals("") || prezime.equals("") || jmbg.equals("") || grad == null) {
+                    JOptionPane.showMessageDialog(this, "Popunite sva polja", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if(!check_jmbg()) {
+                    JOptionPane.showMessageDialog(this, "Neispravan JMBG!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if(Controller.getInstance().pretraziVlasnik(new Vlasnik(jmbg)) != null) {
+                    JOptionPane.showMessageDialog(this, "Vlasnik sa unetim JMBG-om vec postoji!", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
+                    return;
+
+                long id_kreiranog_vlasnika=Controller.getInstance().kreirajVlasnik(new Vlasnik(ime, prezime, jmbg, grad));
+                
+                if(id_kreiranog_vlasnika!=0) 
+                    JOptionPane.showMessageDialog(this, "Vlasnik kreiran.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(this, "Greska.", "Greska", JOptionPane.ERROR_MESSAGE);
+
+                if(JOptionPane.showConfirmDialog(this, "Da li zelite uneti novog vlasnika?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
+                    this.setVisible(false);
+                else
+                    prepareForNewInsert();
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Greska prilikom pretrage ili kreiranja vlasnika","Greska",JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
     

@@ -4,13 +4,16 @@
  */
 package domain;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author Stefan
  */
-public class Vlasnik {
+public class Vlasnik implements OpstaDomenskaKlasa{
     private Long id_vlasnik;
     private String ime;
     private String prezime;
@@ -48,6 +51,8 @@ public class Vlasnik {
     }
     
     public Vlasnik() {}
+    
+    
     
     public Long getId_vlasnik() {
         return id_vlasnik;
@@ -125,6 +130,81 @@ public class Vlasnik {
             return false;
         }
         return Objects.equals(this.id_vlasnik, other.id_vlasnik);
+    }
+
+    @Override
+    public String getTableName() {
+        return "vlasnik";
+    }
+
+    @Override
+    public String getColumnsForInsert() {
+        return "ime, prezime, jmbg, grad";
+    }
+
+    @Override
+    public String getValuesForInsert() {
+        return "'"+this.ime+"', '"+this.prezime+"', '"+this.jmbg+"', '"+this.grad+"'";
+    }
+
+    @Override
+    public String getCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getJoinCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getConditionForDelete(OpstaDomenskaKlasa t) {
+        return "id="+this.id_vlasnik;
+    }
+
+    @Override
+    public String getValueForUpdate() {
+        return "ime='"+this.ime+"', prezime='"+this.prezime+"', grad='"+this.grad+"'";
+    }
+
+    @Override
+    public String getConditionForUpdate() {
+        return "id="+this.id_vlasnik;
+    }
+
+    @Override
+    public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
+        if(s.equals("jedan")){
+            return "jmbg='"+this.jmbg+"'";
+        }else{
+            return "grad='"+this.grad+"'";
+        }
+    }
+
+    @Override
+    public OpstaDomenskaKlasa getObject(ResultSet rs) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<OpstaDomenskaKlasa> getList(ResultSet rs) throws Exception {
+        List<OpstaDomenskaKlasa> list=new ArrayList<>();
+        while(rs.next()){
+            long id=rs.getLong("vlasnik.id");
+            String ime=rs.getString("vlasnik.ime");
+            String prezime=rs.getString("vlasnik.prezime");
+            String jmbg=rs.getString("vlasnik.jmbg");
+            String grad=rs.getString("vlasnik.grad");
+            Vlasnik v=new Vlasnik();
+            v.setId_vlasnik(id);
+            v.setIme(ime);
+            v.setPrezime(prezime);
+            v.setJmbg(jmbg);
+            v.setGrad(grad);
+            list.add(v);
+        }
+        return list;
+        
     }
 
 }
