@@ -23,6 +23,7 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
     private PolicijskaUprava pu;
     private Vozilo vozilo;
     private List<StavkaEvidencije> stavke_ev;
+    
 
     public EvidencijaKazni(Long id_evidencija, Long br_kazni_I, Long br_kazni_II, Long br_kazni_III, double bazni_ponder, PolicijskaUprava pu, Vozilo vozilo) {
         this.id_evidencija = id_evidencija;
@@ -55,7 +56,7 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
         this.pu = pu;
         this.vozilo = vozilo;
     }
-
+    
     public EvidencijaKazni(long id_evidencija) {
         this.id_evidencija = id_evidencija;
     }
@@ -133,8 +134,6 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
     public void setStavke_ev(List<StavkaEvidencije> stavke_ev) {
         this.stavke_ev = stavke_ev;
     }
-
-    
     
     @Override
     public String toString() {
@@ -190,7 +189,7 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
 
     @Override
     public String getColumnsForInsert() {
-        return "iznos_total, br_kazni_I_kat, br_kazni_II_kat, br_kazni_III_kat, bazni_ponder, id_pu, id_vozilo";
+        return "iznos_total, br_kazni_I, br_kazni_II, br_kazni_III, bazni_ponder, id_pu, id_vozilo";
     }
 
     @Override
@@ -238,12 +237,12 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
         List<OpstaDomenskaKlasa> list=new ArrayList<>();
         while(rs.next()){
             //ek je evidencija_kacni, pu je policijska_uprava, v je vozilo, vl je vlasnik
-            long id_ek=rs.getLong("ek.id");
+            long id_ek=rs.getLong("ek.idEvidencija");
             double iznos_total=rs.getDouble("ek.iznos_total");
             double ponder=rs.getDouble("ek.bazni_ponder");
-            long brKazniI=rs.getInt("ek.broj_kazni_kategorije_I");
-            long brKazniII=rs.getInt("ek.broj_kazni_kategorije_II");
-            long brKazniIII=rs.getInt("ek.broj_kazni_kategorije_III");
+            long brKazniI=rs.getInt("ek.br_kazni_I");
+            long brKazniII=rs.getInt("ek.br_kazni_II");
+            long brKazniIII=rs.getInt("ek.br_kazni_III");
             long id_pu=rs.getLong("pu.id");
             long id_v=rs.getLong("v.id");
             String username = rs.getString("pu.username");
@@ -279,7 +278,7 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
             evidencija.setBr_kazni_I(brKazniI);
             evidencija.setBr_kazni_II(brKazniII);
             evidencija.setBr_kazni_III(brKazniIII);
-            //sta se radi sa totalnim iznosom
+            evidencija.setIznos_total();
             evidencija.setPu(pu);
             evidencija.setVozilo(vozilo);
             list.add(evidencija);

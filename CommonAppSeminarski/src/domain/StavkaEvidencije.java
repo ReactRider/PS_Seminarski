@@ -4,25 +4,32 @@
  */
 package domain;
 
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author Stefan
  */
-public class StavkaEvidencije {
+public class StavkaEvidencije implements OpstaDomenskaKlasa {
     private long rb;
     private EvidencijaKazni evidencija;
     private Kazna kazna;
     private double iznos;
     private KategorijaKazna kategorija_kazne;
+    private Raskrsnica raskrsnica;
+    private LocalDateTime datumPrekrsaja;
 
-    public StavkaEvidencije(long rb, EvidencijaKazni evidencija, Kazna kazna, double iznos, KategorijaKazna kategorija_kazne) {
+    public StavkaEvidencije(long rb, EvidencijaKazni evidencija, LocalDateTime datumPrekrsaja, KategorijaKazna kategorija_kazne, Raskrsnica r, Kazna kazna, double iznos) {
         this.rb = rb;
         this.evidencija = evidencija;
         this.kazna = kazna;
         this.iznos = iznos;
         this.kategorija_kazne = kategorija_kazne;
+        this.raskrsnica = r;
+        this.datumPrekrsaja = datumPrekrsaja;
     }
 
     public StavkaEvidencije(long rb, EvidencijaKazni evidencija, Kazna kazna, KategorijaKazna kategorija_kazne) {
@@ -33,10 +40,12 @@ public class StavkaEvidencije {
         setIznos();
     }
 
-    public StavkaEvidencije(EvidencijaKazni evidencija, Kazna kazna, KategorijaKazna kategorija_kazne) {
+    public StavkaEvidencije(EvidencijaKazni evidencija, LocalDateTime datumPrekrsaja, KategorijaKazna kategorija_kazne, Raskrsnica r,  Kazna kazna) {
         this.evidencija = evidencija;
-        this.kazna = kazna;
+        this.datumPrekrsaja = datumPrekrsaja;
         this.kategorija_kazne = kategorija_kazne;
+        this.raskrsnica = r;
+        this.kazna = kazna;
         setIznos();
     }
 
@@ -65,6 +74,15 @@ public class StavkaEvidencije {
     public void setKazna(Kazna kazna) {
         this.kazna = kazna;
     }
+
+    public Raskrsnica getRaskrsnica() {
+        return raskrsnica;
+    }
+
+    public void setRaskrsnica(Raskrsnica raskrsnica) {
+        this.raskrsnica = raskrsnica;
+    }
+    
 
     public double getIznos() {
         return iznos;
@@ -95,6 +113,14 @@ public class StavkaEvidencije {
         setIznos();
     }
 
+    public LocalDateTime getDatumPrekrsaja() {
+        return datumPrekrsaja;
+    }
+
+    public void setDatumPrekrsaja(LocalDateTime datumPrekrsaja) {
+        this.datumPrekrsaja = datumPrekrsaja;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -131,6 +157,61 @@ public class StavkaEvidencije {
     @Override
     public String toString() {
         return "StavkaEvidencije{" + "rb=" + rb + ", id_evidencija=" + evidencija + ", id_kazna=" + kazna + ", iznos=" + iznos + ", kategorija_kazne=" + kategorija_kazne + '}';
+    }
+
+    @Override
+    public String getTableName() {
+        return "stavka_evidencije";
+    }
+    
+    @Override
+    public String getColumnsForInsert() {
+        return "idEvidencije, datumPrekrsaja, kategorija_kazne, idRaskrsnice, idKazne";
+    }
+
+    @Override
+    public String getValuesForInsert() {
+        return this.evidencija.getId_evidencija() + ", '" + this.getDatumPrekrsaja() + "', '" + this.getKategorija_kazne() + "', " + this.raskrsnica.getId_raskrsnica() + ", " + this.kazna.getId_kazna();
+    }
+
+    @Override
+    public String getCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getJoinCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getConditionForDelete(OpstaDomenskaKlasa t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getValueForUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getConditionForUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public OpstaDomenskaKlasa getObject(ResultSet rs) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<OpstaDomenskaKlasa> getList(ResultSet rs) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

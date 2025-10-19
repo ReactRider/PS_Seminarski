@@ -112,7 +112,7 @@ public class Kazna implements OpstaDomenskaKlasa{
 
     @Override
     public String toString() {
-        return "Kazna{" + "id_kazna=" + id_kazna + ", naziv=" + naziv + ", kategorija=" + kategorija + ", iznos=" + iznos + '}';
+        return naziv;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class Kazna implements OpstaDomenskaKlasa{
 
     @Override
     public String getColumnsForInsert() {
-        return "naziv,kategorija,iznos";
+        return "naziv,kategorija_kazne,iznos";
     }
 
     @Override
@@ -147,7 +147,7 @@ public class Kazna implements OpstaDomenskaKlasa{
 
     @Override
     public String getValueForUpdate() {
-        return "naziv='"+this.naziv+"', kategorija='"+this.kategorija+"', iznos="+this.iznos;
+        return "naziv='"+this.naziv+"', kategorija_kazne='"+this.kategorija+"', iznos="+this.iznos;
     }
 
     @Override
@@ -160,7 +160,7 @@ public class Kazna implements OpstaDomenskaKlasa{
         if(s.equals("jedan")){
             return "naziv='"+this.naziv+"'";
         }else if(s.equals("lista")){
-            return "kategorija='"+this.kategorija+"'";
+            return "kategorija_kazne='"+this.kategorija+"'";
         }
         return "";
     }

@@ -154,7 +154,10 @@ public class Controller {
     
     public Vozilo pretraziVozilo(Vozilo v) throws Exception{
         AbstractSO findVozilo=new FindVoziloSO();
-        return (Vozilo)findVozilo.execute(v,null,"jedan");
+        ArrayList<Vozilo> vozila=(ArrayList<Vozilo>)findVozilo.execute(v,null,"jedan");
+        if(vozila.isEmpty()) 
+            return null;
+        return vozila.getFirst();
     }
     
     public List<Vozilo> vratiListuVozilo(Vozilo v) throws Exception{
@@ -242,7 +245,7 @@ public class Controller {
     
     //////////////////////////////////////////////////////////////////////////////////////
     
-    public long kreirajEvidencijaKazne(EvidencijaKazni ek) throws Exception{
+    public long kreirajEvidencijaKazni(EvidencijaKazni ek) throws Exception{
         AbstractSO addEK=new AddEvidencijaSO();
         return (long)addEK.execute(ek,null,"");
     }

@@ -36,12 +36,13 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
         this.policajac=policajac;
     }
 
-    public PolicijskaUprava(String username, String password, String grad, String opstina, String adresa) {
+    public PolicijskaUprava(String username, String password, String grad, String opstina, String adresa, String policajac) {
         this.username = username;
         this.password = password;
         this.grad = grad;
         this.opstina = opstina;
         this.adresa = adresa;
+        this.policajac = policajac;
     }
 
     public PolicijskaUprava(Long id, String username, String password, String adresa) {
@@ -136,7 +137,7 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
     
     @Override
     public String toString() {
-        return username + ", " + grad;
+        return username;
     }
 
     @Override

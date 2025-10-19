@@ -5,9 +5,12 @@
 package forms;
 import controller.Controller;
 import domain.*;
-import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import table_models.StavkeEvidencijeTableModel;
 
 
 /**
@@ -25,250 +28,13 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         
-        prepareForUpdate(evidencija, kriterijum, filter);
+        //prepareForUpdate(evidencija, kriterijum, filter);
     }
     
-    private void prepareForUpdate(EvidencijaKazni evid, String kriterijum, String filter) {
-        setTitle("Promeni Evidenciju Kazni");
-        lblTitle.setText("Promeni Evidenciju Kazni");
-        ucitajUprave();
-        comboUprave.setSelectedItem(evid.getPu());
-        comboUprave.setEnabled(false);
-        ucitajVozila();
-        comboVozila.setSelectedItem(evid.getVozilo());
-        comboVozila.setEnabled(false);
-        sliderPonder.setValue((int)evid.getBazni_ponder());
-        this.remove(btnKreiraj);
-        
-        ArrayList<Kazna> kazne = Controller.getInstance().vratiListuSviKazna();
-        
-        JCheckBox
-        cb1 = new JCheckBox(kazne.get(0).getNaziv()+""),
-        cb2 = new JCheckBox(kazne.get(1).getNaziv()+""),
-        cb3 = new JCheckBox(kazne.get(2).getNaziv()+""),
-        cb4 = new JCheckBox(kazne.get(3).getNaziv()+""),
-        cb5 = new JCheckBox(kazne.get(4).getNaziv()+""),
-        cb6 = new JCheckBox(kazne.get(5).getNaziv()+""),
-        cb7 = new JCheckBox(kazne.get(6).getNaziv()+""),
-        cb8 = new JCheckBox(kazne.get(7).getNaziv()+""),
-        cb9 = new JCheckBox(kazne.get(8).getNaziv()+""),
-        cb10 = new JCheckBox(kazne.get(9).getNaziv()+""),
-        cb11 = new JCheckBox(kazne.get(10).getNaziv()+""),
-        cb12 = new JCheckBox(kazne.get(11).getNaziv()+""),
-        cb13 = new JCheckBox(kazne.get(12).getNaziv()+""),
-        cb14 = new JCheckBox(kazne.get(13).getNaziv()+""),
-        cb15 = new JCheckBox(kazne.get(14).getNaziv()+"");
-
-        cb1.setBounds(50, 330, 250, 80);
-        cb2.setBounds(300, 330, 250, 80);
-        cb3.setBounds(550, 330, 250, 80);
-        cb4.setBounds(800, 330, 250, 80);
-        cb5.setBounds(50, 410, 250, 80);
-        cb6.setBounds(300, 410, 250, 80);
-        cb7.setBounds(550, 410, 250, 80);
-        cb8.setBounds(800, 410, 250, 80);
-        cb9.setBounds(50, 490, 250, 80);
-        cb10.setBounds(300, 490, 250, 80);
-        cb11.setBounds(550, 490, 250, 80);
-        cb12.setBounds(800, 490, 250, 80);
-        cb13.setBounds(50, 570, 250, 80);
-        cb14.setBounds(300, 570, 250, 80);
-        cb15.setBounds(550, 570, 250, 80);
-
-        cb1.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb2.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb3.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb4.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb5.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb6.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb7.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb8.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb9.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb10.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb11.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb12.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb13.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb14.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb15.setFont(new Font("Ariel", Font.BOLD, 15));
-
-        this.add(cb1);
-        this.add(cb2);
-        this.add(cb3);
-        this.add(cb4);
-        this.add(cb5);
-        this.add(cb6);
-        this.add(cb7);
-        this.add(cb8);
-        this.add(cb9);
-        this.add(cb10);
-        this.add(cb11);
-        this.add(cb12);
-        this.add(cb13);
-        this.add(cb14);
-        this.add(cb15);
-
-        ArrayList<StavkaEvidencije> stavke_evidencije = Controller.getInstance().vratiListuSviStavkeEvidencije(evid);
-        
-        for(StavkaEvidencije stavka : stavke_evidencije) {
-            if(stavka.getKazna().getNaziv().equals(cb1.getText())) {
-                cb1.setSelected(true);
-                cb1.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb2.getText())) {
-                cb2.setSelected(true);
-                cb2.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb3.getText())) {
-                cb3.setSelected(true);
-                cb3.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb4.getText())) {
-                cb4.setSelected(true);
-                cb4.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb5.getText())) {
-                cb5.setSelected(true);
-                cb5.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb6.getText())) {
-                cb6.setSelected(true);
-                cb6.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb7.getText())) {
-                cb7.setSelected(true);
-                cb7.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb8.getText())) {
-                cb8.setSelected(true);
-                cb8.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb9.getText())) {
-                cb9.setSelected(true);
-                cb9.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb10.getText())) {
-                cb10.setSelected(true);
-                cb10.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb11.getText())) {
-                cb11.setSelected(true);
-                cb11.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb12.getText())) {
-                cb12.setSelected(true);
-                cb12.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb13.getText())) {
-                cb13.setSelected(true);
-                cb13.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb14.getText())) {
-                cb14.setSelected(true);
-                cb14.setEnabled(false);
-            }
-            
-            if(stavka.getKazna().getNaziv().equals(cb15.getText())) {
-                cb15.setSelected(true);
-                cb15.setEnabled(false);
-            }
-        }
-                
-        btnPromeni.addActionListener( e -> {
-            if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
-                return;
-            
-            ArrayList<Kazna> izabrane_kazne = new ArrayList<Kazna>();
-        
-            if(cb1.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb1.getText())));
-            if(cb2.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb2.getText())));
-            if(cb3.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb3.getText())));
-            if(cb4.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb4.getText())));
-            if(cb5.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb5.getText())));
-            if(cb6.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb6.getText())));
-            if(cb7.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb7.getText())));
-            if(cb8.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb8.getText())));
-            if(cb9.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb9.getText())));
-            if(cb10.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb10.getText())));
-            if(cb11.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb11.getText())));
-            if(cb12.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb12.getText())));
-            if(cb13.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb13.getText())));
-            if(cb14.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb14.getText())));
-            if(cb15.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb15.getText())));
-            
-            EvidencijaKazni evidencija = new EvidencijaKazni();
-            evidencija.setId_evidencija(evid.getId_evidencija());
-            evidencija.setPu((PolicijskaUprava)comboUprave.getSelectedItem());
-            evidencija.setVozilo((Vozilo)comboVozila.getSelectedItem());
-            evidencija.setBazni_ponder((double)sliderPonder.getValue());
-
-            long brKazniI = 0l, brKazniII = 0l, brKazniIII = 0l;
-            for(Kazna k : izabrane_kazne) {
-                switch(k.getKategorija()) {
-                    case KategorijaKazna.Kategorija_I:
-                        ++brKazniI;
-                    break;
-                    
-                    case KategorijaKazna.Kategorija_II:
-                        ++brKazniII;
-                    break;
-                    
-                    case KategorijaKazna.Kategorija_III:
-                        ++brKazniIII;
-                    break;
-                }
-            }  
-
-            evidencija.setBr_kazni_I(brKazniI);
-            evidencija.setBr_kazni_II(brKazniII);
-            evidencija.setBr_kazni_III(brKazniIII);
-            evidencija.setIznos_total();
-            
-            if(Controller.getInstance().promeniEvidencijaKazni(evidencija)) {
-                for(int i = 0; i < izabrane_kazne.size(); i++) {
-                    StavkaEvidencije stavka = new StavkaEvidencije();
-                    stavka.setEvidencija(evidencija);
-                    stavka.setKazna(izabrane_kazne.get(i));
-                    stavka.setKategorija_kazne(izabrane_kazne.get(i).getKategorija());
-                    Controller.getInstance().kreirajStavkaEvidencije(stavka);
-                }
-                
-                JOptionPane.showMessageDialog(this, "Evidencija i stavke evidencije su promenjene!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                
-                this.setVisible(false);
-                new PretraziEvidencijaForm(null, true, kriterijum, filter).setVisible(true);
-                izabrane_kazne.clear();
-            } else
-                JOptionPane.showMessageDialog(this, "Greska pri promeni evidencije!", "Greska", JOptionPane.ERROR_MESSAGE);
-        });
-    }
+    
+    private EvidencijaKazni evidencija = new EvidencijaKazni();
+    private ArrayList<StavkaEvidencije> listaStavki = new ArrayList<StavkaEvidencije>();
+    private long brKazniI, brKazniII, brKazniIII = 0l;
     
     public KreirajEvidencijaForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -281,212 +47,175 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         this.add(lblPU);
         this.add(comboUprave);
         this.add(lblVozilo);
-        this.add(comboVozila);
-        this.add(lblSlider);
+        this.add(txtRegOznaka);
+        this.add(btnVoziloPretraga);
+        this.add(btnNovoVozilo);
+        this.add(lblRaskrsnica);
+        this.add(comboRaskrsnica);
+        this.add(lblKazna);
+        this.add(comboKazna);
+        this.add(lblDatum);
+        this.add(txtDatumPrekrsaja);
+        this.add(lblPonder);
         this.add(lblSliderValue);
         this.add(sliderPonder);
-        this.add(lblIzaberiKzn);
+                
+        comboUprave.addActionListener( e -> {
+           evidencija.setPu((PolicijskaUprava)comboUprave.getSelectedItem());
+           String grad = ((PolicijskaUprava)comboUprave.getSelectedItem()).getGrad();
+           ucitajRaskrsniceGrada(grad);
+        });
         
-        ArrayList<Kazna> kazne = Controller.getInstance().vratiListuSviKazna();
-        JCheckBox
-        cb1 = new JCheckBox(kazne.get(0).getNaziv()+""),
-        cb2 = new JCheckBox(kazne.get(1).getNaziv()+""),
-        cb3 = new JCheckBox(kazne.get(2).getNaziv()+""),
-        cb4 = new JCheckBox(kazne.get(3).getNaziv()+""),
-        cb5 = new JCheckBox(kazne.get(4).getNaziv()+""),
-        cb6 = new JCheckBox(kazne.get(5).getNaziv()+""),
-        cb7 = new JCheckBox(kazne.get(6).getNaziv()+""),
-        cb8 = new JCheckBox(kazne.get(7).getNaziv()+""),
-        cb9 = new JCheckBox(kazne.get(8).getNaziv()+""),
-        cb10 = new JCheckBox(kazne.get(9).getNaziv()+""),
-        cb11 = new JCheckBox(kazne.get(10).getNaziv()+""),
-        cb12 = new JCheckBox(kazne.get(11).getNaziv()+""),
-        cb13 = new JCheckBox(kazne.get(12).getNaziv()+""),
-        cb14 = new JCheckBox(kazne.get(13).getNaziv()+""),
-        cb15 = new JCheckBox(kazne.get(14).getNaziv()+"");
-
-        cb1.setBounds(50, 330, 250, 80);
-        cb2.setBounds(300, 330, 250, 80);
-        cb3.setBounds(550, 330, 250, 80);
-        cb4.setBounds(800, 330, 250, 80);
-        cb5.setBounds(50, 410, 250, 80);
-        cb6.setBounds(300, 410, 250, 80);
-        cb7.setBounds(550, 410, 250, 80);
-        cb8.setBounds(800, 410, 250, 80);
-        cb9.setBounds(50, 490, 250, 80);
-        cb10.setBounds(300, 490, 250, 80);
-        cb11.setBounds(550, 490, 250, 80);
-        cb12.setBounds(800, 490, 250, 80);
-        cb13.setBounds(50, 570, 250, 80);
-        cb14.setBounds(300, 570, 250, 80);
-        cb15.setBounds(550, 570, 250, 80);
-
-        cb1.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb2.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb3.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb4.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb5.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb6.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb7.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb8.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb9.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb10.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb11.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb12.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb13.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb14.setFont(new Font("Ariel", Font.BOLD, 15));
-        cb15.setFont(new Font("Ariel", Font.BOLD, 15));
-
-        this.add(cb1);
-        this.add(cb2);
-        this.add(cb3);
-        this.add(cb4);
-        this.add(cb5);
-        this.add(cb6);
-        this.add(cb7);
-        this.add(cb8);
-        this.add(cb9);
-        this.add(cb10);
-        this.add(cb11);
-        this.add(cb12);
-        this.add(cb13);
-        this.add(cb14);
-        this.add(cb15);
-
-        ArrayList<Kazna> izabrane_kazne = new ArrayList<Kazna>();
+        btnVoziloPretraga.addActionListener( e -> {
+           if(check_vozilo_id()) {
+               String reg_ozn = txtRegOznaka.getText().toLowerCase();
+               try {
+                   Vozilo v = Controller.getInstance().pretraziVozilo(new Vozilo(reg_ozn));
+                   
+                   if(v != null) {
+                       JOptionPane.showMessageDialog(this, "Vozilo pronadjeno: " + v.getMarka() + " " + v.getModel() + ", " + v.getReg_oznaka().toUpperCase());
+                       evidencija.setVozilo(v);
+                   } else {
+                       JOptionPane.showMessageDialog(this, "Vozilo sa unetom registracionom oznakom  ne postoji! Mozete uneti vozilo na dugme 'Novo vozilo'!","Poruka",JOptionPane.INFORMATION_MESSAGE);
+                   }
+                   
+               } catch(Exception ex) {
+                   ex.printStackTrace();
+               }
+           } else {
+               JOptionPane.showMessageDialog(this, "Uneta neispravna registraciona oznaka vozila.", "Greska", JOptionPane.ERROR_MESSAGE);
+               return;
+           }
+        });
         
-        btnKreiraj.addActionListener( e -> {
-            if((PolicijskaUprava)comboUprave.getSelectedItem() == null || (Vozilo)comboVozila.getSelectedItem() == null) {
-                JOptionPane.showMessageDialog(this, "Izaberite policijsku upravu i vozilo!", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            } 
+        btnNovoVozilo.addActionListener( e -> {
+            KreirajVoziloForm dlg = new KreirajVoziloForm(this);
+            dlg.setVisible(true);
+            Vozilo novo_vozilo = dlg.vratiNovoVozilo();
             
-            if(Controller.getInstance().daLiPostojiEvidencija((PolicijskaUprava)comboUprave.getSelectedItem(), (Vozilo)comboVozila.getSelectedItem())) {
-                JOptionPane.showMessageDialog(this, "Evidencija za izabrano vozilo i izabranu policijsku upravu vec postoji!", "Greska", JOptionPane.ERROR_MESSAGE);   
-                return;
+            if(novo_vozilo != null) {
+                txtRegOznaka.setText(novo_vozilo.getReg_oznaka().toUpperCase());
+                evidencija.setVozilo(novo_vozilo);
             }
             
-            if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0) 
-                return;
-           
-            if(cb1.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb1.getText())));
-            if(cb2.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb2.getText())));
-            if(cb3.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb3.getText())));
-            if(cb4.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb4.getText())));
-            if(cb5.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb5.getText())));
-            if(cb6.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb6.getText())));
-            if(cb7.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb7.getText())));
-            if(cb8.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb8.getText())));
-            if(cb9.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb9.getText())));
-            if(cb10.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb10.getText())));
-            if(cb11.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb11.getText())));
-            if(cb12.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb12.getText())));
-            if(cb13.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb13.getText())));
-            if(cb14.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb14.getText())));
-            if(cb15.isSelected())
-                izabrane_kazne.add(Controller.getInstance().pretraziKazna(new Kazna(cb15.getText())));
+        });
+        
+        btnDodajStavku.addActionListener( e -> {
+            StavkaEvidencije stavkaEvidencije = new StavkaEvidencije();
+
+            Kazna kazna = (Kazna)comboKazna.getSelectedItem();
+            Raskrsnica raskrsnica = (Raskrsnica)comboRaskrsnica.getSelectedItem();
             
-            EvidencijaKazni evidencija = new EvidencijaKazni();
-            evidencija.setBazni_ponder(sliderPonder.getValue());
-            evidencija.setPu((PolicijskaUprava)comboUprave.getSelectedItem());
-            evidencija.setVozilo((Vozilo)comboVozila.getSelectedItem());
-            
-            long brKazniI = 0l, brKazniII = 0l, brKazniIII = 0l;
-            for(Kazna k : izabrane_kazne) {
-                switch(k.getKategorija()) {
-                    case KategorijaKazna.Kategorija_I:
-                        ++brKazniI;
-                    break;
-                    
-                    case KategorijaKazna.Kategorija_II:
-                        ++brKazniII;
-                    break;
-                    
-                    case KategorijaKazna.Kategorija_III:
-                        ++brKazniIII;
-                    break;
+            String unos = txtDatumPrekrsaja.getText().trim();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime datumPrekrsaja = null;
+            try {
+                datumPrekrsaja = LocalDateTime.parse(unos, formatter);
+                LocalDateTime now = LocalDateTime.now();
+                if( datumPrekrsaja.isAfter(now)) {
+                    JOptionPane.showMessageDialog(this, "Unesite datum iz proslosti.", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
-            }  
+            } catch (DateTimeParseException ex) {
+                JOptionPane.showMessageDialog(this, "Uneti datum prekrsaja nije ispravan.", "Pogresan format datuma", JOptionPane.ERROR_MESSAGE);
+            }
             
+            stavkaEvidencije.setDatumPrekrsaja(datumPrekrsaja);
+            stavkaEvidencije.setEvidencija(evidencija);
+            stavkaEvidencije.setKazna(kazna);
+            stavkaEvidencije.setKategorija_kazne(kazna.getKategorija());
+            stavkaEvidencije.setRaskrsnica(raskrsnica);
+            
+            switch(kazna.getKategorija()) {
+                case KategorijaKazna.Kategorija_I:
+                    brKazniI++;
+                    break;
+                case KategorijaKazna.Kategorija_II:
+                    brKazniII++;
+                    break;
+                case KategorijaKazna.Kategorija_III:
+                    brKazniIII++;
+                    break;
+            }
+            
+            listaStavki.add(stavkaEvidencije);
+            
+            comboUprave.setEnabled(false);
+            txtRegOznaka.setEditable(false);
+            btnVoziloPretraga.setEnabled(false);
+            btnNovoVozilo.setEnabled(false);
+            comboRaskrsnica.setSelectedItem(null);
+            comboKazna.setSelectedItem(null);
+            txtDatumPrekrsaja.setText("");
+            sliderPonder.setEnabled(false);
+            
+            this.add(jScrollPane1);
+            tblStavkeEvidencije.setModel(new StavkeEvidencijeTableModel(listaStavki));
+        });
+        
+        btnKreirajEvidenciju.addActionListener(e -> {
+            evidencija.setStavke_ev(listaStavki);
             evidencija.setBr_kazni_I(brKazniI);
             evidencija.setBr_kazni_II(brKazniII);
             evidencija.setBr_kazni_III(brKazniIII);
             evidencija.setIznos_total();
             
-            if(Controller.getInstance().kreirajEvidencijaKazni(evidencija)) {
-                for(int i = 0; i < izabrane_kazne.size(); i++) {
-                    StavkaEvidencije stavka = new StavkaEvidencije();
-                    stavka.setEvidencija(evidencija);
-                    stavka.setKazna(izabrane_kazne.get(i));
-                    stavka.setKategorija_kazne(izabrane_kazne.get(i).getKategorija());
-                    Controller.getInstance().kreirajStavkaEvidencije(stavka);
+            int result = JOptionPane.showConfirmDialog(this, "Da li ste sigurni da zelite kreirati novu evidenciju kazni?", "Potvrda", JOptionPane.YES_NO_OPTION);
+            
+            long evidencija_id = 0l;
+            if(result == JOptionPane.YES_OPTION) {
+                try {
+                    evidencija_id = Controller.getInstance().kreirajEvidencijaKazni(evidencija);
+                } catch(Exception ex) {
+                    ex.printStackTrace();
                 }
                 
-                JOptionPane.showMessageDialog(this, "Evidencija i stavke evidencije su kreirane!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                
-                if(JOptionPane.showConfirmDialog(this, "Novi unos?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0) 
-                    this.setVisible(false);
-                
-                comboUprave.setSelectedItem(null);
-                comboVozila.setSelectedItem(null);
-                sliderPonder.setValue(1);
-                cb1.setSelected(false);
-                cb2.setSelected(false);
-                cb3.setSelected(false);
-                cb4.setSelected(false);
-                cb5.setSelected(false);
-                cb6.setSelected(false);
-                cb7.setSelected(false);
-                cb8.setSelected(false);
-                cb9.setSelected(false);
-                cb10.setSelected(false);
-                cb11.setSelected(false);
-                cb12.setSelected(false);
-                cb13.setSelected(false);
-                cb14.setSelected(false);
-                cb15.setSelected(false);
-                
-                izabrane_kazne.clear();
-            } else
-                JOptionPane.showMessageDialog(this, "Greska pri kreiranju evidencije!", "Greska", JOptionPane.ERROR_MESSAGE);
-            
+                if(evidencija_id != 0l) {
+                    JOptionPane.showMessageDialog(this, "Evidencija Kazni je uspesno kreirana.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Nastala je greska.", "Greska", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
+        
+      
     }
     
     private void prepareGeneral() {
         this.remove(lblPU);
         this.remove(comboUprave);
         this.remove(lblVozilo);
-        this.remove(comboVozila);
-        this.remove(lblSlider);
+        this.remove(txtRegOznaka);
+        this.remove(btnVoziloPretraga);
+        this.remove(btnNovoVozilo);
+        this.remove(lblRaskrsnica);
+        this.remove(comboRaskrsnica);
+        this.remove(lblKazna);
+        this.remove(comboKazna);
+        this.remove(lblDatum);
+        this.remove(lblPonder);
         this.remove(lblSliderValue);
         this.remove(sliderPonder);
-        this.remove(lblIzaberiKzn);
-        this.remove(btnPromeni);
+        this.remove(jScrollPane1);
+        this.remove(btnPromeniEvidenciju);
     }
+    
     
     private void prepareForInsert() {
         ucitajUprave();
-        ucitajVozila();
+        ucitajKazne();
     }
     
     
     private void ucitajUprave() {
-        ArrayList<PolicijskaUprava> uprave = Controller.getInstance().vratiListuSviPolicijskaUprava();
+        ArrayList<PolicijskaUprava> uprave = new ArrayList<PolicijskaUprava>();
+        
+        try {
+            uprave = Controller.getInstance().vratiListuSviPolicijskaUprava();
+        } catch(Exception ex) {
+            System.out.println("Greska pri ucitavanju policijskih uprava iz baze podataka!");
+        }
         
         for(PolicijskaUprava uprava : uprave)
             comboUprave.addItem(uprava);
@@ -494,13 +223,20 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         comboUprave.setSelectedItem(null);
     }
     
-    private void ucitajVozila() {
-        ArrayList<Vozilo> vozila = Controller.getInstance().vratiListuSviVozilo();
+    private void ucitajRaskrsniceGrada(String grad) {
+        ArrayList<Raskrsnica> raskrsnice = new ArrayList<Raskrsnica>();
+        Raskrsnica ras = new Raskrsnica(grad);
         
-        for(Vozilo vozilo : vozila)
-            comboVozila.addItem(vozilo);
+        try {
+            raskrsnice = Controller.getInstance().vratiListuRaskrsnica(ras);
+        } catch(Exception ex) {
+            System.out.println("Greska pri ucitavanju raskrsnica iz baze podataka!");
+        }
         
-        comboVozila.setSelectedItem(null);
+        for(Raskrsnica r : raskrsnice)
+            comboRaskrsnica.addItem(r);
+        
+        comboRaskrsnica.setSelectedItem(null);
     }
 
     /**
@@ -515,14 +251,24 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         lblTitle = new javax.swing.JLabel();
         lblPU = new javax.swing.JLabel();
         comboUprave = new javax.swing.JComboBox<>();
-        lblVozilo = new javax.swing.JLabel();
-        comboVozila = new javax.swing.JComboBox<>();
-        btnKreiraj = new javax.swing.JButton();
-        lblIzaberiKzn = new javax.swing.JLabel();
+        lblRaskrsnica = new javax.swing.JLabel();
+        btnKreirajEvidenciju = new javax.swing.JButton();
+        lblKazna = new javax.swing.JLabel();
         sliderPonder = new javax.swing.JSlider();
-        lblSlider = new javax.swing.JLabel();
+        lblPonder = new javax.swing.JLabel();
         lblSliderValue = new javax.swing.JLabel();
-        btnPromeni = new javax.swing.JButton();
+        btnPromeniEvidenciju = new javax.swing.JButton();
+        comboRaskrsnica = new javax.swing.JComboBox<>();
+        txtRegOznaka = new javax.swing.JTextField();
+        btnVoziloPretraga = new javax.swing.JButton();
+        btnNovoVozilo = new javax.swing.JButton();
+        comboKazna = new javax.swing.JComboBox<>();
+        lblVozilo = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblStavkeEvidencije = new javax.swing.JTable();
+        btnDodajStavku = new javax.swing.JButton();
+        lblDatum = new javax.swing.JLabel();
+        txtDatumPrekrsaja = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -532,18 +278,16 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         lblPU.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblPU.setText("Policijska Uprava:");
 
-        comboUprave.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        comboUprave.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
 
-        lblVozilo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblVozilo.setText("Vozilo:");
+        lblRaskrsnica.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblRaskrsnica.setText("Raskrsnica:");
 
-        comboVozila.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnKreirajEvidenciju.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnKreirajEvidenciju.setText("Kreiraj Evidenciju");
 
-        btnKreiraj.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnKreiraj.setText("Kreiraj Evidenciju");
-
-        lblIzaberiKzn.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        lblIzaberiKzn.setText("Izaberite Kaznu/e:");
+        lblKazna.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblKazna.setText("Izaberite Kaznu:");
 
         sliderPonder.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         sliderPonder.setMaximum(5);
@@ -556,15 +300,73 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
             }
         });
 
-        lblSlider.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblSlider.setText("Ponder (1-5):");
+        lblPonder.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblPonder.setText("Ponder (1-5):");
 
         lblSliderValue.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblSliderValue.setForeground(new java.awt.Color(255, 0, 51));
         lblSliderValue.setText("1");
 
-        btnPromeni.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnPromeni.setText("Promeni Evidenciju");
+        btnPromeniEvidenciju.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnPromeniEvidenciju.setText("Promeni Evidenciju");
+
+        comboRaskrsnica.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        comboRaskrsnica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboRaskrsnicaActionPerformed(evt);
+            }
+        });
+
+        txtRegOznaka.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        txtRegOznaka.setPreferredSize(new java.awt.Dimension(64, 28));
+        txtRegOznaka.setSize(new java.awt.Dimension(78, 28));
+        txtRegOznaka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRegOznakaActionPerformed(evt);
+            }
+        });
+
+        btnVoziloPretraga.setFont(new java.awt.Font("Helvetica Neue", 0, 15)); // NOI18N
+        btnVoziloPretraga.setText("Pronadji Vozilo");
+        btnVoziloPretraga.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoziloPretragaActionPerformed(evt);
+            }
+        });
+
+        btnNovoVozilo.setFont(new java.awt.Font("Helvetica Neue", 0, 15)); // NOI18N
+        btnNovoVozilo.setText("Novo Vozilo");
+        btnNovoVozilo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoVoziloActionPerformed(evt);
+            }
+        });
+
+        comboKazna.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+
+        lblVozilo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblVozilo.setText("Vozilo (Reg. Oznaka):");
+
+        jScrollPane1.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+
+        tblStavkeEvidencije.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblStavkeEvidencije);
+
+        btnDodajStavku.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        btnDodajStavku.setText("Dodaj Stavku");
+
+        lblDatum.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        lblDatum.setText("Datum Prekrsaja:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -572,34 +374,51 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblIzaberiKzn)
-                        .addGap(474, 474, 474))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblTitle)
-                        .addGap(428, 428, 428))))
+                .addComponent(lblTitle)
+                .addGap(428, 428, 428))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDodajStavku, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(131, 131, 131)
+                .addComponent(btnKreirajEvidenciju)
+                .addGap(56, 56, 56)
+                .addComponent(btnPromeniEvidenciju)
+                .addGap(181, 181, 181))
             .addGroup(layout.createSequentialGroup()
                 .addGap(148, 148, 148)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblPU)
+                    .addComponent(lblRaskrsnica)
+                    .addComponent(lblKazna)
                     .addComponent(lblVozilo)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblSlider)
-                        .addGap(26, 26, 26)
-                        .addComponent(lblSliderValue)))
-                .addGap(77, 77, 77)
+                        .addComponent(lblPonder)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSliderValue))
+                    .addComponent(lblDatum))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(88, 88, 88)
-                        .addComponent(btnKreiraj)
-                        .addGap(40, 40, 40)
-                        .addComponent(btnPromeni))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(comboVozila, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(comboUprave, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sliderPonder, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(159, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(comboUprave, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboKazna, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDatumPrekrsaja)
+                            .addComponent(sliderPonder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboRaskrsnica, javax.swing.GroupLayout.Alignment.TRAILING, 0, 663, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtRegOznaka, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnVoziloPretraga)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnNovoVozilo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(58, 58, 58))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1049, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -612,25 +431,42 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
                     .addComponent(comboUprave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboVozila, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblVozilo))
+                    .addComponent(lblVozilo)
+                    .addComponent(txtRegOznaka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVoziloPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNovoVozilo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboRaskrsnica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRaskrsnica))
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblKazna)
+                    .addComponent(comboKazna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDatum)
+                    .addComponent(txtDatumPrekrsaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSlider)
-                            .addComponent(lblSliderValue))
-                        .addGap(36, 36, 36))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblSliderValue)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblPonder)
+                                .addGap(5, 5, 5)))
+                        .addGap(50, 50, 50))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
                         .addComponent(sliderPonder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)))
-                .addComponent(lblIzaberiKzn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 380, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnKreiraj)
-                    .addComponent(btnPromeni))
-                .addGap(42, 42, 42))
+                    .addComponent(btnKreirajEvidenciju)
+                    .addComponent(btnPromeniEvidenciju)
+                    .addComponent(btnDodajStavku, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
@@ -639,7 +475,24 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
     private void sliderPonderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderPonderStateChanged
         // TODO add your handling code here:
         lblSliderValue.setText(sliderPonder.getValue() + "");
+        evidencija.setBazni_ponder(sliderPonder.getValue());
     }//GEN-LAST:event_sliderPonderStateChanged
+
+    private void comboRaskrsnicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboRaskrsnicaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboRaskrsnicaActionPerformed
+
+    private void btnVoziloPretragaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoziloPretragaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVoziloPretragaActionPerformed
+
+    private void txtRegOznakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRegOznakaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRegOznakaActionPerformed
+
+    private void btnNovoVoziloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoVoziloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNovoVoziloActionPerformed
 
     /**
      * @param args the command line arguments
@@ -684,16 +537,96 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnKreiraj;
-    private javax.swing.JButton btnPromeni;
+    private javax.swing.JButton btnDodajStavku;
+    private javax.swing.JButton btnKreirajEvidenciju;
+    private javax.swing.JButton btnNovoVozilo;
+    private javax.swing.JButton btnPromeniEvidenciju;
+    private javax.swing.JButton btnVoziloPretraga;
+    private javax.swing.JComboBox<Kazna> comboKazna;
+    private javax.swing.JComboBox<Raskrsnica> comboRaskrsnica;
     private javax.swing.JComboBox<PolicijskaUprava> comboUprave;
-    private javax.swing.JComboBox<Vozilo> comboVozila;
-    private javax.swing.JLabel lblIzaberiKzn;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDatum;
+    private javax.swing.JLabel lblKazna;
     private javax.swing.JLabel lblPU;
-    private javax.swing.JLabel lblSlider;
+    private javax.swing.JLabel lblPonder;
+    private javax.swing.JLabel lblRaskrsnica;
     private javax.swing.JLabel lblSliderValue;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblVozilo;
     private javax.swing.JSlider sliderPonder;
+    private javax.swing.JTable tblStavkeEvidencije;
+    private javax.swing.JTextField txtDatumPrekrsaja;
+    private javax.swing.JTextField txtRegOznaka;
     // End of variables declaration//GEN-END:variables
+
+    private boolean check_vozilo_id() {
+        String reg_oznaka = txtRegOznaka.getText().trim();
+
+        if(reg_oznaka.equals(""))
+            return false;
+        
+        String[] elems = reg_oznaka.split("-");
+        
+        if(elems[0].length() != 2)
+            return false;
+        
+        if(elems[2].length() != 2)
+            return false;
+        
+        if(elems[1].length() < 2 || elems[1].length() > 5) 
+            return false;
+        
+        /////////////////////////////////////////////////
+        boolean lettersOnly = true;
+        for( char c : elems[0].toCharArray()) {
+            if(!Character.isLetter(c)) {
+                lettersOnly = false;
+                break;
+            }
+        }
+        
+        boolean lettersOnly2 = true;
+        for( char c : elems[2].toCharArray()) {
+            if(!Character.isLetter(c)) {
+                lettersOnly2 = false;
+                break;
+            }
+        }
+        
+        boolean digitsOnly = true;
+        for( char c : elems[1].toCharArray()) {
+            if(!Character.isDigit(c)) {
+                digitsOnly = false;
+                break;
+            }
+        }
+        
+        if(!lettersOnly || !lettersOnly2 || !digitsOnly)
+           return false;
+        /////////////////////////////////////////////////
+        
+        
+        
+        
+        return true;
+    }
+
+    private void ucitajKazne() {
+        ArrayList<Kazna> kazne = new ArrayList<Kazna>();
+        
+        try {
+            kazne = Controller.getInstance().vratiListuSviKazna();
+            
+            for(Kazna k : kazne) {
+                comboKazna.addItem(k);
+            }
+            
+            comboKazna.setSelectedItem(null);
+        } catch(Exception ex) {
+            System.out.println("Greska prilikom ucitavanja kazni!");
+            ex.printStackTrace();
+        }
+        
+    }
 }

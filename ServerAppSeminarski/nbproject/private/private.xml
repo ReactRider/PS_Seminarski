@@ -3,37 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vlasnik/UpdateVlasnikSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vlasnik/GetAllVlasnikSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/controller/Controller.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/AbstractSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vozilo/DeleteVoziloSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/repository/db/impl/RepositoryGeneric.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/raskrsnica/DeleteRaskresnicaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/raskrsnica/AddRaskrsnicaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/raskrsnica/FindRaskrsnicaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vozilo/GetAllVoziloSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/evidencija_kazne/AddEvidencijaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/kazna/UpdateKaznaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/policijska_uprava/AddPolicijskaUpravaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/kazna/AddKaznaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vlasnik/AddVlasnikSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/thread/ClientThread.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/kazna/GetAllKaznaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/kazna/FindKaznaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vlasnik/FindVlasnikSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/raskrsnica/GetAllRaskrsnicaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/policijska_uprava/DeletePolicijskaUpravaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/policijska_uprava/FindPolicijskaUpravaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/policijska_uprava/UpdatePolicijskaUpravaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/raskrsnica/UpdateRaskrsnicaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vozilo/AddVoziloSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/kazna/DeleteKaznaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vlasnik/DeleteVlasnikSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vozilo/UpdateVoziloSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/policijska_uprava/loginPolicijskaUpravaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vozilo/FindVoziloSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/policijska_uprava/GetAllPolicijskaUpravaSO.java</file>
+            <file>file:/Users/ennouser/NetBeansProjects/MainFolder/ServerAppSeminarski/src/thread/ClientThread.java</file>
+            <file>file:/Users/ennouser/NetBeansProjects/MainFolder/ServerAppSeminarski/src/controller/Controller.java</file>
+            <file>file:/Users/ennouser/NetBeansProjects/MainFolder/ServerAppSeminarski/src/repository/db/impl/RepositoryGeneric.java</file>
         </group>
     </open-files>
 </project-private>

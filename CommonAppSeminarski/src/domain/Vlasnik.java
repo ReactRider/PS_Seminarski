@@ -49,6 +49,10 @@ public class Vlasnik implements OpstaDomenskaKlasa{
     public Vlasnik(String grad, int x) {
         this.grad = grad;
     }
+
+    public Vlasnik(Long id_vlasnik) {
+        this.id_vlasnik = id_vlasnik;
+    }
     
     public Vlasnik() {}
     

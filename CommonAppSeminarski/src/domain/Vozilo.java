@@ -146,7 +146,7 @@ public class Vozilo implements OpstaDomenskaKlasa{
 
     @Override
     public String getColumnsForInsert() {
-        return "reg_oznaka, marka, model, id_vlasnik";
+        return "reg_oznaka, marka, model, idVlasnik";
     }
 
     @Override
@@ -161,21 +161,21 @@ public class Vozilo implements OpstaDomenskaKlasa{
 
     @Override
     public String getJoinCondition() {
-        return "vozilo v JOIN vlasnik vl ON v.id_vlasnik=vl.id";
+        return "vozilo v JOIN vlasnik vl ON v.idVlasnik=vl.id";
     }
 
     @Override
     public String getConditionForDelete(OpstaDomenskaKlasa t) {
         if(this.id_vozilo!=null){
-            return "id="+this.id_vozilo+" AND id_vlasnik="+this.vlasnik.getId_vlasnik();
+            return "id="+this.id_vozilo+" AND idVlasnik="+this.vlasnik.getId_vlasnik();
         }else{
-            return "id_vlasnik="+this.vlasnik.getId_vlasnik();
+            return "idVlasnik="+this.vlasnik.getId_vlasnik();
         }
     }
 
     @Override
     public String getValueForUpdate() {
-        return "id_vlasnik="+this.vlasnik.getId_vlasnik();
+        return "idVlasnik="+this.vlasnik.getId_vlasnik();
     }
 
     @Override
@@ -210,7 +210,7 @@ public class Vozilo implements OpstaDomenskaKlasa{
             String marka=rs.getString("v.marka");
             String model=rs.getString("v.model");
             Vlasnik vlasnik=new Vlasnik();
-            long id_v=rs.getLong("v.id_vlasnik");
+            long id_v=rs.getLong("v.idVlasnik");
             String ime=rs.getString("vl.ime");
             String prezime=rs.getString("vl.prezime");
             String jmbg=rs.getString("vl.jmbg");

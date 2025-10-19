@@ -58,6 +58,9 @@ public class ClientThread extends Thread {
                     case DELETE_VOZILO:
                         response = deleteVozilo(request);
                         break;
+                    case FIND_VOZILO:
+                        response = findVozilo(request);
+                        break;
                     case GET_ALL_VLASNIK:
                         response = getAllVlasnik(request);
                         break;
@@ -662,19 +665,19 @@ public class ClientThread extends Thread {
         
         
         public Response addEvidencijaKazni(Request request){
-        Response response = null;
-        EvidencijaKazni ek=(EvidencijaKazni)request.getData();
-        try {
-            response = new Response();
-            long id = Controller.getInstance().kreirajEvidencijaKazne(ek);
-            response.setData(id);
-            response.setStatus(ResponseStatus.SUCCESS);
-        } catch(Exception ex) {
-            ex.printStackTrace();
-            response.setErrormessage(ex.getLocalizedMessage());
+            Response response = null;
+            EvidencijaKazni ek=(EvidencijaKazni)request.getData();
+            try {
+                response = new Response();
+                long id = Controller.getInstance().kreirajEvidencijaKazni(ek);
+                response.setData(id);
+                response.setStatus(ResponseStatus.SUCCESS);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+                response.setErrormessage(ex.getLocalizedMessage());
+            }
+            return response;
         }
-        return response;
-    }
         
         
         

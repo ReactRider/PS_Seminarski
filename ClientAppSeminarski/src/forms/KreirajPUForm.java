@@ -34,9 +34,10 @@ public class KreirajPUForm extends javax.swing.JDialog {
                 String grad = (String)comboGrad.getSelectedItem();
                 String opstina = (String)comboOpstina.getSelectedItem();
                 String adresa = txtAdresa.getText();
+                String policajac = txtPolicajac.getText();
                 // Ako se nista ne promeni
-                if(username.equals(pu.getUsername()) && password.equals(pu.getPassword()) && adresa.equals(pu.getAdresa())) {
-                    JOptionPane.showMessageDialog(this, "Unesite nove, izmenjene podatke", "Poruka", JOptionPane.INFORMATION_MESSAGE);
+                if(username.equals(pu.getUsername()) && password.equals(pu.getPassword()) && adresa.equals(pu.getAdresa()) && policajac.equals(pu.getPolicajac()) ) {
+                    JOptionPane.showMessageDialog(this, "Unesite nove izmenjene podatke", "Poruka", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }  
                 // Ako se promeni samo username
@@ -159,6 +160,7 @@ public class KreirajPUForm extends javax.swing.JDialog {
         comboOpstina.setSelectedItem(pu.getOpstina());
         comboOpstina.setEnabled(false);
         txtAdresa.setText(pu.getAdresa());
+        txtPolicajac.setText(pu.getPolicajac());
         btnKreiraj.setVisible(false);
     }
     
@@ -189,11 +191,12 @@ public class KreirajPUForm extends javax.swing.JDialog {
                 String grad = (String) comboGrad.getSelectedItem();
                 String opstina = (String) comboOpstina.getSelectedItem();
                 String adresa = txtAdresa.getText();
+                String policajac = txtPolicajac.getText();
             
-                if(checkFields(username, password, grad, opstina, adresa)) {
+                if(checkFields(username, password, grad, opstina, adresa, policajac)) {
                     if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) == 0) {
-                        if(!Controller.getInstance().daLiPostojiPU(new PolicijskaUprava(username, password, grad, opstina, adresa))) {
-                            long id_kreirane_pu=Controller.getInstance().kreirajPolicijskaUprava(new PolicijskaUprava(username, password, grad, opstina, adresa));
+                        if(!Controller.getInstance().daLiPostojiPU(new PolicijskaUprava(username, password, grad, opstina, adresa, policajac))) {
+                            long id_kreirane_pu=Controller.getInstance().kreirajPolicijskaUprava(new PolicijskaUprava(username, password, grad, opstina, adresa, policajac));
                             if(id_kreirane_pu!=0) {
                                 JOptionPane.showMessageDialog(this, "Policijska uprava sacuvana!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
 
@@ -224,12 +227,11 @@ public class KreirajPUForm extends javax.swing.JDialog {
             txtAdresa.setText("");
         }
 
-        private boolean checkFields(String username, String password, String grad, String opstina, String adresa) {
-            
-            if(username.equals("") || password.equals("") || grad == null || opstina == null || adresa.equals(""))
+        private boolean checkFields(String username, String password, String grad, String opstina, String adresa, String policajac) {
+            if(username.equals("") || password.equals("") || grad == null || opstina == null || adresa.equals("") || policajac.equals(""))
                 return false;
             
-            if(username.length() < 3 || password.length() < 8 || adresa.length() < 4)
+            if(username.length() < 3 || password.length() < 8 || adresa.length() < 4 || policajac.length() < 4)
                 return false;
             
             char[] username_chars = username.toCharArray();
@@ -304,6 +306,8 @@ public class KreirajPUForm extends javax.swing.JDialog {
         btnPromeni = new javax.swing.JButton();
         lblID = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtPolicajac = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -346,6 +350,11 @@ public class KreirajPUForm extends javax.swing.JDialog {
 
         txtID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        jLabel7.setFont(new java.awt.Font("Helvetica Neue", 0, 15)); // NOI18N
+        jLabel7.setText("Policijski Sluzbenik");
+
+        txtPolicajac.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -361,30 +370,32 @@ public class KreirajPUForm extends javax.swing.JDialog {
                 .addComponent(btnPromeni)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
-                    .addComponent(lblID))
+                    .addComponent(lblID)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtUsername)
                     .addComponent(txtPassword)
-                    .addComponent(comboGrad, 0, 281, Short.MAX_VALUE)
+                    .addComponent(comboGrad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(comboOpstina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtAdresa)
-                    .addComponent(txtID))
-                .addGap(55, 55, 55))
+                    .addComponent(txtID, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                    .addComponent(txtPolicajac))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblID)
                     .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -408,7 +419,11 @@ public class KreirajPUForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
                     .addComponent(txtAdresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtPolicajac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnKreiraj)
                     .addComponent(btnPromeni))
@@ -471,10 +486,12 @@ public class KreirajPUForm extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblID;
     private javax.swing.JTextField txtAdresa;
     private javax.swing.JTextField txtID;
     private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtPolicajac;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

@@ -484,8 +484,8 @@ public class Controller {
         }
     }
     
-    public ArrayList<Raskrsnica> vratiListuSviRaskrsnica() throws Exception{
-        Request r=new Request();
+    public ArrayList<Raskrsnica> vratiListuSviRaskrsnica() throws Exception {
+        Request r = new Request();
         r.setOperation(Operation.GET_ALL_RASKRSNICA);
         r.setData(null);
         sender.send(r);
@@ -544,5 +544,23 @@ public class Controller {
             throw new Exception(res.getErrormessage());
         }
     }
+    
+    
+     public long kreirajEvidencijaKazni(EvidencijaKazni e) throws Exception{
+        Request r=new Request();
+        r.setOperation(Operation.ADD_EVIDENCIJA);
+        r.setData(e);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        if(res.getStatus()==ResponseStatus.SUCCESS){
+            return (long)res.getData();
+        }else{
+            throw new Exception(res.getErrormessage());
+        }
+    }
+    
+    
     
 }

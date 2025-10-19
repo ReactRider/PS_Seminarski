@@ -8,16 +8,25 @@ import controller.Controller;
 import domain.*;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
-
+import javax.swing.JDialog;
 /**
  *
  * @author Stefan
  */
 public class KreirajVoziloForm extends javax.swing.JDialog {
-
+    private Vozilo novo_vozilo = null;
     /**
      * Creates new form KreirajVoziloForm
      */
+    
+    public KreirajVoziloForm(JDialog parent) {
+        super(parent, "Kreiraj Vozilo", true);
+        initComponents();
+        setLocationRelativeTo(null);
+        prepareForInsert();
+    }
+    
+    
     public KreirajVoziloForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -76,12 +85,14 @@ public class KreirajVoziloForm extends javax.swing.JDialog {
     }
     
     private void ucitajVlasnike() {
-        try{
-       ArrayList<Vlasnik> vlasnici = Controller.getInstance().vratiListuSviVlasnik();
-       for(Vlasnik v : vlasnici) 
-           comboVlasnici.addItem(v);
-       comboVlasnici.setSelectedItem(null);
-        }catch(Exception greska){
+       try{
+            ArrayList<Vlasnik> vlasnici = Controller.getInstance().vratiListuSviVlasnik();
+            
+            for(Vlasnik v : vlasnici) 
+                comboVlasnici.addItem(v);
+            
+            comboVlasnici.setSelectedItem(null);
+        } catch(Exception greska){
             JOptionPane.showMessageDialog(this, "Greska pri ucitavanju vlasnika!","Greska",JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -107,13 +118,13 @@ public class KreirajVoziloForm extends javax.swing.JDialog {
 
                 String marka = txtMarka.getText();
                 String model = txtModel.getText();
-                String reg_oznaka = txtRegistracija.getText();
+                String reg_oznaka = txtRegistracija.getText().toLowerCase();
+                Vlasnik vl = (Vlasnik)comboVlasnici.getSelectedItem();
 
-                if(marka.equals("") || model.equals("") || reg_oznaka.equals("") || comboVlasnici.getSelectedItem() == null) {
+                if(marka.equals("") || model.equals("") || reg_oznaka.equals("") || vl == null) {
                     JOptionPane.showMessageDialog(this, "Popunite sva polja", "Greska", JOptionPane.ERROR_MESSAGE);
                     return;
                 } 
-
 
                 Vozilo pronadjeno_vozilo=Controller.getInstance().pretraziVozilo(new Vozilo(reg_oznaka));
 
@@ -124,19 +135,28 @@ public class KreirajVoziloForm extends javax.swing.JDialog {
 
                 long id_kreiranog_vozila=Controller.getInstance().kreirajVozilo(new Vozilo(reg_oznaka, marka, model, (Vlasnik) comboVlasnici.getSelectedItem()));
                 
-                if(id_kreiranog_vozila!=0) 
+                if(id_kreiranog_vozila!=0) {
+                    novo_vozilo = new Vozilo(id_kreiranog_vozila, reg_oznaka, marka, model, new Vlasnik(vl.getId_vlasnik()));
+                
                     JOptionPane.showMessageDialog(this, "Vozilo kreirano.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                }
                 else
-                    JOptionPane.showMessageDialog(this, "Greska.", "Greska", JOptionPane.ERROR_MESSAGE);
-
+                    JOptionPane.showMessageDialog(this, "Greska pri kreiranju vozila.", "Greska", JOptionPane.ERROR_MESSAGE);
+                /*
                 if(JOptionPane.showConfirmDialog(this, "Da li zelite uneti novo vozilo?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
                     this.setVisible(false);
                 else
                     prepareForNewInsert();
+                */
             }catch(Exception g){
                 JOptionPane.showMessageDialog(this, "Greska","Greska",JOptionPane.ERROR_MESSAGE);
             }
         });
+    }
+    
+    public Vozilo vratiNovoVozilo() {
+        return this.novo_vozilo;
     }
     
     private void prepareForNewInsert() {
@@ -261,7 +281,7 @@ public class KreirajVoziloForm extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
- private boolean check_reg() {
+    private boolean check_reg() {
         String[] elems = txtRegistracija.getText().split("-");
         if(elems[0].length() != 2 || elems[2].length() != 2 || elems[1].length() < 3 || elems[1].length() > 5) 
             return false;

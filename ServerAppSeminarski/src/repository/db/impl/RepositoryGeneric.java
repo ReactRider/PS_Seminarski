@@ -17,6 +17,7 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
         }else{
             query="SELECT * FROM "+t.getTableName();
         }
+        System.out.println(query);
         Connection connection=DBConnectionFactory.getInstance().getConnection();
         Statement s=connection.createStatement();
         ResultSet rs=s.executeQuery(query);
@@ -31,19 +32,21 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
     public long add(OpstaDomenskaKlasa t) throws Exception {
         long id=0l;
         String query="INSERT INTO "+t.getTableName()+" ("+t.getColumnsForInsert()+") VALUES ("+t.getValuesForInsert()+")";
-       Connection connection=DBConnectionFactory.getInstance().getConnection();
-       Statement s=connection.createStatement();
-       s.execute(query, Statement.RETURN_GENERATED_KEYS);
-       ResultSet rs=s.getGeneratedKeys();
-       while(rs.next()){
+        Connection connection=DBConnectionFactory.getInstance().getConnection();
+        System.out.println(query);
+        Statement s=connection.createStatement();
+        s.execute(query, Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs=s.getGeneratedKeys();
+        while(rs.next()){
            id=rs.getLong(1);
-       }
-       return id;
+        } 
+        return id;
     }
 
     @Override
     public boolean edit(OpstaDomenskaKlasa t) throws Exception {
         String query="UPDATE "+t.getTableName()+" SET "+t.getValueForUpdate()+" WHERE "+t.getConditionForUpdate();
+        System.out.println(query);
         Connection conn=DBConnectionFactory.getInstance().getConnection();
         Statement s=conn.createStatement();
         int b=s.executeUpdate(query);
@@ -58,6 +61,7 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
     @Override
     public boolean delete(OpstaDomenskaKlasa t, OpstaDomenskaKlasa t2) throws Exception {
         String query="DELETE FROM "+t.getTableName()+" WHERE "+t.getConditionForDelete(t2);
+        System.out.println(query);
         Connection conn=DBConnectionFactory.getInstance().getConnection();
         Statement s=conn.createStatement();
         int i=s.executeUpdate(query);
@@ -73,9 +77,12 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
             query="SELECT * FROM "+t.getJoinCondition()+" WHERE "+t.getConditionForFind(s, t2);
         }else if(t2 instanceof Raskrsnica){
             query="SELECT * FROM "+t.getJoinCondition()+" WHERE "+t.getConditionForFind(s, t2);
-        }else{
+        } else if(t instanceof Vozilo) {
+            query = "SELECT * FROM " + t.getJoinCondition() + " WHERE " + t.getConditionForFind(s, t2);
+        } else{
             query="SELECT * FROM "+t.getTableName()+" WHERE "+t.getConditionForFind(s, t2);
         }
+        System.out.println(query);
         Connection conn=DBConnectionFactory.getInstance().getConnection();
         Statement statement=conn.createStatement();
         ResultSet rs=statement.executeQuery(query);
