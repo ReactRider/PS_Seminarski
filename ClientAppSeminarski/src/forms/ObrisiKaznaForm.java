@@ -25,7 +25,11 @@ public class ObrisiKaznaForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setTitle("Obrisi Kaznu");
         
-        tblKazne.setModel(new KaznaTableModel());
+        try{
+            tblKazne.setModel(new KaznaTableModel());
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Greska pri prikazu kazne","Greska",JOptionPane.ERROR_MESSAGE);
+        }
         
         btnObrisi.addActionListener(e -> {
             int selectedRow = tblKazne.getSelectedRow();

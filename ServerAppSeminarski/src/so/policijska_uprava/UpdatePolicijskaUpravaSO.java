@@ -14,9 +14,15 @@ import so.AbstractSO;
 public class UpdatePolicijskaUpravaSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof PolicijskaUprava)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
+        }
+        
+        if(o instanceof PolicijskaUprava){
+            if(((PolicijskaUprava) o).getUsername().equals("") || ((PolicijskaUprava) o).getPassword().equals("") || ((PolicijskaUprava) o).getAdresa().equals("")){
+                throw new Exception("Objekat nema potrebne parametre da bi se izvrsila izmena");
+            }
         }
     }
 

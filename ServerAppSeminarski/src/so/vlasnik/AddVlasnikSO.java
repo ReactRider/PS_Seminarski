@@ -14,10 +14,21 @@ import so.AbstractSO;
 public class AddVlasnikSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Vlasnik)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
         }
+        
+        if(o instanceof Vlasnik){
+            if(((Vlasnik) o).getGrad().equals("") || ((Vlasnik) o).getIme().equals("") || ((Vlasnik) o).getPrezime().equals("") || ((Vlasnik) o).getJmbg().equals("")){
+                throw new Exception("Objekat nema potrebne parametre da bi bio sacuavn");
+            }
+            
+            if(((Vlasnik) o).getJmbg().length()!=13){
+                throw new Exception("Parametra JMBG ovog objekta nije odgovarajuce vrednosti");
+            }
+        }
+        
     }
 
     @Override

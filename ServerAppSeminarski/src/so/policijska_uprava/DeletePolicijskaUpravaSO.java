@@ -14,10 +14,17 @@ import so.AbstractSO;
 public class DeletePolicijskaUpravaSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof PolicijskaUprava)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
         }
+        
+        if(o instanceof PolicijskaUprava){
+            if(((PolicijskaUprava) o).getId()==0){
+                throw new Exception("Objekat nema parametar da bi se obrisao");
+            }
+        }
+        
     }
 
     @Override

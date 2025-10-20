@@ -14,9 +14,15 @@ import so.AbstractSO;
 public class AddRaskrsnicaSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Raskrsnica)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
+        }
+        
+        if(o instanceof Raskrsnica){
+            if(((Raskrsnica) o).getGrad().equals("") || ((Raskrsnica) o).getNaziv().equals("")){
+                throw new Exception("Objekat nema potrebne parametre za unoss");
+            }
         }
     }
 

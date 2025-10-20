@@ -319,7 +319,6 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
 
         txtRegOznaka.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         txtRegOznaka.setPreferredSize(new java.awt.Dimension(64, 28));
-        txtRegOznaka.setSize(new java.awt.Dimension(78, 28));
         txtRegOznaka.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtRegOznakaActionPerformed(evt);
@@ -450,11 +449,11 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSliderValue)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(lblPonder)
-                                .addGap(5, 5, 5)))
+                                .addGap(5, 5, 5))
+                            .addComponent(lblSliderValue))
                         .addGap(50, 50, 50))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)

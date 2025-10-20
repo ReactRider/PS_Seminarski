@@ -14,7 +14,7 @@ import so.AbstractSO;
 public class FindPolicijskaUpravaSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof PolicijskaUprava)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
         }
@@ -22,7 +22,7 @@ public class FindPolicijskaUpravaSO extends AbstractSO{
 
     @Override
     protected Object executeOperation(Object o,Object o1, String s) throws Exception {
-        return repository.getByODK((PolicijskaUprava)o, o1, s);
+        return repository.getByClass((PolicijskaUprava)o, o1, s);
     }
     
 }

@@ -14,9 +14,15 @@ import so.AbstractSO;
 public class AddVoziloSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Vozilo)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
+        }
+        
+        if(o instanceof Vozilo){
+            if(((Vozilo) o).getMarka().equals("") || ((Vozilo) o).getModel().equals("") || ((Vozilo) o).getReg_oznaka().equals("") || ((Vozilo) o).getVlasnik()==null){
+                throw new Exception("Objekat nema potrebne parametre da bi mogao da se kreira");
+            }
         }
     }
 

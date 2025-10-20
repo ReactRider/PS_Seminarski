@@ -70,7 +70,7 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
     }
 
     @Override
-    public List<OpstaDomenskaKlasa> getByODK(OpstaDomenskaKlasa t, OpstaDomenskaKlasa t2, String s) throws Exception {
+    public List<OpstaDomenskaKlasa> getByClass(OpstaDomenskaKlasa t, OpstaDomenskaKlasa t2, String s) throws Exception {
         List<OpstaDomenskaKlasa> list=new ArrayList<>();
         String query="";
         if(t2 instanceof Vlasnik){

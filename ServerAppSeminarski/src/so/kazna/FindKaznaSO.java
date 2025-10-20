@@ -14,15 +14,19 @@ import so.AbstractSO;
 public class FindKaznaSO extends AbstractSO {
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Kazna)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
+        }
+        
+        if(o instanceof Kazna){
+            
         }
     }
 
     @Override
     protected Object executeOperation(Object o, Object o1, String s) throws Exception {
-        return repository.getByODK((Kazna)o, null, s);
+        return repository.getByClass((Kazna)o, null, s);
     }
     
 }

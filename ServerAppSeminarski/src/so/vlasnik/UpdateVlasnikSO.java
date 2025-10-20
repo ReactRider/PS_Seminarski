@@ -14,10 +14,17 @@ import so.AbstractSO;
 public class UpdateVlasnikSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Vlasnik)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
         }
+        
+        if(o instanceof Vlasnik){
+            if(((Vlasnik) o).getIme().equals("") || ((Vlasnik) o).getPrezime().equals("") || ((Vlasnik) o).getGrad().equals("")){
+                throw new Exception("Objekat nema potrebne parametre da bi se izvrsila zmena");
+            }
+        }
+        
     }
 
     @Override

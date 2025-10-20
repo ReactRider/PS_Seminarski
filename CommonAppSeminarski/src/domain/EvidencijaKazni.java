@@ -204,7 +204,7 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
 
     @Override
     public String getJoinCondition() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "evidencija_kazni ek JOIN policijska_uprava pu ON ek.id_pu=pu.id JOIN vozilo v JOIN ek.id_vozilo=v.id JOIN vlasnik vl ON v.id_vlasnik=vl.id JOIN stavka_evidencije se JOIN ek.id=se.id_evidencije JOIN raskrsnica r JOIN se.id_raskrsnica=r.id";
     }
 
     @Override
@@ -229,7 +229,51 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
 
     @Override
     public OpstaDomenskaKlasa getObject(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        long id_ek=rs.getLong("ek.idEvidencija");
+            double iznos_total=rs.getDouble("ek.iznos_total");
+            double ponder=rs.getDouble("ek.bazni_ponder");
+            long brKazniI=rs.getInt("ek.br_kazni_I");
+            long brKazniII=rs.getInt("ek.br_kazni_II");
+            long brKazniIII=rs.getInt("ek.br_kazni_III");
+            long id_pu=rs.getLong("pu.id");
+            long id_v=rs.getLong("v.id");
+            String username = rs.getString("pu.username");
+            String password = rs.getString("pu.password");
+            String grad_pu = rs.getString("pu.grad");
+            String opstina = rs.getString("pu.opstina");
+            String adresa = rs.getString("pu.adresa");
+            String policajac=rs.getString("pu.policajac");
+            PolicijskaUprava pu=new PolicijskaUprava(id_pu, username, password, grad_pu, opstina, adresa, policajac);
+            String registracija=rs.getString("v.reg_oznaka");
+            String marka=rs.getString("v.marka");
+            String model=rs.getString("v.model");
+            Vlasnik vlasnik=new Vlasnik();
+            long id_vlasnik=rs.getLong("vl.id");
+            String ime=rs.getString("vl.ime");
+            String prezime=rs.getString("vl.prezime");
+            String jmbg=rs.getString("vl.jmbg");
+            String grad_vlasnik=rs.getString("vl.grad");
+            vlasnik.setId_vlasnik(id_vlasnik);
+            vlasnik.setIme(ime);
+            vlasnik.setPrezime(prezime);
+            vlasnik.setJmbg(jmbg);
+            vlasnik.setGrad(grad_vlasnik);
+            Vozilo vozilo=new Vozilo();
+            vozilo.setId_vozilo(id_v);
+            vozilo.setReg_oznaka(registracija);
+            vozilo.setMarka(marka);
+            vozilo.setModel(model);
+            vozilo.setVlasnik(vlasnik);
+            EvidencijaKazni evidencija=new EvidencijaKazni();
+            evidencija.setId_evidencija(id_ek);
+            evidencija.setBazni_ponder(ponder);
+            evidencija.setBr_kazni_I(brKazniI);
+            evidencija.setBr_kazni_II(brKazniII);
+            evidencija.setBr_kazni_III(brKazniIII);
+            evidencija.setIznos_total();
+            evidencija.setPu(pu);
+            evidencija.setVozilo(vozilo);
+            return evidencija;
     }
 
     @Override

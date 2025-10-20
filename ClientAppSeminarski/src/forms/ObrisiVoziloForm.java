@@ -25,7 +25,11 @@ public class ObrisiVoziloForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setTitle("Obrisite vozilo");
         
-        tblVozila.setModel(new VoziloTableModel());
+        try{
+            tblVozila.setModel(new VoziloTableModel());
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"Greska pri prikazivanju Vozila","Greska",JOptionPane.ERROR_MESSAGE);
+        }
         
         btnObrisi.addActionListener( e-> {
             

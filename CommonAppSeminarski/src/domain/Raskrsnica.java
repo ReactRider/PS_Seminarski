@@ -135,6 +135,8 @@ public class Raskrsnica implements OpstaDomenskaKlasa{
     public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
         if(s.equals("jedan")){
             return "naziv='"+this.naziv+"'";
+        }else if(s.equals("grad i naziv")){
+            return "grad='"+this.grad+"' AND naziv='"+this.naziv+"'";
         }else{
             return "grad='"+this.grad+"'";
         }

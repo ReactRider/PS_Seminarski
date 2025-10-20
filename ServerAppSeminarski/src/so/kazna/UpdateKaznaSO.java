@@ -14,9 +14,16 @@ import so.AbstractSO;
 public class UpdateKaznaSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Kazna)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
+        }
+        
+        
+        if(o instanceof Kazna){
+            if(((Kazna) o).getNaziv().equals("") || ((Kazna) o).getKategorija()==null || ((Kazna) o).getIznos()==0){
+                throw new Exception("Objekat nema potrebne parametre da bi mogao da se promeni");
+            }
         }
     }
 

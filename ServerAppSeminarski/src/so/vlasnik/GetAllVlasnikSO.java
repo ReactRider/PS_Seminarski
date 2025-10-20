@@ -14,7 +14,7 @@ import so.AbstractSO;
 public class GetAllVlasnikSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Vlasnik)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
         }

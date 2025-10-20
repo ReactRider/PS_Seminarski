@@ -15,10 +15,17 @@ import so.AbstractSO;
 public class AddEvidencijaSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof EvidencijaKazni)) {
-            throw new Exception("prosledjeni parametar nije ispravan!");
+            throw new Exception("prosledjeni objeakt nije odgovarajuce klase!");
         }
+        
+        if(o instanceof EvidencijaKazni){
+            if(((EvidencijaKazni) o).getPu()==null || ((EvidencijaKazni) o).getVozilo()==null){
+                throw new Exception("Objekat ne sadrzi sve potrebno da bi bilo sacuvano");
+            }
+        }
+        
     }
 
     @Override

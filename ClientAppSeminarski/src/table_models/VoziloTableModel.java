@@ -18,16 +18,28 @@ public class VoziloTableModel extends AbstractTableModel {
     private ArrayList<Vozilo> vozila;
     private String[] columns = {"Marka", "Model", "Registraciona oznaka", "Vlasnik"};
 
-    public VoziloTableModel() {
-        this.vozila = Controller.getInstance().vratiListuSviVozilo();
+    public VoziloTableModel() throws Exception {
+        try{
+            this.vozila = Controller.getInstance().vratiListuSviVozilo();
+        }catch(Exception exc){
+            throw new Exception("Greska u ucitavanju liste!");
+        }
     }
     
-    public VoziloTableModel(Vlasnik v) {
-        this.vozila = Controller.getInstance().vratiListuVozilo(v);
+    public VoziloTableModel(Vlasnik v) throws Exception{
+        try{
+            this.vozila = Controller.getInstance().vratiListuVozilo(v);
+        }catch(Exception ex){
+            throw new Exception("Greska pri ucitavanju liste!");
+        }
     }
     
-    public VoziloTableModel(Vozilo v) {
-        this.vozila = Controller.getInstance().vratiListuVozilo(v);
+    public VoziloTableModel(Vozilo v) throws Exception{
+        try{
+            this.vozila = Controller.getInstance().vratiListuVozilo(v);
+        }catch(Exception e){
+            throw new Exception("Greska pri ucitavanju liste!");
+        }
     }
     
     @Override

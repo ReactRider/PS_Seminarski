@@ -42,8 +42,9 @@ public class KreirajPUForm extends javax.swing.JDialog {
                 }  
                 // Ako se promeni samo username
                 if(!username.equals(pu.getUsername()) && adresa.equals(pu.getAdresa())) {
-                    if(Controller.getInstance().puusernameok(username)) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa))) {
+                    PolicijskaUprava polUp=new PolicijskaUprava(username);
+                    if(Controller.getInstance().pretraziPolicijskaUpravaUsername(polUp)) {
+                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
                             JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                             this.setVisible(false);
                             new PromeniPUForm(null, true).setVisible(true);
@@ -56,8 +57,11 @@ public class KreirajPUForm extends javax.swing.JDialog {
 
                 // Ako se promeni samo adresa
                 if(username.equals(pu.getUsername()) && !adresa.equals(pu.getAdresa()) ) {
-                    if(Controller.getInstance().puadresaok(adresa, grad)) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa))) {
+                    PolicijskaUprava p3=new PolicijskaUprava();
+                    p3.setAdresa(adresa);
+                    p3.setGrad(grad);
+                    if(Controller.getInstance().pretraziPolicijskaUpravaAdresa(p3)) {
+                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
                             JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                             this.setVisible(false);
                             new PromeniPUForm(null, true).setVisible(true);
@@ -71,7 +75,7 @@ public class KreirajPUForm extends javax.swing.JDialog {
                 //Ako se promeni samo lozinka
                 if(username.equals(pu.getUsername()) && adresa.equals(pu.getAdresa()) && !password.equals(pu.getPassword()) ) {
                     if(password.length() >= 8) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa))) {
+                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
                             JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                             this.setVisible(false);
                             new PromeniPUForm(null, true).setVisible(true);
@@ -84,8 +88,12 @@ public class KreirajPUForm extends javax.swing.JDialog {
 
                 // Ako se promene username i adresa, a ne lozinka
                 if(!username.equals(pu.getUsername()) && !adresa.equals(pu.getAdresa()) && password.equals(pu.getPassword()) ) {
-                    if(Controller.getInstance().puusernameok(username) && Controller.getInstance().puadresaok(adresa, grad)) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa))) {
+                    PolicijskaUprava policijska_uprava=new PolicijskaUprava();
+                    policijska_uprava.setUsername(username);
+                    policijska_uprava.setAdresa(adresa);
+                    policijska_uprava.setGrad(grad);
+                    if(Controller.getInstance().pretraziPolicijskaUpravaUsername(policijska_uprava) && Controller.getInstance().pretraziPolicijskaUpravaAdresa(policijska_uprava)) {
+                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
                             JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                             this.setVisible(false);
                             new PromeniPUForm(null, true).setVisible(true);
@@ -98,8 +106,9 @@ public class KreirajPUForm extends javax.swing.JDialog {
 
                 // Ako se promene username i lozinka, a ne adresa
                 if(!username.equals(pu.getUsername()) && adresa.equals(pu.getAdresa()) && !password.equals(pu.getPassword()) ) {
-                    if(Controller.getInstance().puusernameok(username) && password.length() >= 8) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa))) {
+                    PolicijskaUprava policijska_up=new PolicijskaUprava(username);
+                    if(Controller.getInstance().pretraziPolicijskaUpravaUsername(policijska_up) && password.length() >= 8) {
+                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
                             JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                             this.setVisible(false);
                             new PromeniPUForm(null, true).setVisible(true);
@@ -113,8 +122,11 @@ public class KreirajPUForm extends javax.swing.JDialog {
 
                 // Ako se promene password i adresa, a ne username
                 if(username.equals(pu.getUsername()) && !adresa.equals(pu.getAdresa()) && !password.equals(pu.getPassword()) ) {
-                    if(Controller.getInstance().puadresaok(adresa, grad) && password.length() >= 8) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa))) {
+                    PolicijskaUprava p4=new PolicijskaUprava();
+                    p4.setAdresa(adresa);
+                    p4.setGrad(grad);
+                    if(Controller.getInstance().pretraziPolicijskaUpravaAdresa(p4) && password.length() >= 8) {
+                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
                             JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                             this.setVisible(false);
                             new PromeniPUForm(null, true).setVisible(true);
@@ -127,8 +139,11 @@ public class KreirajPUForm extends javax.swing.JDialog {
 
                 //Ako se promene username, adresa i password
                 if(!username.equals(pu.getUsername()) && !adresa.equals(pu.getAdresa()) && !password.equals(pu.getPassword()) ) {
-                    if(Controller.getInstance().puusernameok(username) && Controller.getInstance().puadresaok(adresa, grad) && password.length() >= 8) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa))) {
+                    PolicijskaUprava p2=new PolicijskaUprava(username);
+                    p2.setAdresa(adresa);
+                    p2.setGrad(grad);
+                    if(Controller.getInstance().pretraziPolicijskaUpravaUsername(p2) && Controller.getInstance().pretraziPolicijskaUpravaAdresa(p2) && password.length() >= 8) {
+                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
                             JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                             this.setVisible(false);
                             new PromeniPUForm(null, true).setVisible(true);
@@ -195,7 +210,7 @@ public class KreirajPUForm extends javax.swing.JDialog {
             
                 if(checkFields(username, password, grad, opstina, adresa, policajac)) {
                     if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) == 0) {
-                        if(!Controller.getInstance().daLiPostojiPU(new PolicijskaUprava(username, password, grad, opstina, adresa, policajac))) {
+                        if(!Controller.getInstance().pretraziPolicijskaUpravaDaLiPostoji(new PolicijskaUprava(username, password, grad, opstina, adresa, policajac))) {
                             long id_kreirane_pu=Controller.getInstance().kreirajPolicijskaUprava(new PolicijskaUprava(username, password, grad, opstina, adresa, policajac));
                             if(id_kreirane_pu!=0) {
                                 JOptionPane.showMessageDialog(this, "Policijska uprava sacuvana!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);

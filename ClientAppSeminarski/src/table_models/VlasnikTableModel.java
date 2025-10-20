@@ -17,12 +17,22 @@ public class VlasnikTableModel extends AbstractTableModel {
     private String[] columns = {"Ime", "Prezime", "Grad", "JMBG"};
     private ArrayList<Vlasnik> vlasnici;
     
-    public VlasnikTableModel() {
-        this.vlasnici = Controller.getInstance().vratiListuSviVlasnik();
+    public VlasnikTableModel() throws Exception{
+        try{
+             this.vlasnici = Controller.getInstance().vratiListuSviVlasnik();
+        }catch(Exception e){
+            throw new Exception("Greska pri ucitavanju liste!");
+        }
+       
     }
     
-    public VlasnikTableModel(Vlasnik v) {
-        this.vlasnici = Controller.getInstance().vratiListuVlasnik(v);
+    public VlasnikTableModel(Vlasnik v) throws Exception{
+        try{
+            this.vlasnici = Controller.getInstance().vratiListuVlasnik(v);
+        }catch(Exception ex){
+            throw new Exception("Greska pri ucitavanju liste!");
+        }
+        
     }
     
     @Override

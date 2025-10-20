@@ -28,12 +28,26 @@ public class UbaciRaskrsnicaForm extends javax.swing.JDialog {
     }
     
     private void ucitajGradove() {
-        ArrayList<String> gradovi = Controller.getInstance().ucitajGradove();
-        
-        for(String grad : gradovi)
-            comboGradovi.addItem(grad);
-        
-        comboGradovi.setSelectedItem(null);
+        try{
+            ArrayList<Raskrsnica> sveRas=Controller.getInstance().vratiListuSviRaskrsnica();
+            ArrayList<String> gradovi=new ArrayList<>();
+            for(Raskrsnica r:sveRas){
+                if(!gradovi.contains(r.getGrad())){
+                    gradovi.add(r.getGrad());
+                }else{
+                    continue;
+                }
+
+            }
+
+            //ArrayList<String> gradovi = Controller.getInstance().ucitajGradove();
+            for(String grad : gradovi)
+                comboGradovi.addItem(grad);
+
+            comboGradovi.setSelectedItem(null);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Greska pri ucitavanju gradova","Greska",JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     public UbaciRaskrsnicaForm(java.awt.Frame parent, boolean modal) {
@@ -46,10 +60,13 @@ public class UbaciRaskrsnicaForm extends javax.swing.JDialog {
             try{
                 String naziv = txtNazivRaskrsnice.getText();
                 String grad = (String)comboGradovi.getSelectedItem();
-
+                Raskrsnica raskrsnica=new Raskrsnica();
+                raskrsnica.setGrad(grad);
+                raskrsnica.setNaziv(naziv);
+                
                 if(checkFields(naziv, grad)) {
                     if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) == 0) {
-                        if(!Controller.getInstance().daLiPostojiRaskrsnica(naziv, grad)) {
+                        if(!Controller.getInstance().daLiPostojiRaskrsnica(raskrsnica)) {
                             long id_kreirane_ras=Controller.getInstance().ubaciRaskrsnica(new Raskrsnica(naziv, grad));
                             if(id_kreirane_ras!=0) {
                                 JOptionPane.showMessageDialog(this, "Raskrsnica sacuvana!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);

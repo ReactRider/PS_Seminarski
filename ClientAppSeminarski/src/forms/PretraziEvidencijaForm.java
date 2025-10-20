@@ -247,12 +247,21 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
     }
     
     private void ucitajPU() {
-        ArrayList<String> uprave = Controller.getInstance().ucitajPU();
-        
-        for(String uprava : uprave)
-            comboPU.addItem(uprava);
-        
-        comboPU.setSelectedItem(null);
+        try{
+            ArrayList<PolicijskaUprava> lista_pu=Controller.getInstance().vratiListuSviPolicijskaUprava();
+            ArrayList<String> uprave=new ArrayList<>();
+            for(PolicijskaUprava pu:lista_pu){
+                uprave.add(pu.getUsername());
+            }
+            //ArrayList<String> uprave = Controller.getInstance().ucitajPU();
+
+            for(String uprava : uprave)
+                comboPU.addItem(uprava);
+
+            comboPU.setSelectedItem(null);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Greska pri ucitavanja pu","Greska",JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void ucitajOpsege() {
@@ -265,12 +274,21 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
     }
     
     private void ucitajNaziveKazni() {
-        ArrayList<String> nazivi = Controller.getInstance().ucitajKazne();
-        
-        for(String naziv : nazivi)
-            comboKazne.addItem(naziv);
-        
-        comboKazne.setSelectedItem(null);
+        try{
+            ArrayList<Kazna> sveKazne=Controller.getInstance().vratiListuSviKazna();
+            ArrayList<String> nazivi=new ArrayList<>();
+            for(Kazna k:sveKazne){
+                nazivi.add(k.getNaziv());
+            }
+            //ArrayList<String> nazivi = Controller.getInstance().ucitajKazne();
+
+            for(String naziv : nazivi)
+                comboKazne.addItem(naziv);
+
+            comboKazne.setSelectedItem(null);
+        }catch(Exception exc){
+            JOptionPane.showMessageDialog(this, "Greska pri ucitavanju naziva kazni","Greska",JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private boolean check_reg() {
@@ -383,38 +401,37 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(lblPU)
-                                .addGap(18, 18, 18)
-                                .addComponent(comboPU, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(lblRegOznaka)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtRegOznaka, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addComponent(lblRegOznaka)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtRegOznaka, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                         .addComponent(btnPretraga))
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblOpseg)
-                                .addGap(41, 41, 41)
-                                .addComponent(comboOpseg, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblNazivKazne)
                                 .addGap(41, 41, 41)
-                                .addComponent(comboKazne, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                                .addComponent(comboKazne, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblOpseg)
+                                .addGap(41, 41, 41)
+                                .addComponent(comboOpseg, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblPU)
+                                .addGap(18, 18, 18)
+                                .addComponent(comboPU, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(30, 30, 30))
             .addGroup(layout.createSequentialGroup()
-                .addGap(281, 281, 281)
-                .addComponent(lblTitle)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(281, 281, 281)
+                        .addComponent(lblTitle))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(446, 446, 446)
+                        .addComponent(btnPromeni)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnPromeni)
-                .addGap(376, 376, 376))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,9 +457,9 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
                     .addComponent(btnPretraga))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(36, 36, 36)
                 .addComponent(btnPromeni)
-                .addGap(16, 16, 16))
+                .addGap(14, 14, 14))
         );
 
         pack();

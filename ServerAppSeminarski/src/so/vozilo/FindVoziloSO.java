@@ -14,7 +14,7 @@ import so.AbstractSO;
 public class FindVoziloSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Vozilo)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
         }
@@ -22,7 +22,7 @@ public class FindVoziloSO extends AbstractSO{
 
     @Override
     protected Object executeOperation(Object o,Object o1, String s) throws Exception {
-        return repository.getByODK((Vozilo)o, o1, s);
+        return repository.getByClass((Vozilo)o, o1, s);
     }
     
 }

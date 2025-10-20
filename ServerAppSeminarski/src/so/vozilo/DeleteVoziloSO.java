@@ -14,9 +14,15 @@ import so.AbstractSO;
 public class DeleteVoziloSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Vozilo)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
+        }
+        
+        if(o instanceof Vozilo){
+            if(((Vozilo) o).getId_vozilo()==0){
+                throw new Exception("Objekat ne moze da se obrise zbog potrebnih parametrara koji nedostaju");
+            }
         }
     }
 

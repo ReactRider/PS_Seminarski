@@ -17,16 +17,28 @@ public class PUTableModel extends AbstractTableModel {
     String[] columns = {"naziv", "grad", "opstina", "adresa"};
     ArrayList<PolicijskaUprava> uprave;
     
-    public PUTableModel() {
-        this.uprave = Controller.getInstance().vratiListuSviPolicijskaUprava();
+    public PUTableModel() throws Exception{
+        try{
+            this.uprave = Controller.getInstance().vratiListuSviPolicijskaUprava();
+        }catch(Exception e){
+            throw new Exception("Greska pri ucitavanju liste!");
+        }
     }
     
-    public PUTableModel(PolicijskaUprava pu) {
-        this.uprave = Controller.getInstance().vratiListuPolicijskaUprava(pu);
+    public PUTableModel(PolicijskaUprava pu) throws Exception{
+        try{
+            this.uprave = Controller.getInstance().vratiListuPolicijskaUprava(pu);
+        }catch(Exception e){
+            throw new Exception("Greska pri ucitavanju liste!");
+        }
     }
     
-    public PUTableModel(Raskrsnica r) {
-        this.uprave = Controller.getInstance().vratiListuPolicijskaUprava(r);
+    public PUTableModel(Raskrsnica r) throws Exception{
+        try{
+            this.uprave = Controller.getInstance().vratiListuPolicijskaUprava(r);
+        }catch(Exception e){
+            throw new Exception("Greska pri ucitavanju liste!");
+        }
     }
     
     

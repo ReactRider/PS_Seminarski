@@ -62,7 +62,11 @@ public class PretraziKaznaForm extends javax.swing.JDialog {
             }
             
             this.add(jScrollPane1);
+            try{
             tblKazne.setModel(new KaznaTableModel(new Kazna((KategorijaKazna)comboKategorija1.getSelectedItem())));
+            }catch(Exception exc){
+                JOptionPane.showMessageDialog(this, "Greska pri prikazu Kazni","Greska",JOptionPane.ERROR_MESSAGE);
+            }
             
         });
         

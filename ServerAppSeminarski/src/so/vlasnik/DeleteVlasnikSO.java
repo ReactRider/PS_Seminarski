@@ -14,10 +14,17 @@ import so.AbstractSO;
 public class DeleteVlasnikSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Vlasnik)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
         }
+        
+        if(o instanceof Vlasnik){
+            if(((Vlasnik) o).getId_vlasnik()==0){
+                throw new Exception("Objekat nemoze da se obrise jer nema potreban parametar");
+            }
+        }
+        
     }
 
     @Override

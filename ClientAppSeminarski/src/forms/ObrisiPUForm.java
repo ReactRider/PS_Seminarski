@@ -24,7 +24,11 @@ public class ObrisiPUForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setTitle("Obrisi Policijsku Upravu");
         
-        tblPU.setModel(new PUTableModel());
+        try{
+            tblPU.setModel(new PUTableModel());
+        }catch(Exception exc){
+            JOptionPane.showMessageDialog(this, "Greska pri prikazu policijske uprave","Greska",JOptionPane.ERROR_MESSAGE);
+        }
         
         btnObrisi.addActionListener( e -> {
             int selectedRow = tblPU.getSelectedRow();

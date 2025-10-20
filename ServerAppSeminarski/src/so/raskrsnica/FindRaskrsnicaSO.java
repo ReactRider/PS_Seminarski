@@ -14,7 +14,7 @@ import so.AbstractSO;
 public class FindRaskrsnicaSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Raskrsnica)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
         }
@@ -22,7 +22,7 @@ public class FindRaskrsnicaSO extends AbstractSO{
 
     @Override
     protected Object executeOperation(Object o,Object o1, String s) throws Exception {
-        return repository.getByODK((Raskrsnica)o, null, s);
+        return repository.getByClass((Raskrsnica)o, null, s);
     }
     
 }

@@ -25,7 +25,11 @@ public class ObrisiVlasnikForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setTitle("Obrisi vlasnika");
         
-        tblVlasnici.setModel(new VlasnikTableModel());
+        try{
+            tblVlasnici.setModel(new VlasnikTableModel());
+        }catch(Exception gr){
+            JOptionPane.showMessageDialog(this, "Greska pri ucitavanju valsnika","Greska",JOptionPane.ERROR_MESSAGE);
+        }
         
         btnObrisi.addActionListener(e -> {
             int selectedRow = tblVlasnici.getSelectedRow();

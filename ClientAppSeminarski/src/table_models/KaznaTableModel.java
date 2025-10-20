@@ -13,12 +13,20 @@ public class KaznaTableModel extends AbstractTableModel {
     private String[] columns = {"Naziv", "Kategorija Kazne", "Iznos"};
     private ArrayList<Kazna> kazne;
     
-    public KaznaTableModel() {
-        this.kazne = Controller.getInstance().vratiListuSviKazna();
+    public KaznaTableModel() throws Exception{
+        try{
+            this.kazne = Controller.getInstance().vratiListuSviKazna();
+        }catch(Exception e){
+            throw new Exception("Greska pri ucitavanju liste!");
+        }
     }
     
-    public KaznaTableModel(Kazna k) {
-        this.kazne = Controller.getInstance().vratiListuKazna(k);
+    public KaznaTableModel(Kazna k) throws Exception{
+        try{
+            this.kazne = Controller.getInstance().vratiListuKazna(k);
+        }catch(Exception e){
+            throw new Exception("Greska prpi ucitavanju liste!");
+        }
     }
     
     @Override

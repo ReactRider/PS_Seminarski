@@ -14,10 +14,17 @@ import so.AbstractSO;
 public class UpdateVoziloSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Vozilo)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
         }
+        
+        if(o instanceof Vozilo){
+            if(((Vozilo) o).getVlasnik()==null){
+                throw new Exception("Objekat nema parametre da bi bio promenjen");
+            }
+        }
+        
     }
 
     @Override

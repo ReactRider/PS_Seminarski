@@ -48,7 +48,11 @@ public class PretraziVlasnikForm extends javax.swing.JDialog {
             }
             
             this.add(jScrollPane1);
-            tblVlasnici.setModel(new VlasnikTableModel(new Vlasnik((String)comboGrad1.getSelectedItem(), 0)));
+            try{
+                tblVlasnici.setModel(new VlasnikTableModel(new Vlasnik((String)comboGrad1.getSelectedItem(), 0)));
+            }catch(Exception execpt){
+                JOptionPane.showMessageDialog(this, "Greska pri prikazu vlasnika","Greska",JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
     
@@ -114,16 +118,31 @@ public class PretraziVlasnikForm extends javax.swing.JDialog {
     }
     
     private void ucitajGradove(String s) {
-        ArrayList<String> gradovi = Controller.getInstance().ucitajGradove();
-       
-        if(s.equals("lokacija")) {
-            for(String grad : gradovi)
-                comboGrad1.addItem(grad);
-            comboGrad1.setSelectedItem(null);
-        } else {
-            for(String grad : gradovi)
-                comboGrad.addItem(grad);
-            comboGrad.setSelectedItem(null);
+        try{
+            ArrayList<Vlasnik> sveVlas=Controller.getInstance().vratiListuSviVlasnik();
+                ArrayList<String> gradovi=new ArrayList<>();
+                for(Vlasnik v:sveVlas){
+                    if(!gradovi.contains(v.getGrad())){
+                        gradovi.add(v.getGrad());
+                    }else{
+                        continue;
+                    }
+
+                }
+
+           // ArrayList<String> gradovi = Controller.getInstance().ucitajGradove();
+
+            if(s.equals("lokacija")) {
+                for(String grad : gradovi)
+                    comboGrad1.addItem(grad);
+                comboGrad1.setSelectedItem(null);
+            } else {
+                for(String grad : gradovi)
+                    comboGrad.addItem(grad);
+                comboGrad.setSelectedItem(null);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Greska pri ucictavanju gradova","Greska",JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -209,15 +228,18 @@ public class PretraziVlasnikForm extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(348, 367, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(298, 298, 298))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(298, 298, 298))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblPrebivaliste)
+                        .addGap(251, 251, 251))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(189, 189, 189)
-                        .addComponent(btnPretraga))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnPretraga)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(lblJMBG)
@@ -241,18 +263,13 @@ public class PretraziVlasnikForm extends javax.swing.JDialog {
                                 .addComponent(comboGrad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(comboGrad1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(100, 100, 100))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblPrebivaliste)
-                                .addGap(163, 163, 163))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(88, 88, 88)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 36, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboGrad1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(185, 185, 185))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

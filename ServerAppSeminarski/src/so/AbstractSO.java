@@ -13,7 +13,7 @@ public abstract class AbstractSO {
     
     public Object execute(Object o, Object o1, String s) throws Exception {
         try {
-            preconditions(o);
+            validate(o);
             startTransaction();
             Object obj = executeOperation(o,o1,s);
             commitTransaction();
@@ -24,7 +24,7 @@ public abstract class AbstractSO {
         }
     }
     
-    protected abstract void preconditions(Object o) throws Exception;
+    protected abstract void validate(Object o) throws Exception;
     
     private void startTransaction() throws Exception {
         ((DbRepository)repository).connect();

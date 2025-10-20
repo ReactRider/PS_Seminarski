@@ -220,7 +220,13 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
                 return "grad='"+this.grad+"'";
             }
         }else{
-            return "username='"+this.username+"'";
+            if(s.equals("slozen upit")){
+                return "username='"+this.username+"' OR ( adresa='"+this.adresa+"' AND grad='"+this.grad+"' ) OR ( grad='"+this.grad+"' AND opstina='"+this.opstina+"' )";
+            }else if(s.equals("grad i adresa")){
+                return "adresa='"+this.adresa+"' AND grad='"+this.grad+"'";
+            }else{
+                return "username='"+this.username+"'";
+            }
         }
     }
 

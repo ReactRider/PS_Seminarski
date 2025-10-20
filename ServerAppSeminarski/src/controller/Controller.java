@@ -88,6 +88,24 @@ public class Controller {
         return (List<PolicijskaUprava>)getAllPU.execute(pu, null,"");
     }
     
+    public PolicijskaUprava pretraziPolicijskaUpravaUsername(PolicijskaUprava pu) throws Exception{
+        AbstractSO findPU=new FindPolicijskaUpravaSO();
+        List<PolicijskaUprava> nadjeni=(List<PolicijskaUprava>)findPU.execute(pu, null, "samo username");
+        return nadjeni.getFirst();
+    }
+    
+    public PolicijskaUprava pretraziPolicijskUpravaDaLiPostoji(PolicijskaUprava pu) throws Exception{
+        AbstractSO findpu=new FindPolicijskaUpravaSO();
+        List<PolicijskaUprava> postoji=(List<PolicijskaUprava>)findpu.execute(pu, null, "slozen upit");
+        return postoji.getFirst();
+    }
+    
+    public PolicijskaUprava pretraziPolicijskaUpravaAdresa(PolicijskaUprava pu) throws Exception{
+        AbstractSO findpu=new FindPolicijskaUpravaSO();
+        List<PolicijskaUprava> postoji=(List<PolicijskaUprava>)findpu.execute(pu, null, "grad i adresa");
+        return postoji.getFirst();
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////////////////
     
     public List<Kazna> vratiListuSviKazna() throws Exception{
@@ -241,6 +259,12 @@ public class Controller {
     public List<Raskrsnica> vratiListuRaskrsnica(Raskrsnica ras) throws Exception{
         AbstractSO findRas=new FindRaskrsnicaSO();
         return (List<Raskrsnica>)findRas.execute(ras, null, "lista");
+    }
+    
+    
+    public Raskrsnica daLiPostojiRaskrsnica(Raskrsnica ras) throws Exception{
+        AbstractSO findRas =new FindRaskrsnicaSO();
+        return (Raskrsnica)findRas.execute(ras, null, "grad i naziv");
     }
     
     //////////////////////////////////////////////////////////////////////////////////////

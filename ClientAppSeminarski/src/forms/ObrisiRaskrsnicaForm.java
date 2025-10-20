@@ -25,7 +25,11 @@ public class ObrisiRaskrsnicaForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setTitle("Obrisi Raskrsnicu");
         
-        tblRaskrsnica.setModel(new RaskrsnicaTableModel());
+        try{
+            tblRaskrsnica.setModel(new RaskrsnicaTableModel());
+        }catch(Exception except){
+            JOptionPane.showMessageDialog(this, "Greska pri prikazu raskrsnica","Greska",JOptionPane.ERROR_MESSAGE);
+        }
         
         btnObrisi.addActionListener( e -> {
             int selectedRow = tblRaskrsnica.getSelectedRow();

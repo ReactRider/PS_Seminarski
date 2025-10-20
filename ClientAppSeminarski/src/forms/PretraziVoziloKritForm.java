@@ -54,7 +54,11 @@ public class PretraziVoziloKritForm extends javax.swing.JDialog {
             }
             
             this.add(jScrollPane1);
-            tblVozila1.setModel(new VoziloTableModel(new Vlasnik((String)comboGrad.getSelectedItem(), 0)));
+            try{
+                tblVozila1.setModel(new VoziloTableModel(new Vlasnik((String)comboGrad.getSelectedItem(), 0)));
+            }catch(Exception exc){
+                JOptionPane.showMessageDialog(this, "Greska pri ucitavanju vozila","Greska",JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
     
@@ -70,24 +74,54 @@ public class PretraziVoziloKritForm extends javax.swing.JDialog {
             }
             
             this.add(jScrollPane2);
-            tblVozila2.setModel(new VoziloTableModel(new Vozilo((String) comboMarka.getSelectedItem(), 0)));
+            try{
+                tblVozila2.setModel(new VoziloTableModel(new Vozilo((String) comboMarka.getSelectedItem(), 0)));
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Greska pri ucitavanju voizla","Greska",JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
     
     private void ucitajGradove() {
-        ArrayList<String> gradovi = Controller.getInstance().ucitajGradove();
-        
-        for(String grad : gradovi)
-            comboGrad.addItem(grad);
-        comboGrad.setSelectedItem(null);
+        try{
+            ArrayList<Vlasnik> sveVlas=Controller.getInstance().vratiListuSviVlasnik();
+            ArrayList<String> gradovi=new ArrayList<>();
+            for(Vlasnik v:sveVlas){
+                if(!gradovi.contains(v.getGrad())){
+                    gradovi.add(v.getGrad());
+                }else{
+                    continue;
+                }
+
+            }
+
+            for(String grad : gradovi)
+                comboGrad.addItem(grad);
+            comboGrad.setSelectedItem(null);
+        }catch(Exception except){
+            JOptionPane.showMessageDialog(this, "Greska pri ucitavanju gradova","Greska",JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void ucitajMarke() {
-         ArrayList<String> marke = Controller.getInstance().ucitajMarke();
-        
-        for(String marka : marke)
-            comboMarka.addItem(marka);
-        comboMarka.setSelectedItem(null);
+        try{
+            ArrayList<Vozilo> svaVozila=Controller.getInstance().vratiListuSviVozilo();
+            ArrayList<String> marke=new ArrayList<>();
+            for(Vozilo vo:svaVozila){
+                if(!marke.contains(vo.getMarka())){
+                    marke.add(vo.getMarka());
+                }else{
+                    continue;
+                }
+            }
+
+
+            for(String marka : marke)
+                comboMarka.addItem(marka);
+            comboMarka.setSelectedItem(null);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Greska prilikom ucitavanja marki","Greska",JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     public PretraziVoziloKritForm(java.awt.Frame parent, boolean modal) {
@@ -162,22 +196,22 @@ public class PretraziVoziloKritForm extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
             .addGroup(layout.createSequentialGroup()
                 .addGap(136, 136, 136)
                 .addComponent(lblGrad)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblMarka)
-                .addGap(189, 189, 189))
+                .addGap(225, 225, 225))
             .addGroup(layout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addComponent(comboGrad, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(comboMarka, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81))
+                .addGap(126, 126, 126))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)

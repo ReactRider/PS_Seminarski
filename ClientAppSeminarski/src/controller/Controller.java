@@ -332,6 +332,52 @@ public class Controller {
         }
     }
     
+    public boolean pretraziPolicijskaUpravaUsername(PolicijskaUprava pu) throws Exception{
+        Request r=new Request();
+        r.setOperation(Operation.FIND_PU_USERNAME);
+        r.setData(pu);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        if(res.getStatus()==ResponseStatus.SUCCESS){
+            return (boolean)res.getData();
+        }else{
+            throw new Exception(res.getErrormessage());
+        }
+    }
+    
+    public boolean pretraziPolicijskaUpravaAdresa(PolicijskaUprava pu) throws Exception{
+        Request r=new Request();
+        r.setOperation(Operation.FIND_PU_ADRESA);
+        r.setData(pu);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        if(res.getStatus()==ResponseStatus.SUCCESS){
+            return (boolean)res.getData();
+        }else{
+            throw new Exception(res.getErrormessage());
+        }
+    }
+    
+    
+    public boolean pretraziPolicijskaUpravaDaLiPostoji(PolicijskaUprava pu) throws Exception{
+        Request r=new Request();
+        r.setOperation(Operation.FIND_PU_DA_LI_POSTOJI);
+        r.setData(pu);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        if(res.getStatus()==ResponseStatus.SUCCESS){
+            return (boolean)res.getData();
+        }else{
+            throw new Exception(res.getErrormessage());
+        }
+    }
+    
     public Raskrsnica pretraziRaskrsnica(Raskrsnica raskrsnica) throws Exception{
         Request r=new Request();
         r.setOperation(Operation.FIND_RASKRSNICA);
@@ -560,6 +606,22 @@ public class Controller {
             throw new Exception(res.getErrormessage());
         }
     }
+     
+     
+     public boolean daLiPostojiRaskrsnica(Raskrsnica rask) throws Exception{
+        Request r=new Request();
+        r.setOperation(Operation.FIND_RASKRSNICA_DA_LI_POSTOJI);
+        r.setData(rask);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        if(res.getStatus()==ResponseStatus.SUCCESS){
+            return (boolean)res.getData();
+        }else{
+            throw new Exception(res.getErrormessage());
+        }
+     }
     
     
     

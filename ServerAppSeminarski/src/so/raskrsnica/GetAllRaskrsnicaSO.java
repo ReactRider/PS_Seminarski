@@ -14,7 +14,7 @@ import so.AbstractSO;
 public class GetAllRaskrsnicaSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Raskrsnica)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
         }

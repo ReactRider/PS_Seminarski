@@ -17,12 +17,20 @@ public class RaskrsnicaTableModel extends AbstractTableModel {
     String[] columns = {"Naziv", "Grad"};
     ArrayList<Raskrsnica> raskrsnice;
     
-    public RaskrsnicaTableModel() {
-        this.raskrsnice = Controller.getInstance().vratiListuSviRaskrsnica();
+    public RaskrsnicaTableModel() throws Exception{
+        try{
+            this.raskrsnice = Controller.getInstance().vratiListuSviRaskrsnica();
+        }catch(Exception e){
+            throw new Exception("Greska pri ucitavanju liste");
+        }
     }
     
-    public RaskrsnicaTableModel(Raskrsnica r) {
-        this.raskrsnice = Controller.getInstance().vratiListuRaskrsnica(r);
+    public RaskrsnicaTableModel(Raskrsnica r) throws Exception{
+        try{
+            this.raskrsnice = Controller.getInstance().vratiListuRaskrsnica(r);
+        }catch(Exception e){
+            throw new Exception("Greska pri ucitavanju liste");
+        }
     }
     
     @Override

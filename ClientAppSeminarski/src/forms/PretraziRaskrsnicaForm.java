@@ -42,7 +42,11 @@ public class PretraziRaskrsnicaForm extends javax.swing.JDialog {
             }
             
             this.add(jScrollPane1);
-            tblRaskrsnice.setModel(new RaskrsnicaTableModel(new Raskrsnica((String)comboGradovi1.getSelectedItem())));
+            try{
+                tblRaskrsnice.setModel(new RaskrsnicaTableModel(new Raskrsnica((String)comboGradovi1.getSelectedItem())));
+            }catch(Exception exc){
+                JOptionPane.showMessageDialog(this, "Greska prilikom prikaza raskrsnica","Greska",JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
     
@@ -106,16 +110,31 @@ public class PretraziRaskrsnicaForm extends javax.swing.JDialog {
    
     
     private void ucitajGradove(String s) {
-        ArrayList<String> gradovi = Controller.getInstance().ucitajGradove();
-        
-        if(s.equals("Naziv")) {
-            for(String grad : gradovi)
-                comboGradovi.addItem(grad);
-            comboGradovi.setSelectedItem(null);
-        } else {
-            for(String grad : gradovi)
-                comboGradovi1.addItem(grad);
-            comboGradovi1.setSelectedItem(null);
+        try{
+            ArrayList<Raskrsnica> sveRas=Controller.getInstance().vratiListuSviRaskrsnica();
+            ArrayList<String> gradovi=new ArrayList<>();
+            for(Raskrsnica r:sveRas){
+                if(!gradovi.contains(r.getGrad())){
+                    gradovi.add(r.getGrad());
+                }else{
+                    continue;
+                }
+
+            }
+
+            //ArrayList<String> gradovi = Controller.getInstance().ucitajGradove();
+
+            if(s.equals("Naziv")) {
+                for(String grad : gradovi)
+                    comboGradovi.addItem(grad);
+                comboGradovi.setSelectedItem(null);
+            } else {
+                for(String grad : gradovi)
+                    comboGradovi1.addItem(grad);
+                comboGradovi1.setSelectedItem(null);
+            }
+        }catch(Exception exception){
+            JOptionPane.showMessageDialog(this, "Greska pri ucitavanju gradova","Greska",JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -181,9 +200,9 @@ public class PretraziRaskrsnicaForm extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNaziv)
                             .addComponent(lblGrad))
@@ -191,17 +210,18 @@ public class PretraziRaskrsnicaForm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtNaziv)
                             .addComponent(comboGradovi, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(149, 149, 149)
-                        .addComponent(btnPretrazi)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                    .addComponent(btnPretrazi))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblGrad1)
-                        .addGap(31, 31, 31)
-                        .addComponent(comboGradovi1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
+                        .addGap(57, 57, 57)
+                        .addComponent(comboGradovi1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(201, 201, 201))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(67, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(393, 393, 393)
                 .addComponent(jLabel1)

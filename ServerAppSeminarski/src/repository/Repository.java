@@ -13,6 +13,6 @@ public interface Repository<T,K> {
     long add(T t) throws Exception;
     boolean edit(T t) throws Exception;
     boolean delete(T t, T t2) throws Exception;
-    List<T> getByODK(T t, T t2, String s) throws Exception;
+    List<T> getByClass(T t, T t2, String s) throws Exception;
     Object login(T t) throws Exception;
 }

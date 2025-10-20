@@ -14,9 +14,15 @@ import so.AbstractSO;
 public class DeleteKaznaSO extends AbstractSO{
 
     @Override
-    protected void preconditions(Object o) throws Exception {
+    protected void validate(Object o) throws Exception {
         if(o == null || !(o instanceof Kazna)) {
             throw new Exception("prosledjeni parametar nije ispravan!");
+        }
+        
+        if(o instanceof Kazna){
+            if(((Kazna) o).getId_kazna()!=0){
+                throw new Exception("Objekat nema potreban parametar da bi bio obrisan");
+            }
         }
     }
 

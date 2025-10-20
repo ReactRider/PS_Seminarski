@@ -130,6 +130,18 @@ public class ClientThread extends Thread {
                     case GET_ALL_PU:
                         response = getAllPolicijskaUprava(request);
                         break;
+                    case FIND_RASKRSNICA_DA_LI_POSTOJI:
+                        response = finRaskrsnicaDaLiPostoji(request);
+                        break;
+                    case FIND_PU_USERNAME:
+                        response = findPolicijskaUpravaUsername(request);
+                        break;
+                    case FIND_PU_DA_LI_POSTOJI:
+                        response = findPolicijskaUpravaPostoji(request);
+                        break;
+                    case FIND_PU_ADRESA:
+                        response = findPolicijskaUpravaAdresa(request);
+                        break;
                 }
             
                 sender.send(response);
@@ -212,6 +224,67 @@ public class ClientThread extends Thread {
             pu = Controller.getInstance().pretraziPolicijskaUprava(pu);
             response.setData(pu);
             response.setStatus(ResponseStatus.SUCCESS);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
+      
+       public Response findPolicijskaUpravaUsername(Request request){
+        Response response = null;
+        PolicijskaUprava pu=(PolicijskaUprava)request.getData();
+        try {
+            response = new Response();
+            pu = Controller.getInstance().pretraziPolicijskaUpravaUsername(pu);
+            if(pu!=null){
+                response.setData(true);
+                response.setStatus(ResponseStatus.SUCCESS);
+            }else{
+                response.setData(false);
+                response.setStatus(ResponseStatus.ERROR);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
+       
+         public Response findPolicijskaUpravaAdresa(Request request){
+        Response response = null;
+        PolicijskaUprava pu=(PolicijskaUprava)request.getData();
+        try {
+            response = new Response();
+            pu = Controller.getInstance().pretraziPolicijskaUpravaAdresa(pu);
+            if(pu!=null){
+                response.setData(true);
+                response.setStatus(ResponseStatus.SUCCESS);
+            }else{
+                response.setData(false);
+                response.setStatus(ResponseStatus.ERROR);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
+       
+       
+        public Response findPolicijskaUpravaPostoji(Request request){
+        Response response = null;
+        PolicijskaUprava pu=(PolicijskaUprava)request.getData();
+        try {
+            response = new Response();
+            pu = Controller.getInstance().pretraziPolicijskUpravaDaLiPostoji(pu);
+            if(pu!=null){
+                response.setData(true);
+                response.setStatus(ResponseStatus.SUCCESS);
+            }else{
+                response.setData(false);
+                response.setStatus(ResponseStatus.ERROR);
+            }
         } catch(Exception ex) {
             ex.printStackTrace();
             response.setErrormessage(ex.getLocalizedMessage());
@@ -660,6 +733,27 @@ public class ClientThread extends Thread {
         }
         return response;
     }
+        
+        
+        public Response finRaskrsnicaDaLiPostoji(Request request){
+            Response response = null;
+            Raskrsnica r=(Raskrsnica)request.getData();
+            try {
+                response = new Response();
+                Raskrsnica ras = Controller.getInstance().daLiPostojiRaskrsnica(r);
+                if(ras!=null){
+                    response.setData(true);
+                    response.setStatus(ResponseStatus.SUCCESS);
+                }else{
+                    response.setData(false);
+                    response.setStatus(ResponseStatus.ERROR);
+                }
+            } catch(Exception ex) {
+                ex.printStackTrace();
+                response.setErrormessage(ex.getLocalizedMessage());
+            }
+            return response;
+        }
         
         ///////////////////////////////////////////////////////////////////////////////////
         
