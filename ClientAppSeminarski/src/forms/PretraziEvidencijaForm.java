@@ -64,33 +64,45 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
         comboOpseg.setSelectedItem(filter);
         int izbor = 0;
         switch(filter) {
-            case "do 250.000RSD":
+            case "do 200.000RSD":
                 izbor = 0;
             break;
 
-            case "izmedju 250.000RSD i 500.000RSD":
+            case "izmedju 200.000RSD i 400.000RSD":
                 izbor = 1;
             break;
 
-            case "preko 500.000RSD":
+            case "preko 400.000RSD":
                 izbor = 2;
             break;
         }
-        tblEvidencije.setModel(new EvidencijeTableModel(new EvidencijaKazni(izbor)));
+        try {
+            tblEvidencije.setModel(new EvidencijeTableModel(new EvidencijaKazni(izbor)));
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
     private void updateSearchKazna(String filter) {
         prepareGeneral();
         prepareSearchKazna();
         comboKazne.setSelectedItem(filter);
-        tblEvidencije.setModel(new EvidencijeTableModel(new Kazna(filter)));
+        try {
+            tblEvidencije.setModel(new EvidencijeTableModel(new Kazna(filter)));
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
     private void updateSearchPU(String filter) {
         prepareGeneral();
         prepareSearchPU();
         comboPU.setSelectedItem(filter);
-        tblEvidencije.setModel(new EvidencijeTableModel(new PolicijskaUprava(filter)));
+        try {
+            tblEvidencije.setModel(new EvidencijeTableModel(new PolicijskaUprava(filter)));
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
     private void updateSearchVozilo(String filter) {
@@ -98,7 +110,11 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
         prepareSearchVozilo();
         txtRegOznaka.setText(filter);
         this.add(jScrollPane1);
-        tblEvidencije.setModel(new EvidencijeTableModel(new Vozilo(filter)));
+        try {
+            tblEvidencije.setModel(new EvidencijeTableModel(new Vozilo(filter)));
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
     public PretraziEvidencijaForm(java.awt.Frame parent, boolean modal, String kriterijum) {
@@ -135,22 +151,26 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
         
         comboOpseg.addActionListener( e -> {
             String izbor_str = (String)comboOpseg.getSelectedItem();
-            int izbor = 0;
+            long izbor = 0;
             switch(izbor_str) {
-                case "do 250.000RSD":
-                    izbor = 0;
+                case "do 200.000RSD":
+                    izbor = 0l;
                 break;
                 
-                case "izmedju 250.000RSD i 500.000RSD":
-                    izbor = 1;
+                case "izmedju 200.000RSD i 400.000RSD":
+                    izbor = 1l;
                 break;
                 
-                case "preko 500.000RSD":
-                    izbor = 2;
+                case "preko 400.000RSD":
+                    izbor = 2l;
                 break;
             }
             this.add(jScrollPane1);
-            tblEvidencije.setModel(new EvidencijeTableModel(new EvidencijaKazni(izbor)));
+            try {
+                tblEvidencije.setModel(new EvidencijeTableModel(new EvidencijaKazni(izbor)));
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
         });        
         this.add(btnPromeni);
         prepareBtnPromeni();
@@ -203,7 +223,13 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
         
         comboKazne.addActionListener( e -> {
             this.add(jScrollPane1);
-            tblEvidencije.setModel(new EvidencijeTableModel(new Kazna((String)comboKazne.getSelectedItem())));
+            try {
+                tblEvidencije.setModel(new EvidencijeTableModel((Kazna)comboKazne.getSelectedItem()));
+                if(tblEvidencije.getModel().getRowCount() == 0)
+                    JOptionPane.showMessageDialog(this, "Ne postoje rezultati pretrage.", "Informacija", JOptionPane.INFORMATION_MESSAGE);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
         });
         this.add(btnPromeni);
         prepareBtnPromeni();
@@ -215,12 +241,18 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
         this.add(comboPU);
         ucitajPU();
         
-        comboPU.addActionListener( e -> {
-            this.add(jScrollPane1);
-            tblEvidencije.setModel(new EvidencijeTableModel(new PolicijskaUprava((String)comboPU.getSelectedItem())));
-        });
-        this.add(btnPromeni);
-        prepareBtnPromeni();
+            comboPU.addActionListener( e -> {
+                this.add(jScrollPane1);
+                try {
+                    tblEvidencije.setModel(new EvidencijeTableModel(new PolicijskaUprava((String)comboPU.getSelectedItem())));
+                    if(tblEvidencije.getModel().getRowCount() == 0) 
+                        JOptionPane.showMessageDialog(this, "Ne postoje rezultati pretrage.", "Poruka" ,JOptionPane.INFORMATION_MESSAGE);
+                } catch(Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+            this.add(btnPromeni);
+            prepareBtnPromeni();
     }
         
     private void prepareSearchVozilo() {
@@ -237,8 +269,12 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
                 return;
             }
             this.add(jScrollPane1);
-            tblEvidencije.setModel(new EvidencijeTableModel(new Vozilo(txtRegOznaka.getText())));
-
+            
+            try {
+                tblEvidencije.setModel(new EvidencijeTableModel(new Vozilo(txtRegOznaka.getText())));
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
             if(tblEvidencije.getRowCount() == 0)
                 JOptionPane.showMessageDialog(this, "Nema rezultata pretrage!", "Poruka", JOptionPane.INFORMATION_MESSAGE);
         });        
@@ -265,7 +301,7 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
     }
     
     private void ucitajOpsege() {
-        String[] elems = {"do 250.000RSD", "izmedju 250.000RSD i 500.000RSD", "preko 500.000RSD"};
+        String[] elems = {"do 200.000RSD", "izmedju 200.000RSD i 400.000RSD", "preko 400.000RSD"};
         
         for(String elem : elems) 
             comboOpseg.addItem(elem);
@@ -276,14 +312,8 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
     private void ucitajNaziveKazni() {
         try{
             ArrayList<Kazna> sveKazne=Controller.getInstance().vratiListuSviKazna();
-            ArrayList<String> nazivi=new ArrayList<>();
-            for(Kazna k:sveKazne){
-                nazivi.add(k.getNaziv());
-            }
-            //ArrayList<String> nazivi = Controller.getInstance().ucitajKazne();
-
-            for(String naziv : nazivi)
-                comboKazne.addItem(naziv);
+            for(Kazna k:sveKazne)
+                comboKazne.addItem(k);
 
             comboKazne.setSelectedItem(null);
         }catch(Exception exc){
@@ -510,7 +540,7 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPretraga;
     private javax.swing.JButton btnPromeni;
-    private javax.swing.JComboBox<String> comboKazne;
+    private javax.swing.JComboBox<Kazna> comboKazne;
     private javax.swing.JComboBox<String> comboOpseg;
     private javax.swing.JComboBox<String> comboPU;
     private javax.swing.JScrollPane jScrollPane1;

@@ -25,11 +25,11 @@ public class KreirajKaznaForm extends javax.swing.JDialog {
         
         comboKategorija.addActionListener(e -> {
             if(KategorijaKazna.Kategorija_I.equals((KategorijaKazna)comboKategorija.getSelectedItem())) 
-                txtIznos.setText("100000");
+                txtIznos.setText("75000");
             else if (KategorijaKazna.Kategorija_II.equals((KategorijaKazna)comboKategorija.getSelectedItem()))
-                txtIznos.setText("80000");
-            else if(KategorijaKazna.Kategorija_III.equals((KategorijaKazna)comboKategorija.getSelectedItem()))
                 txtIznos.setText("50000");
+            else if(KategorijaKazna.Kategorija_III.equals((KategorijaKazna)comboKategorija.getSelectedItem()))
+                txtIznos.setText("25000");
         });
     }
     
@@ -42,11 +42,11 @@ public class KreirajKaznaForm extends javax.swing.JDialog {
         
         comboKategorija.addActionListener(e -> {
             if(KategorijaKazna.Kategorija_I.equals((KategorijaKazna)comboKategorija.getSelectedItem())) 
-                txtIznos.setText("100000");
+                txtIznos.setText("75000");
             else if (KategorijaKazna.Kategorija_II.equals((KategorijaKazna)comboKategorija.getSelectedItem()))
-                txtIznos.setText("80000");
-            else if(KategorijaKazna.Kategorija_III.equals((KategorijaKazna)comboKategorija.getSelectedItem()))
                 txtIznos.setText("50000");
+            else if(KategorijaKazna.Kategorija_III.equals((KategorijaKazna)comboKategorija.getSelectedItem()))
+                txtIznos.setText("25000");
         });
         
         

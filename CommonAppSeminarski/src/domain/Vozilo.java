@@ -185,20 +185,39 @@ public class Vozilo implements OpstaDomenskaKlasa{
 
     @Override
     public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
-        if(s.equals("lista")){
-            if(t2 instanceof Vlasnik){
-                return "vl.grad='"+this.vlasnik.getGrad()+"'";
-            }else{
-                return "v.marka='"+this.marka+"'";
-            }
-        }else{
-            return "v.reg_oznaka='"+this.reg_oznaka+"'";
-        }
+        if(s.equals("lista")) {
+            if(t2 instanceof Vlasnik) 
+                return "vl.grad='" + ((Vlasnik)t2).getGrad() + "'";
+            else 
+                return "v.marka='" + this.marka+"'";
+        } else 
+            return "v.reg_oznaka='" + this.reg_oznaka+"'";
     }
 
     @Override
     public OpstaDomenskaKlasa getObject(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        long id=rs.getLong("v.id");
+            String registracija=rs.getString("v.reg_oznaka");
+            String marka=rs.getString("v.marka");
+            String model=rs.getString("v.model");
+            Vlasnik vlasnik=new Vlasnik();
+            long id_v=rs.getLong("v.id");
+            String ime=rs.getString("vl.ime");
+            String prezime=rs.getString("vl.prezime");
+            String jmbg=rs.getString("vl.jmbg");
+            String grad=rs.getString("vl.grad");
+            vlasnik.setId_vlasnik(id_v);
+            vlasnik.setIme(ime);
+            vlasnik.setPrezime(prezime);
+            vlasnik.setJmbg(jmbg);
+            vlasnik.setGrad(grad);
+            Vozilo vozilo=new Vozilo();
+            vozilo.setId_vozilo(id);
+            vozilo.setReg_oznaka(registracija);
+            vozilo.setMarka(marka);
+            vozilo.setModel(model);
+            vozilo.setVlasnik(vlasnik);
+            return vozilo;
     }
 
     @Override

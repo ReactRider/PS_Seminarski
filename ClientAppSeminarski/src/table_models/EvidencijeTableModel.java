@@ -12,22 +12,23 @@ import javax.swing.table.AbstractTableModel;
  * @author Stefan
  */
 public class EvidencijeTableModel extends AbstractTableModel {
-    private String[] columns = {"Total", "Br Kazni I Kategorije", "Br Kazni II Kategorije", "Br Kazni III Kategorije", "Policijska Uprava", "Vlasnik"};
+    private String[] columns = {"Policijska Uprava", "Vlasnik", "Total", "Br Kazni I Kategorije", "Br Kazni II Kategorije", "Br Kazni III Kategorije"};
     private ArrayList<EvidencijaKazni> evidencije;
     
-    public EvidencijeTableModel(EvidencijaKazni ek) {
+    public EvidencijeTableModel(EvidencijaKazni ek) throws Exception {
         this.evidencije = Controller.getInstance().vratiListuEvidencijaKazni(ek);
+        System.out.println(evidencije.size());
     }
     
-    public EvidencijeTableModel(Kazna kazna) {
+    public EvidencijeTableModel(Kazna kazna) throws Exception {
         this.evidencije = Controller.getInstance().vratiListuEvidencijaKazni(kazna);
     }
     
-    public EvidencijeTableModel(PolicijskaUprava pu) {
+    public EvidencijeTableModel(PolicijskaUprava pu) throws Exception {
         this.evidencije = Controller.getInstance().vratiListuEvidencijaKazni(pu);
     }
     
-    public EvidencijeTableModel(Vozilo vozilo) {
+    public EvidencijeTableModel(Vozilo vozilo) throws Exception {
         this.evidencije = Controller.getInstance().vratiListuEvidencijaKazni(vozilo);
     }
     
@@ -58,18 +59,18 @@ public class EvidencijeTableModel extends AbstractTableModel {
         
         switch(columnIndex) {
             case 0:
-                return evidencija.getIznos_total();
-            case 1:
-                return evidencija.getBr_kazni_I();
-            case 2:
-                return evidencija.getBr_kazni_II();
-            case 3:
-                return evidencija.getBr_kazni_III();
-            case 4:
                 return evidencija.getPu().getUsername();
-            case 5:
+            case 1:
                 return evidencija.getVozilo().getVlasnik().getIme() + " " + evidencija.getVozilo().getVlasnik().getPrezime();
-            default:
+            case 2:
+                return evidencija.getIznos_total();
+            case 3:
+                return evidencija.getBr_kazni_I();
+            case 4:
+                return evidencija.getBr_kazni_II();
+            case 5:
+                return evidencija.getBr_kazni_III();
+              default:
                 return null;
         }
     }

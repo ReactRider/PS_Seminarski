@@ -3,32 +3,12 @@ package controller;
 import domain.*;
 import java.util.*;
 import so.AbstractSO;
-import so.evidencija_kazne.AddEvidencijaSO;
-import so.kazna.AddKaznaSO;
-import so.kazna.DeleteKaznaSO;
-import so.kazna.FindKaznaSO;
-import so.kazna.GetAllKaznaSO;
-import so.kazna.UpdateKaznaSO;
-import so.policijska_uprava.AddPolicijskaUpravaSO;
-import so.policijska_uprava.DeletePolicijskaUpravaSO;
-import so.policijska_uprava.FindPolicijskaUpravaSO;
-import so.policijska_uprava.GetAllPolicijskaUpravaSO;
-import so.policijska_uprava.UpdatePolicijskaUpravaSO;
-import so.policijska_uprava.loginPolicijskaUpravaSO;
-import so.raskrsnica.AddRaskrsnicaSO;
-import so.raskrsnica.DeleteRaskresnicaSO;
-import so.raskrsnica.FindRaskrsnicaSO;
-import so.raskrsnica.GetAllRaskrsnicaSO;
-import so.raskrsnica.UpdateRaskrsnicaSO;
-import so.vlasnik.AddVlasnikSO;
-import so.vlasnik.DeleteVlasnikSO;
-import so.vlasnik.FindVlasnikSO;
-import so.vlasnik.GetAllVlasnikSO;
-import so.vozilo.AddVoziloSO;
-import so.vozilo.DeleteVoziloSO;
-import so.vozilo.FindVoziloSO;
-import so.vozilo.GetAllVoziloSO;
-import so.vozilo.UpdateVoziloSO;
+import so.evidencija_kazne.*;
+import so.kazna.*;
+import so.policijska_uprava.*;
+import so.raskrsnica.*;
+import so.vlasnik.*;
+import so.vozilo.*;
 
 public class Controller {
     private static Controller instance;
@@ -62,13 +42,14 @@ public class Controller {
     
     
     public boolean promeniPolicijskaUprava(PolicijskaUprava pu) throws Exception{
-        AbstractSO editPu=new UpdatePolicijskaUpravaSO();
-        return (boolean)editPu.execute(pu,null,"");
+        AbstractSO editPu = new UpdatePolicijskaUpravaSO();
+        return (boolean)editPu.execute(pu, null, "");
     }
     
     public PolicijskaUprava pretraziPolicijskaUprava(PolicijskaUprava pu) throws Exception{
         AbstractSO findpu=new FindPolicijskaUpravaSO();
-        return (PolicijskaUprava)findpu.execute(pu,null,"jedan");
+        ArrayList<PolicijskaUprava> lista_pu= (ArrayList<PolicijskaUprava>)findpu.execute(pu,null,"jedan");
+        return lista_pu.getFirst();
     }
     
     public List<PolicijskaUprava> vratiListuPolicijskaUprava(PolicijskaUprava pu) throws Exception{
@@ -90,20 +71,27 @@ public class Controller {
     
     public PolicijskaUprava pretraziPolicijskaUpravaUsername(PolicijskaUprava pu) throws Exception{
         AbstractSO findPU=new FindPolicijskaUpravaSO();
-        List<PolicijskaUprava> nadjeni=(List<PolicijskaUprava>)findPU.execute(pu, null, "samo username");
-        return nadjeni.getFirst();
+        List<PolicijskaUprava> uprave =(List<PolicijskaUprava>)findPU.execute(pu, null, "samo username");
+        if(uprave == null)
+            return null;
+        return uprave.getFirst();
     }
     
-    public PolicijskaUprava pretraziPolicijskUpravaDaLiPostoji(PolicijskaUprava pu) throws Exception{
-        AbstractSO findpu=new FindPolicijskaUpravaSO();
-        List<PolicijskaUprava> postoji=(List<PolicijskaUprava>)findpu.execute(pu, null, "slozen upit");
-        return postoji.getFirst();
+    public PolicijskaUprava pretraziPolicijskUpravaDaLiPostoji(PolicijskaUprava pu) throws Exception {
+        AbstractSO findpu = new FindPolicijskaUpravaSO();
+        List<PolicijskaUprava> uprava = (List<PolicijskaUprava>)findpu.execute(pu, null, "slozen upit");
+        if(uprava.isEmpty()){
+            return null;
+        }
+        return uprava.getFirst();
     }
     
     public PolicijskaUprava pretraziPolicijskaUpravaAdresa(PolicijskaUprava pu) throws Exception{
         AbstractSO findpu=new FindPolicijskaUpravaSO();
-        List<PolicijskaUprava> postoji=(List<PolicijskaUprava>)findpu.execute(pu, null, "grad i adresa");
-        return postoji.getFirst();
+        List<PolicijskaUprava> uprave = (List<PolicijskaUprava>)findpu.execute(pu, null, "grad i adresa");
+        if (uprave == null)
+            return null;
+        return uprave.getFirst();
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +104,10 @@ public class Controller {
     
     public Kazna pretraziKazna(Kazna k) throws Exception{
         AbstractSO findKazna=new FindKaznaSO();
-        return (Kazna)findKazna.execute(k,null,"jedan");
+        ArrayList<Kazna> kazne = (ArrayList<Kazna>)findKazna.execute(k,null,"jedan");
+        if(kazne.isEmpty())
+            return null;
+        return kazne.getFirst();
     }
     
     public long kreirajKazna(Kazna k) throws Exception{
@@ -173,7 +164,7 @@ public class Controller {
     public Vozilo pretraziVozilo(Vozilo v) throws Exception{
         AbstractSO findVozilo=new FindVoziloSO();
         ArrayList<Vozilo> vozila=(ArrayList<Vozilo>)findVozilo.execute(v,null,"jedan");
-        if(vozila.isEmpty()) 
+        if(vozila == null) 
             return null;
         return vozila.getFirst();
     }
@@ -184,8 +175,8 @@ public class Controller {
     }
     
     public List<Vozilo> vratiListuVozilo(Vlasnik vl) throws Exception{
-        AbstractSO findV=new FindVoziloSO();
-        Vozilo vozilo=new Vozilo();
+        AbstractSO findV = new FindVoziloSO();
+        Vozilo vozilo = new Vozilo();
         return (List<Vozilo>)findV.execute(vozilo, vl, "lista");
     }
     
@@ -206,14 +197,18 @@ public class Controller {
     
     
     public boolean promeniVlasnik(Vlasnik v) throws Exception{
-        AbstractSO editVlasnik=new UpdateVoziloSO();
+        AbstractSO editVlasnik=new UpdateVlasnikSO();
         return (boolean)editVlasnik.execute(v,null,"");
     }
     
     
     public Vlasnik pretraziVlasnik(Vlasnik v) throws Exception{
         AbstractSO findVlasnik=new FindVlasnikSO();
-        return (Vlasnik)findVlasnik.execute(v,null,"jedan");
+        ArrayList<Vlasnik> vlasnici =  (ArrayList<Vlasnik>)findVlasnik.execute(v,null,"jedan");
+        if(vlasnici.isEmpty()) {
+            return null;
+        }
+        return vlasnici.getFirst();
     }
     
     
@@ -253,7 +248,10 @@ public class Controller {
     
     public Raskrsnica pretraziRaskrsnica(Raskrsnica r) throws Exception{
         AbstractSO findRas=new FindRaskrsnicaSO();
-        return (Raskrsnica)findRas.execute(r,null,"jedan");
+        ArrayList<Raskrsnica> raskrsnice = (ArrayList<Raskrsnica>)findRas.execute(r,null,"jedan");
+        if(raskrsnice.isEmpty())
+            return null;
+        return raskrsnice.getFirst();
     }
     
     public List<Raskrsnica> vratiListuRaskrsnica(Raskrsnica ras) throws Exception{
@@ -264,7 +262,12 @@ public class Controller {
     
     public Raskrsnica daLiPostojiRaskrsnica(Raskrsnica ras) throws Exception{
         AbstractSO findRas =new FindRaskrsnicaSO();
-        return (Raskrsnica)findRas.execute(ras, null, "grad i naziv");
+        ArrayList<Raskrsnica> raskrsnice= (ArrayList<Raskrsnica>)findRas.execute(ras, null, "naziv");
+        if(raskrsnice.isEmpty()){
+            return null;
+        }
+        System.out.println(raskrsnice.getFirst());
+        return raskrsnice.getFirst();
     }
     
     //////////////////////////////////////////////////////////////////////////////////////
@@ -272,5 +275,55 @@ public class Controller {
     public long kreirajEvidencijaKazni(EvidencijaKazni ek) throws Exception{
         AbstractSO addEK=new AddEvidencijaSO();
         return (long)addEK.execute(ek,null,"");
+    }
+
+    public ArrayList<EvidencijaKazni> vratiListuEvidencijaEvidencija(EvidencijaKazni ek) throws Exception {
+        AbstractSO findEvid = new FindEvidencijaSO();
+        ArrayList<EvidencijaKazni> evidencije = (ArrayList<EvidencijaKazni>)findEvid.execute(ek, null, "lista");
+        
+        Set<Long> seen = new HashSet<>();
+        ArrayList<EvidencijaKazni> finalnaLista = new ArrayList<>();
+        for (EvidencijaKazni o : evidencije) 
+            if (seen.add(o.getId_evidencija())) finalnaLista.add(o);
+        
+        return finalnaLista;
+    }
+
+    public ArrayList<EvidencijaKazni> vratiListuEvidencijaKazna(Kazna k) throws Exception {
+        AbstractSO findEvid = new FindEvidencijaSO();
+        EvidencijaKazni ek = new EvidencijaKazni();
+        ArrayList<EvidencijaKazni> evidencije = (ArrayList<EvidencijaKazni>)findEvid.execute(ek, k, "lista");
+        
+        Set<Long> seen = new HashSet<>();
+        ArrayList<EvidencijaKazni> finalnaLista = new ArrayList<>();
+        for(EvidencijaKazni o : evidencije)
+            if(seen.add(o.getId_evidencija())) finalnaLista.add(o);
+        return finalnaLista;
+    }
+
+    public ArrayList<EvidencijaKazni> vratiListuEvidencijaPolicijskaUprava(PolicijskaUprava pu) throws Exception {
+        AbstractSO findEvid = new FindEvidencijaSO();
+        EvidencijaKazni ek = new EvidencijaKazni();
+        ArrayList<EvidencijaKazni> evidencije = (ArrayList<EvidencijaKazni>)findEvid.execute(ek, pu, "lista");
+        
+        Set<Long> seen = new HashSet<>();
+        ArrayList<EvidencijaKazni> finalnaLista = new ArrayList<>();
+        for (EvidencijaKazni o : evidencije) 
+            if (seen.add(o.getId_evidencija())) finalnaLista.add(o);
+        
+        return finalnaLista;
+    }
+
+    public ArrayList<EvidencijaKazni> vratiListuEvidencijaVozilo(Vozilo v) throws Exception {
+        AbstractSO findEvid = new FindEvidencijaSO();
+        EvidencijaKazni ek = new EvidencijaKazni();
+        ArrayList<EvidencijaKazni> evidencije = (ArrayList<EvidencijaKazni>)findEvid.execute(ek, v, "lista");
+          
+        Set<Long> seen = new HashSet<>();
+        ArrayList<EvidencijaKazni> finalnaLista = new ArrayList<>();
+        for (EvidencijaKazni o : evidencije) 
+            if (seen.add(o.getId_evidencija())) finalnaLista.add(o);
+        
+        return finalnaLista;
     }
 }

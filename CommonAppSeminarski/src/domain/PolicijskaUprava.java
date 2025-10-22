@@ -99,9 +99,6 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
         this.adresa = adresa;
     }
     
-    
-    
-
     public Long getId() {
         return id;
     }
@@ -193,7 +190,7 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
 
     @Override
     public String getJoinCondition() {
-        return "policijska_uprava pu JOIN purask pr ON pu.id=pr.id_pu";
+        return "policijska_uprava pu JOIN purask pr ON pu.id=pr.idPolicijskaUprava";
     }
 
     @Override
@@ -214,19 +211,17 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
     @Override
     public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
         if(t2 instanceof Raskrsnica){
-            if(s.equals("lista")){
-                return "pr.id_raskrsnica="+((Raskrsnica) t2).getId_raskrsnica();
-            }else{
+            if(s.equals("lista"))
+                return "pr.idRaskrsnica="+((Raskrsnica) t2).getId_raskrsnica();
+            else
                 return "grad='"+this.grad+"'";
-            }
         }else{
-            if(s.equals("slozen upit")){
+            if(s.equals("slozen upit")) 
                 return "username='"+this.username+"' OR ( adresa='"+this.adresa+"' AND grad='"+this.grad+"' ) OR ( grad='"+this.grad+"' AND opstina='"+this.opstina+"' )";
-            }else if(s.equals("grad i adresa")){
+            else if(s.equals("grad i adresa"))
                 return "adresa='"+this.adresa+"' AND grad='"+this.grad+"'";
-            }else{
+            else
                 return "username='"+this.username+"'";
-            }
         }
     }
 

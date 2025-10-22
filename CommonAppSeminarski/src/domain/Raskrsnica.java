@@ -135,8 +135,8 @@ public class Raskrsnica implements OpstaDomenskaKlasa{
     public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
         if(s.equals("jedan")){
             return "naziv='"+this.naziv+"'";
-        }else if(s.equals("grad i naziv")){
-            return "grad='"+this.grad+"' AND naziv='"+this.naziv+"'";
+        }else if(s.equals("naziv")){
+            return "grad='" + this.grad + "' AND naziv='"+this.naziv+"'";
         }else{
             return "grad='"+this.grad+"'";
         }
@@ -144,7 +144,14 @@ public class Raskrsnica implements OpstaDomenskaKlasa{
 
     @Override
     public OpstaDomenskaKlasa getObject(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        long id=rs.getLong("raskrsnica.id");
+        String naziv=rs.getString("raskrsnica.naziv");
+        String grad=rs.getString("raskrsnica.grad");
+        Raskrsnica r=new Raskrsnica();
+        r.setId_raskrsnica(id);
+        r.setNaziv(naziv);
+        r.setGrad(grad);
+        return r;
     }
 
     @Override

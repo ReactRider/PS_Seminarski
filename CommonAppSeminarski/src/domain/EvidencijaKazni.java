@@ -76,7 +76,7 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
     }
 
     public void setIznos_total() {
-        this.iznos_total = this.bazni_ponder * ( this.br_kazni_I * 100000 + this.br_kazni_II * 50000 + this.br_kazni_III * 25000);
+        this.iznos_total = this.bazni_ponder * ( this.br_kazni_I * 750000 + this.br_kazni_II * 50000 + this.br_kazni_III * 25000);
     }
 
     public Long getBr_kazni_I() {
@@ -204,7 +204,7 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
 
     @Override
     public String getJoinCondition() {
-        return "evidencija_kazni ek JOIN policijska_uprava pu ON ek.id_pu=pu.id JOIN vozilo v JOIN ek.id_vozilo=v.id JOIN vlasnik vl ON v.id_vlasnik=vl.id JOIN stavka_evidencije se JOIN ek.id=se.id_evidencije JOIN raskrsnica r JOIN se.id_raskrsnica=r.id";
+        return "evidencija_kazni ek JOIN policijska_uprava pu ON ek.id_pu = pu.id JOIN vozilo v ON ek.id_vozilo = v.id JOIN vlasnik vl ON v.idVlasnik=vl.id JOIN stavka_evidencije se ON ek.idEvidencija = se.idEvidencije JOIN raskrsnica r ON se.idRaskrsnice = r.id";
     }
 
     @Override
@@ -224,7 +224,22 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
 
     @Override
     public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(t2 == null) {
+            long num = this.getId_evidencija();
+            if(num == 0) 
+                return "ek.iznos_total <= 200000";
+            else if(num == 1) 
+                return "ek.iznos_total > 200000 AND ek.iznos_total <= 400000";
+            else if(num == 2) 
+                return "ek.iznos_total > 400000";
+        } else if(t2 instanceof PolicijskaUprava) {
+            return "pu.username='" + ((PolicijskaUprava)t2).getUsername() + "'";
+        } else if(t2 instanceof Vozilo) {
+            return "v.reg_oznaka='" + ((Vozilo)t2).getReg_oznaka() + "'";
+        } else if(t2 instanceof Kazna) {
+            return "se.idKazne=" + ((Kazna)t2).getId_kazna();
+        }
+        return "bubicaa<3";
     }
 
     @Override

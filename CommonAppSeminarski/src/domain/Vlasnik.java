@@ -187,7 +187,18 @@ public class Vlasnik implements OpstaDomenskaKlasa{
 
     @Override
     public OpstaDomenskaKlasa getObject(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        long id=rs.getLong("vlasnik.id");
+        String ime=rs.getString("vlasnik.ime");
+        String prezime=rs.getString("vlasnik.prezime");
+        String jmbg=rs.getString("vlasnik.jmbg");
+        String grad=rs.getString("vlasnik.grad");
+        Vlasnik v=new Vlasnik();
+        v.setId_vlasnik(id);
+        v.setIme(ime);
+        v.setPrezime(prezime);
+        v.setJmbg(jmbg);
+        v.setGrad(grad);
+        return v;
     }
 
     @Override

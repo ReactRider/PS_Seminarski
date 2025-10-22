@@ -19,10 +19,8 @@ public class DeleteKaznaSO extends AbstractSO{
             throw new Exception("prosledjeni parametar nije ispravan!");
         }
         
-        if(o instanceof Kazna){
-            if(((Kazna) o).getId_kazna()!=0){
-                throw new Exception("Objekat nema potreban parametar da bi bio obrisan");
-            }
+        if(((Kazna) o).getId_kazna()==0){
+            throw new Exception("Objekat nema potreban parametar da bi bio obrisan");
         }
     }
 

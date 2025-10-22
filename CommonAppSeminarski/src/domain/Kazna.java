@@ -167,7 +167,12 @@ public class Kazna implements OpstaDomenskaKlasa{
 
     @Override
     public OpstaDomenskaKlasa getObject(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String naziv=rs.getString("kazna.naziv");
+        double iznos=rs.getDouble("kazna.iznos");
+        long id=rs.getLong("kazna.id");
+        KategorijaKazna kategorijaKaz=KategorijaKazna.valueOf(rs.getString("kazna.kategorija_kazne"));
+        Kazna k=new Kazna(id, naziv, kategorijaKaz,iznos);
+        return k;
     }
 
     @Override
@@ -183,7 +188,4 @@ public class Kazna implements OpstaDomenskaKlasa{
         }
         return list;
     }
-    
-    
-    
 }

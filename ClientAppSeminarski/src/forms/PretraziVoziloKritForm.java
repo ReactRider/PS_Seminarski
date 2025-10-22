@@ -92,7 +92,6 @@ public class PretraziVoziloKritForm extends javax.swing.JDialog {
                 }else{
                     continue;
                 }
-
             }
 
             for(String grad : gradovi)

@@ -2,27 +2,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package so.vozilo;
+package so.evidencija_kazne;
 
-import domain.*;
+import domain.EvidencijaKazni;
 import so.AbstractSO;
 
 /**
  *
- * @author pc
+ * @author ennouser
  */
-public class FindVoziloSO extends AbstractSO{
+public class FindEvidencijaSO extends AbstractSO {
 
     @Override
     protected void validate(Object o) throws Exception {
-        if(o == null || !(o instanceof Vozilo)) {
-            throw new Exception("prosledjeni parametar nije ispravan!");
+        if(o == null) {
+            throw new Exception("prosledjeni objekat je null!");
         }
     }
 
     @Override
     protected Object executeOperation(Object o, Object o1, String s) throws Exception {
-        return repository.getByClass((Vozilo)o, o1, s);
+        return repository.getByClass((EvidencijaKazni)o, o1, s);
     }
     
 }

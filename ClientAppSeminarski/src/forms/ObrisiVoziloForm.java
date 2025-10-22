@@ -39,6 +39,7 @@ public class ObrisiVoziloForm extends javax.swing.JDialog {
             
             try {
                 Vozilo v = vtm.get(selectedRow);
+                System.out.println(v.getVlasnik().getIme() + " " + v.getVlasnik().getPrezime() + " / " + v.getVlasnik().getId_vlasnik());
                 if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
                     return;
             

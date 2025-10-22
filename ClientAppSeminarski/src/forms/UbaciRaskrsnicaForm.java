@@ -85,6 +85,7 @@ public class UbaciRaskrsnicaForm extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Neispravni podaci!", "Greska", JOptionPane.ERROR_MESSAGE);
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(this, "Greska pri preiranju raskrsnice","Greska",JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
             }
         });
         

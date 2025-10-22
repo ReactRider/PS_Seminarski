@@ -95,6 +95,7 @@ public class Controller {
         Response res=(Response)receiver.receive();
         
         if(res.getStatus()==ResponseStatus.SUCCESS){
+            System.out.println((Vozilo)res.getData());
             return (Vozilo)res.getData();
         }else{
             throw new Exception(res.getErrormessage());
@@ -162,7 +163,6 @@ public class Controller {
             throw new Exception(res.getErrormessage());
         }
     }
-    
     
     public boolean promeniPolicijskaUprava(PolicijskaUprava pu) throws Exception{
         Request r=new Request();
@@ -339,12 +339,9 @@ public class Controller {
         sender.send(r);
         
         Response res=(Response)receiver.receive();
+        System.out.println((boolean)res.getData());
+        return (boolean)res.getData();
         
-        if(res.getStatus()==ResponseStatus.SUCCESS){
-            return (boolean)res.getData();
-        }else{
-            throw new Exception(res.getErrormessage());
-        }
     }
     
     public boolean pretraziPolicijskaUpravaAdresa(PolicijskaUprava pu) throws Exception{
@@ -355,11 +352,7 @@ public class Controller {
         
         Response res=(Response)receiver.receive();
         
-        if(res.getStatus()==ResponseStatus.SUCCESS){
-            return (boolean)res.getData();
-        }else{
-            throw new Exception(res.getErrormessage());
-        }
+        return (boolean)res.getData();
     }
     
     
@@ -370,12 +363,7 @@ public class Controller {
         sender.send(r);
         
         Response res=(Response)receiver.receive();
-        
-        if(res.getStatus()==ResponseStatus.SUCCESS){
-            return (boolean)res.getData();
-        }else{
-            throw new Exception(res.getErrormessage());
-        }
+        return (boolean)res.getData();
     }
     
     public Raskrsnica pretraziRaskrsnica(Raskrsnica raskrsnica) throws Exception{
@@ -493,9 +481,9 @@ public class Controller {
         
         Response res=(Response)receiver.receive();
         
-        if(res.getStatus()==ResponseStatus.SUCCESS){
+        if(res.getStatus() == ResponseStatus.SUCCESS) {
             return (ArrayList<Vozilo>)res.getData();
-        }else{
+        } else {
             throw new Exception(res.getErrormessage());
         }
     }
@@ -616,12 +604,67 @@ public class Controller {
         
         Response res=(Response)receiver.receive();
         
-        if(res.getStatus()==ResponseStatus.SUCCESS){
+        if(res.getStatus()==ResponseStatus.SUCCESS)
             return (boolean)res.getData();
-        }else{
+        else
             throw new Exception(res.getErrormessage());
-        }
      }
+
+    public ArrayList<EvidencijaKazni> vratiListuEvidencijaKazni(EvidencijaKazni ek) throws Exception {
+        Request r=new Request();
+        r.setOperation(Operation.VRATI_LISTU_EVIDENCIJA_KAZNI_EVIDENCIJA);
+        r.setData(ek);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        if(res.getStatus()==ResponseStatus.SUCCESS)
+            return (ArrayList<EvidencijaKazni>)res.getData();
+        else
+            throw new Exception(res.getErrormessage());
+    }
+
+    public ArrayList<EvidencijaKazni> vratiListuEvidencijaKazni(Kazna kazna) throws Exception {
+        Request r=new Request();
+        r.setOperation(Operation.VRATI_LISTU_EVIDENCIJA_KAZNI_KAZNA);
+        r.setData(kazna);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        if(res.getStatus()==ResponseStatus.SUCCESS)
+            return (ArrayList<EvidencijaKazni>)res.getData();
+        else
+            throw new Exception(res.getErrormessage());
+    }
+    
+    public ArrayList<EvidencijaKazni> vratiListuEvidencijaKazni(PolicijskaUprava pu) throws Exception {
+        Request r=new Request();
+        r.setOperation(Operation.VRATI_LISTU_EVIDENCIJA_KAZNI_PU);
+        r.setData(pu);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        if(res.getStatus()==ResponseStatus.SUCCESS)
+            return (ArrayList<EvidencijaKazni>)res.getData();
+        else
+            throw new Exception(res.getErrormessage());
+    }
+
+    public ArrayList<EvidencijaKazni> vratiListuEvidencijaKazni(Vozilo vozilo) throws Exception {
+        Request r=new Request();
+        r.setOperation(Operation.VRATI_LISTU_EVIDENCIJA_KAZNI_VOZILO);
+        r.setData(vozilo);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        if(res.getStatus()==ResponseStatus.SUCCESS)
+            return (ArrayList<EvidencijaKazni>)res.getData();
+        else
+            throw new Exception(res.getErrormessage());
+    }
     
     
     

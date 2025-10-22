@@ -12,11 +12,11 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
     public List<OpstaDomenskaKlasa> getAll(OpstaDomenskaKlasa t) throws Exception {
         List<OpstaDomenskaKlasa> lista=new ArrayList<>();
         String query="";
-        if(t instanceof Vozilo){
+        if(t instanceof Vozilo)
             query="SELECT * FROM "+t.getJoinCondition();
-        }else{
+        else
             query="SELECT * FROM "+t.getTableName();
-        }
+        
         System.out.println(query);
         Connection connection=DBConnectionFactory.getInstance().getConnection();
         Statement s=connection.createStatement();
@@ -25,7 +25,6 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
         s.close();
         rs.close();
         return lista;
-    
     }
 
     @Override
@@ -37,25 +36,26 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
         Statement s=connection.createStatement();
         s.execute(query, Statement.RETURN_GENERATED_KEYS);
         ResultSet rs=s.getGeneratedKeys();
-        while(rs.next()){
+       
+        while(rs.next())
            id=rs.getLong(1);
-        } 
+
         return id;
     }
 
     @Override
     public boolean edit(OpstaDomenskaKlasa t) throws Exception {
-        String query="UPDATE "+t.getTableName()+" SET "+t.getValueForUpdate()+" WHERE "+t.getConditionForUpdate();
+        String query = "UPDATE "+t.getTableName()+" SET "+t.getValueForUpdate()+" WHERE "+t.getConditionForUpdate();
         System.out.println(query);
-        Connection conn=DBConnectionFactory.getInstance().getConnection();
-        Statement s=conn.createStatement();
-        int b=s.executeUpdate(query);
+        Connection conn = DBConnectionFactory.getInstance().getConnection();
+        Statement s = conn.createStatement();
+        int b = s.executeUpdate(query);
         s.close();
-        if(b!=0){
+        
+        if(b != 0)
             return true;
-        }else{
+        else
             return false;
-        }
     }
 
     @Override
@@ -71,18 +71,24 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
 
     @Override
     public List<OpstaDomenskaKlasa> getByClass(OpstaDomenskaKlasa t, OpstaDomenskaKlasa t2, String s) throws Exception {
-        List<OpstaDomenskaKlasa> list=new ArrayList<>();
-        String query="";
-        if(t2 instanceof Vlasnik){
-            query="SELECT * FROM "+t.getJoinCondition()+" WHERE "+t.getConditionForFind(s, t2);
-        }else if(t2 instanceof Raskrsnica){
-            query="SELECT * FROM "+t.getJoinCondition()+" WHERE "+t.getConditionForFind(s, t2);
-        } else if(t instanceof Vozilo) {
+        List<OpstaDomenskaKlasa> list = new ArrayList<>();
+        String query = "";
+        
+        if(t2 instanceof Vlasnik)
             query = "SELECT * FROM " + t.getJoinCondition() + " WHERE " + t.getConditionForFind(s, t2);
-        } else{
-            query="SELECT * FROM "+t.getTableName()+" WHERE "+t.getConditionForFind(s, t2);
-        }
+        else if(t2 instanceof Raskrsnica)
+            query = "SELECT * FROM " + t.getJoinCondition() + " WHERE " + t.getConditionForFind(s, t2);
+        else if(t2 instanceof PolicijskaUprava)
+            query = "SELECT * FROM " + t.getJoinCondition() + " WHERE " + t.getConditionForFind(s, t2);
+        else if(t instanceof Vozilo) 
+            query = "SELECT * FROM " + t.getJoinCondition() + " WHERE " + t.getConditionForFind(s, t2);
+        else if(t instanceof EvidencijaKazni)
+            query = "SELECT * FROM " + t.getJoinCondition() + " WHERE " + t.getConditionForFind(s, t2);
+        else
+            query = "SELECT * FROM " + t.getTableName()+" WHERE " + t.getConditionForFind(s, t2);
+        
         System.out.println(query);
+        
         Connection conn=DBConnectionFactory.getInstance().getConnection();
         Statement statement=conn.createStatement();
         ResultSet rs=statement.executeQuery(query);
@@ -90,6 +96,7 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
         statement.close();
         rs.close();
         return list;
+        
     }
 
     @Override
@@ -103,9 +110,8 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
             ResultSet rs = st.executeQuery(query);
             OpstaDomenskaKlasa odo = null;
             
-            while(rs.next()) {
+            while(rs.next()) 
                 odo = t.getObject(rs);
-            }
             
             st.close();
             rs.close();

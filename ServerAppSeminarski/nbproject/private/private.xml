@@ -3,10 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/policijska_uprava/FindPolicijskaUpravaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/kazna/FindKaznaSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/vozilo/DeleteVoziloSO.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Desktop/stefi-prosoft-clijent-server/PS_Seminarski/ServerAppSeminarski/src/so/policijska_uprava/AddPolicijskaUpravaSO.java</file>
+            <file>file:/Users/ennouser/NetBeansProjects/MainFolder/ServerAppSeminarski/src/thread/ClientThread.java</file>
+            <file>file:/Users/ennouser/NetBeansProjects/MainFolder/ServerAppSeminarski/src/controller/Controller.java</file>
+            <file>file:/Users/ennouser/NetBeansProjects/MainFolder/ServerAppSeminarski/src/so/policijska_uprava/FindPolicijskaUpravaSO.java</file>
+            <file>file:/Users/ennouser/NetBeansProjects/MainFolder/ServerAppSeminarski/src/repository/db/impl/RepositoryGeneric.java</file>
+            <file>file:/Users/ennouser/NetBeansProjects/MainFolder/ServerAppSeminarski/src/so/policijska_uprava/UpdatePolicijskaUpravaSO.java</file>
+            <file>file:/Users/ennouser/NetBeansProjects/MainFolder/ServerAppSeminarski/src/so/raskrsnica/FindRaskrsnicaSO.java</file>
+            <file>file:/Users/ennouser/NetBeansProjects/MainFolder/ServerAppSeminarski/src/so/vozilo/FindVoziloSO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -44,7 +44,9 @@ public class VoziloTableModel extends AbstractTableModel {
     
     @Override
     public int getRowCount() {
-        return vozila.size();
+        if(this.vozila != null)
+            return vozila.size();
+        return 0;
     }
 
     @Override

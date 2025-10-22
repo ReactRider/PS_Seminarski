@@ -142,6 +142,19 @@ public class ClientThread extends Thread {
                     case FIND_PU_ADRESA:
                         response = findPolicijskaUpravaAdresa(request);
                         break;
+                    case Operation.VRATI_LISTU_EVIDENCIJA_KAZNI_EVIDENCIJA:
+                        response = vratiListuEvidencijaEvidencija(request);
+                        break;
+                    case Operation.VRATI_LISTU_EVIDENCIJA_KAZNI_KAZNA:
+                        response = vratiListuEvidencijaKazna(request);
+                        break;
+                    case Operation.VRATI_LISTU_EVIDENCIJA_KAZNI_PU:
+                        response = vratiListuEvidencijaPolicijskaUprava(request);
+                        break;
+                    case Operation.VRATI_LISTU_EVIDENCIJA_KAZNI_VOZILO:
+                        response = vratiListuEvidencijaVozilo(request);
+                        break;
+                    
                 }
             
                 sender.send(response);
@@ -207,6 +220,7 @@ public class ClientThread extends Thread {
         try {
             response = new Response();
             boolean b = Controller.getInstance().promeniPolicijskaUprava(pu);
+            System.out.println(b);
             response.setData(b);
             response.setStatus(ResponseStatus.SUCCESS);
         } catch(Exception ex) {
@@ -231,17 +245,41 @@ public class ClientThread extends Thread {
         return response;
     }
       
-       public Response findPolicijskaUpravaUsername(Request request){
+    public Response findPolicijskaUpravaUsername(Request request){
         Response response = null;
         PolicijskaUprava pu=(PolicijskaUprava)request.getData();
+        PolicijskaUprava temp = null;
+        
         try {
             response = new Response();
-            pu = Controller.getInstance().pretraziPolicijskaUpravaUsername(pu);
-            if(pu!=null){
+            temp = Controller.getInstance().pretraziPolicijskaUpravaUsername(pu);
+            if(temp != null) {
                 response.setData(true);
+                response.setStatus(ResponseStatus.ERROR);
+            } else {
+                response.setData(false);
+                response.setStatus(ResponseStatus.SUCCESS);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
+       
+    public Response findPolicijskaUpravaAdresa(Request request){
+        Response response = null;
+        PolicijskaUprava pu=(PolicijskaUprava)request.getData();
+        PolicijskaUprava temp = null;
+        
+        try {
+            response = new Response();
+            temp = Controller.getInstance().pretraziPolicijskaUpravaAdresa(pu);
+            if(temp == null){
+                response.setData(false);
                 response.setStatus(ResponseStatus.SUCCESS);
             }else{
-                response.setData(false);
+                response.setData(true);
                 response.setStatus(ResponseStatus.ERROR);
             }
         } catch(Exception ex) {
@@ -251,48 +289,30 @@ public class ClientThread extends Thread {
         return response;
     }
        
-         public Response findPolicijskaUpravaAdresa(Request request){
-        Response response = null;
-        PolicijskaUprava pu=(PolicijskaUprava)request.getData();
-        try {
-            response = new Response();
-            pu = Controller.getInstance().pretraziPolicijskaUpravaAdresa(pu);
-            if(pu!=null){
-                response.setData(true);
-                response.setStatus(ResponseStatus.SUCCESS);
-            }else{
-                response.setData(false);
-                response.setStatus(ResponseStatus.ERROR);
-            }
-        } catch(Exception ex) {
-            ex.printStackTrace();
-            response.setErrormessage(ex.getLocalizedMessage());
-        }
-        return response;
-    }
        
-       
-        public Response findPolicijskaUpravaPostoji(Request request){
+    public Response findPolicijskaUpravaPostoji(Request request){
         Response response = null;
-        PolicijskaUprava pu=(PolicijskaUprava)request.getData();
+        PolicijskaUprava pu = (PolicijskaUprava)request.getData();
+
         try {
             response = new Response();
             pu = Controller.getInstance().pretraziPolicijskUpravaDaLiPostoji(pu);
-            if(pu!=null){
+            if(pu != null) {
                 response.setData(true);
-                response.setStatus(ResponseStatus.SUCCESS);
-            }else{
-                response.setData(false);
                 response.setStatus(ResponseStatus.ERROR);
+            } else {
+                response.setData(false);
+                response.setStatus(ResponseStatus.SUCCESS);
             }
         } catch(Exception ex) {
             ex.printStackTrace();
             response.setErrormessage(ex.getLocalizedMessage());
         }
+
         return response;
     }
       
-       public Response findListPolicijskaUprava(Request request){
+    public Response findListPolicijskaUprava(Request request){
         Response response = null;
         PolicijskaUprava pu=(PolicijskaUprava)request.getData();
         try {
@@ -516,53 +536,54 @@ public class ClientThread extends Thread {
         return response;
     }
       
-       public Response findListuVozilo (Request request){
-        Response response = null;
-        Vozilo vo=(Vozilo)request.getData();
-        try {
-            response = new Response();
-            List<Vozilo> vozila = Controller.getInstance().vratiListuVozilo(vo);
-            response.setData(vozila);
-            response.setStatus(ResponseStatus.SUCCESS);
-        } catch(Exception ex) {
-            ex.printStackTrace();
-            response.setErrormessage(ex.getLocalizedMessage());
+        public Response findListuVozilo (Request request){
+            Response response = null;
+            Vozilo vo=(Vozilo)request.getData();
+            try {
+                response = new Response();
+                List<Vozilo> vozila = Controller.getInstance().vratiListuVozilo(vo);
+                response.setData(vozila);
+                response.setStatus(ResponseStatus.SUCCESS);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+                response.setErrormessage(ex.getLocalizedMessage());
+            }
+            return response;
         }
-        return response;
-    }
        
-         public Response findListuVoziloVlasnik (Request request){
-        Response response = null;
-        Vlasnik vlasnik=(Vlasnik)request.getData();
-        try {
-            response = new Response();
-            List<Vozilo> vozila = Controller.getInstance().vratiListuVozilo(vlasnik);
-            response.setData(vozila);
-            response.setStatus(ResponseStatus.SUCCESS);
-        } catch(Exception ex) {
-            ex.printStackTrace();
-            response.setErrormessage(ex.getLocalizedMessage());
+        public Response findListuVoziloVlasnik (Request request){
+            Response response = null;
+            Vlasnik vlasnik=(Vlasnik)request.getData();
+            
+            try {
+                response = new Response();
+                List<Vozilo> vozila = Controller.getInstance().vratiListuVozilo(vlasnik);
+                response.setData(vozila);
+                response.setStatus(ResponseStatus.SUCCESS);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+                response.setErrormessage(ex.getLocalizedMessage());
+            }
+            return response;
         }
-        return response;
-    }
      
      
      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
      
      
-      public Response getAllVlasnik(Request request){
-        Response response = null;
-        try {
-            response = new Response();
-            List<Vlasnik> vlasnici = Controller.getInstance().vratiListuSviVlasnik();
-            response.setData(vlasnici);
-            response.setStatus(ResponseStatus.SUCCESS);
-        } catch(Exception ex) {
-            ex.printStackTrace();
-            response.setErrormessage(ex.getLocalizedMessage());
+        public Response getAllVlasnik(Request request){
+            Response response = null;
+            try {
+                response = new Response();
+                List<Vlasnik> vlasnici = Controller.getInstance().vratiListuSviVlasnik();
+                response.setData(vlasnici);
+                response.setStatus(ResponseStatus.SUCCESS);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+                response.setErrormessage(ex.getLocalizedMessage());
+            }
+            return response;
         }
-        return response;
-    }
       
       
       public Response addVlasnik(Request request){
@@ -735,43 +756,109 @@ public class ClientThread extends Thread {
     }
         
         
-        public Response finRaskrsnicaDaLiPostoji(Request request){
-            Response response = null;
-            Raskrsnica r=(Raskrsnica)request.getData();
-            try {
-                response = new Response();
-                Raskrsnica ras = Controller.getInstance().daLiPostojiRaskrsnica(r);
-                if(ras!=null){
-                    response.setData(true);
-                    response.setStatus(ResponseStatus.SUCCESS);
-                }else{
-                    response.setData(false);
-                    response.setStatus(ResponseStatus.ERROR);
-                }
-            } catch(Exception ex) {
-                ex.printStackTrace();
-                response.setErrormessage(ex.getLocalizedMessage());
-            }
-            return response;
-        }
-        
-        ///////////////////////////////////////////////////////////////////////////////////
-        
-        
-        public Response addEvidencijaKazni(Request request){
-            Response response = null;
-            EvidencijaKazni ek=(EvidencijaKazni)request.getData();
-            try {
-                response = new Response();
-                long id = Controller.getInstance().kreirajEvidencijaKazni(ek);
-                response.setData(id);
+    public Response finRaskrsnicaDaLiPostoji(Request request){
+        Response response = null;
+        Raskrsnica r=(Raskrsnica)request.getData();
+        try {
+            response = new Response();
+            Raskrsnica ras = Controller.getInstance().daLiPostojiRaskrsnica(r);
+            System.out.println(ras);
+
+            if(ras==null){
+                response.setData(false);
                 response.setStatus(ResponseStatus.SUCCESS);
-            } catch(Exception ex) {
-                ex.printStackTrace();
-                response.setErrormessage(ex.getLocalizedMessage());
+            }else{
+                response.setData(true);
+                response.setStatus(ResponseStatus.ERROR);
             }
-            return response;
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
         }
+        return response;
+    }
+        
+    ///////////////////////////////////////////////////////////////////////////////////
+        
+        
+    public Response addEvidencijaKazni(Request request){
+        Response response = null;
+        EvidencijaKazni ek=(EvidencijaKazni)request.getData();
+        try {
+            response = new Response();
+            long id = Controller.getInstance().kreirajEvidencijaKazni(ek);
+            response.setData(id);
+            response.setStatus(ResponseStatus.SUCCESS);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
+
+    private Response vratiListuEvidencijaEvidencija(Request request) {
+        Response response = null;
+        EvidencijaKazni ek=(EvidencijaKazni)request.getData();
+        ArrayList<EvidencijaKazni> evidencije = null;
+        try {
+            response = new Response();
+            evidencije = Controller.getInstance().vratiListuEvidencijaEvidencija(ek);
+            response.setData(evidencije);
+            response.setStatus(ResponseStatus.SUCCESS);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
+
+    private Response vratiListuEvidencijaKazna(Request request) {
+        Response response = null;
+        Kazna k = (Kazna)request.getData();
+        ArrayList<EvidencijaKazni> evidencije = null;
+        try {
+            response = new Response();
+            evidencije = Controller.getInstance().vratiListuEvidencijaKazna(k);
+            response.setData(evidencije);
+            response.setStatus(ResponseStatus.SUCCESS);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
+
+    private Response vratiListuEvidencijaPolicijskaUprava(Request request) {
+        Response response = null;
+        PolicijskaUprava pu = (PolicijskaUprava)request.getData();
+        ArrayList<EvidencijaKazni> evidencije = null;
+        try {
+            response = new Response();
+            evidencije = Controller.getInstance().vratiListuEvidencijaPolicijskaUprava(pu);
+            response.setData(evidencije);
+            response.setStatus(ResponseStatus.SUCCESS);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
+
+    private Response vratiListuEvidencijaVozilo(Request request) {
+        Response response = null;
+        Vozilo v = (Vozilo)request.getData();
+        ArrayList<EvidencijaKazni> evidencije = null;
+        try {
+            response = new Response();
+            evidencije = Controller.getInstance().vratiListuEvidencijaVozilo(v);
+            response.setData(evidencije);
+            response.setStatus(ResponseStatus.SUCCESS);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
         
         
         
