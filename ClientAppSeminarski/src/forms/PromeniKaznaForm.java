@@ -23,7 +23,11 @@ public class PromeniKaznaForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setTitle("Promeni kaznu");
         
-        tblVlasnici.setModel(new KaznaTableModel());
+        try {
+            tblVlasnici.setModel(new KaznaTableModel());
+        } catch(Exception exc) {
+            exc.printStackTrace();
+        }
         
         btnKazna.addActionListener(e -> {
             int selectedRow = tblVlasnici.getSelectedRow();

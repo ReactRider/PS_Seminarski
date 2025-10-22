@@ -6,6 +6,7 @@ package domain;
 
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -181,7 +182,7 @@ public class StavkaEvidencije implements OpstaDomenskaKlasa {
 
     @Override
     public String getJoinCondition() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "stavka_evidencije se JOIN evidencija_kazni ek ON se.idEvidencije = ek.idEvidencija JOIN vozilo v ON ek.id_vozilo = v.id JOIN raskrsnica r ON se.idRaskrsnice = r.id JOIN kazna k ON se.idKazne = k.id";
     }
 
     @Override
@@ -201,7 +202,9 @@ public class StavkaEvidencije implements OpstaDomenskaKlasa {
 
     @Override
     public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(t2 instanceof EvidencijaKazni && s.equals("lista")) {
+           return "se.idEvidencije = " + ((EvidencijaKazni)t2).getId_evidencija();
+        } else return "";
     }
 
     @Override
@@ -211,7 +214,39 @@ public class StavkaEvidencije implements OpstaDomenskaKlasa {
 
     @Override
     public List<OpstaDomenskaKlasa> getList(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<OpstaDomenskaKlasa> list=new ArrayList<>();
+        while(rs.next()){
+            EvidencijaKazni evid = new EvidencijaKazni();
+            long idEvid = rs.getLong("ek.idEvidencija");
+            evid.setId_evidencija(idEvid);
+            
+            Vozilo v = new Vozilo();
+            Long idVozilo = rs.getLong("v.id");
+            String reg_oznaka = rs.getString("v.reg_oznaka");
+            v.setId_vozilo(idVozilo);
+            v.setReg_oznaka(reg_oznaka);
+            
+            evid.setVozilo(v);
+            
+            Kazna k = new Kazna();
+            String nazivKazne = rs.getString("k.naziv");
+            k.setNaziv(nazivKazne);
+            
+            Raskrsnica r = new Raskrsnica();
+            String nazivRask = rs.getString("r.naziv");
+            r.setNaziv(nazivRask);
+            
+            LocalDateTime datumPrekrsaja = rs.getTimestamp("se.datumPrekrsaja").toLocalDateTime();
+
+            StavkaEvidencije stavka = new StavkaEvidencije();
+            stavka.setEvidencija(evid);
+            stavka.setKazna(k);
+            stavka.setRaskrsnica(r);
+            stavka.setDatumPrekrsaja(datumPrekrsaja);
+            System.out.println(stavka);
+            list.add(stavka);
+        }
+        return list;
     }
     
 }

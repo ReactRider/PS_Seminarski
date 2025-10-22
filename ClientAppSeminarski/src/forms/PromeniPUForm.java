@@ -26,7 +26,11 @@ public class PromeniPUForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setTitle("Promeni Policijsku Upravu");
         
-        tblPU.setModel(new PUTableModel());
+        try {
+            tblPU.setModel(new PUTableModel());
+        } catch(Exception exc) {
+            exc.printStackTrace();
+        }
         
         btnPromeni.addActionListener( e -> {
             int selectedRow = tblPU.getSelectedRow();

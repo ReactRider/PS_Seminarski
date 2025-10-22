@@ -22,7 +22,11 @@ public class PromeniVlasnikForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setTitle("Promeni vlasnika");
         
-        tblVlasnici.setModel(new VlasnikTableModel());
+        try {
+            tblVlasnici.setModel(new VlasnikTableModel());
+        } catch(Exception exc) {
+            exc.printStackTrace();
+        }
         
         btnPromeni.addActionListener(e -> {
             int selectedRow = tblVlasnici.getSelectedRow();

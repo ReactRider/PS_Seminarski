@@ -5,7 +5,7 @@
 package forms;
 import controller.Controller;
 import domain.*;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,32 +18,104 @@ import table_models.StavkeEvidencijeTableModel;
  * @author Stefan
  */
 public class KreirajEvidencijaForm extends javax.swing.JDialog {
-
-    /**
-     * Creates new form KreirajEvidencijaForm
-     */
+    private EvidencijaKazni poslataEvidencija = null;
     
     public KreirajEvidencijaForm(java.awt.Frame parent, boolean modal, EvidencijaKazni evidencija, String kriterijum, String filter) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         
-        //prepareForUpdate(evidencija, kriterijum, filter);
+        prepareGeneral();
+        prepareForUpdate(evidencija, kriterijum, filter);
+        
+        poslataEvidencija = evidencija;
+        
+        List<StavkaEvidencije> noveStavke = new ArrayList<StavkaEvidencije>();
+
+        btnDodajStavku.addActionListener( e -> {
+            StavkaEvidencije stavkaEvidencije = new StavkaEvidencije();
+
+            Kazna kazna = (Kazna)comboKazna.getSelectedItem();
+            Raskrsnica raskrsnica = (Raskrsnica)comboRaskrsnica.getSelectedItem();
+            String unos = txtDatumPrekrsaja.getText().trim();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime datumPrekrsaja = null;
+            
+            try {
+                datumPrekrsaja = LocalDateTime.parse(unos, formatter);
+                LocalDateTime now = LocalDateTime.now();
+                if(datumPrekrsaja.isAfter(now)) {
+                    JOptionPane.showMessageDialog(this, "Greska. Unet je buduci datum.", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } catch (DateTimeParseException ex) {
+                JOptionPane.showMessageDialog(this, "Uneti datum prekrsaja nije ispravan.", "Pogresan format datuma", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            stavkaEvidencije.setDatumPrekrsaja(datumPrekrsaja);
+            stavkaEvidencije.setEvidencija(evidencija);
+            stavkaEvidencije.setKazna(kazna);
+            stavkaEvidencije.setKategorija_kazne(kazna.getKategorija());
+            stavkaEvidencije.setRaskrsnica(raskrsnica);
+            
+            noveStavke.add(stavkaEvidencije);
+            
+            try {
+                List<StavkaEvidencije> postojeceStavke = evidencija.getStavke_ev();
+                List<StavkaEvidencije> sveStavke = new ArrayList<>(postojeceStavke);
+                sveStavke.addAll(noveStavke);
+                
+                tblStavkeEvidencije.setModel(new StavkeEvidencijeTableModel(sveStavke));
+                comboRaskrsnica.setSelectedItem(null);
+                comboKazna.setSelectedItem(null);
+                txtDatumPrekrsaja.setText("");
+            } catch(Exception exc) {
+                exc.printStackTrace();
+            }
+        }); 
+        
+        btnPromeniEvidenciju.addActionListener( t -> {
+            if(noveStavke.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Unesite barem jednu novu stavku u evidenciju", "Informacija", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            
+            if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni", "Poruka", JOptionPane.YES_NO_OPTION) != 0)
+                return;
+            
+            try {
+                evidencija.setStavke_ev(noveStavke);
+                
+                if(Controller.getInstance().updateEvidencijaKazni(evidencija)) {
+                    JOptionPane.showMessageDialog(this, "Evidencija azurirana.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Evidencija nije azurirana.", "Greska", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch(Exception exc) {
+                exc.printStackTrace();
+            }
+            
+             
+            
+        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
     
-    
-    private EvidencijaKazni evidencija = new EvidencijaKazni();
-    private ArrayList<StavkaEvidencije> listaStavki = new ArrayList<StavkaEvidencije>();
-    private long brKazniI, brKazniII, brKazniIII = 0l;
-    
-    public KreirajEvidencijaForm(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-        setLocationRelativeTo(null);
-        setTitle("Kreiraj Evidenciju Kazni");
-        prepareGeneral();
-        prepareForInsert();
-        
+    private void prepareForUpdate(EvidencijaKazni e, String krit, String filter) {
+        this.add(lblTitle);
         this.add(lblPU);
         this.add(comboUprave);
         this.add(lblVozilo);
@@ -59,6 +131,55 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         this.add(lblPonder);
         this.add(lblSliderValue);
         this.add(sliderPonder);
+        
+        btnKreirajEvidenciju.setEnabled(false);
+        
+        sliderPonder.setValue((int)e.getBazni_ponder());
+        lblSliderValue.setText("" + e.getBazni_ponder());
+        sliderPonder.setEnabled(false);
+        
+        lblTitle.setText("Promena Evidencije Kazni");
+        
+        btnNovoVozilo.setEnabled(false);
+        btnVoziloPretraga.setEnabled(false);
+        
+        ucitajUprave();
+        comboUprave.setSelectedItem(e.getPu());
+        comboUprave.setEnabled(false);
+        
+        txtRegOznaka.setText(e.getVozilo().getReg_oznaka());
+        txtRegOznaka.setEditable(false);
+        
+        ucitajRaskrsniceGrada(e.getPu().getGrad());
+        comboRaskrsnica.setSelectedItem(null);
+        
+        ucitajKazne();
+        comboKazna.setSelectedItem(null);
+        
+        
+        lblSliderValue.setText(String.valueOf(e.getBazni_ponder()));
+        sliderPonder.setValue((int)e.getBazni_ponder());
+        
+        this.add(jScrollPane1);
+        try {
+            List<StavkaEvidencije> stavke = e.getStavke_ev();
+            tblStavkeEvidencije.setModel(new StavkeEvidencijeTableModel(e.getStavke_ev()));
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private EvidencijaKazni evidencija = new EvidencijaKazni();
+    private List<StavkaEvidencije> listaStavki = new ArrayList<StavkaEvidencije>();
+    private long brKazniI, brKazniII, brKazniIII = 0l;
+    
+    public KreirajEvidencijaForm(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        setLocationRelativeTo(null);
+        setTitle("Kreiraj Evidenciju Kazni");
+        prepareGeneral();
+        prepareForInsert();
                 
         comboUprave.addActionListener( e -> {
            evidencija.setPu((PolicijskaUprava)comboUprave.getSelectedItem());
@@ -75,10 +196,8 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
                    if(v != null) {
                        JOptionPane.showMessageDialog(this, "Vozilo pronadjeno: " + v.getMarka() + " " + v.getModel() + ", " + v.getReg_oznaka().toUpperCase());
                        evidencija.setVozilo(v);
-                   } else {
+                   } else 
                        JOptionPane.showMessageDialog(this, "Vozilo sa unetom registracionom oznakom  ne postoji! Mozete uneti vozilo na dugme 'Novo vozilo'!","Poruka",JOptionPane.INFORMATION_MESSAGE);
-                   }
-                   
                } catch(Exception ex) {
                    ex.printStackTrace();
                }
@@ -102,22 +221,40 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         
         btnDodajStavku.addActionListener( e -> {
             StavkaEvidencije stavkaEvidencije = new StavkaEvidencije();
-
+            boolean flag = false;
+            try {
+                flag = Controller.getInstance().daLiPostojiEvidencija(evidencija);
+                 
+            } catch(Exception exc) {
+                exc.printStackTrace();
+            }
+            if(flag) {
+               JOptionPane.showMessageDialog(this, "Evidencija za dato vozilo i policijsku upravu vec postoji.", "Greska", JOptionPane.ERROR_MESSAGE);
+               return;
+            }
+                
             Kazna kazna = (Kazna)comboKazna.getSelectedItem();
             Raskrsnica raskrsnica = (Raskrsnica)comboRaskrsnica.getSelectedItem();
             
             String unos = txtDatumPrekrsaja.getText().trim();
+            
+            if(evidencija.getPu() == null || evidencija.getVozilo() == null || raskrsnica == null || kazna == null){
+                JOptionPane.showMessageDialog(this, "Nisu uneti svi podaci.", "Greska", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime datumPrekrsaja = null;
             try {
                 datumPrekrsaja = LocalDateTime.parse(unos, formatter);
-                LocalDateTime now = LocalDateTime.now();
-                if( datumPrekrsaja.isAfter(now)) {
-                    JOptionPane.showMessageDialog(this, "Unesite datum iz proslosti.", "Greska", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
             } catch (DateTimeParseException ex) {
                 JOptionPane.showMessageDialog(this, "Uneti datum prekrsaja nije ispravan.", "Pogresan format datuma", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            LocalDateTime now = LocalDateTime.now();
+            if(datumPrekrsaja.isAfter(now)) {
+                JOptionPane.showMessageDialog(this, "Unesite datum iz proslosti.", "Greska", JOptionPane.ERROR_MESSAGE);
+                return;
             }
             
             stavkaEvidencije.setDatumPrekrsaja(datumPrekrsaja);
@@ -140,6 +277,13 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
             
             listaStavki.add(stavkaEvidencije);
             
+            evidencija.setStavke_ev(listaStavki);
+            evidencija.setBr_kazni_I(brKazniI);
+            evidencija.setBr_kazni_II(brKazniII);
+            evidencija.setBr_kazni_III(brKazniIII);
+            evidencija.setBazni_ponder(sliderPonder.getValue());
+            evidencija.setIznos_total();
+            
             comboUprave.setEnabled(false);
             txtRegOznaka.setEditable(false);
             btnVoziloPretraga.setEnabled(false);
@@ -150,7 +294,9 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
             sliderPonder.setEnabled(false);
             
             this.add(jScrollPane1);
-            tblStavkeEvidencije.setModel(new StavkeEvidencijeTableModel(listaStavki));
+            tblStavkeEvidencije.setModel(new StavkeEvidencijeTableModel(evidencija.getStavke_ev()));
+            if(tblStavkeEvidencije.getModel().getRowCount() != 0)
+                btnKreirajEvidenciju.setEnabled(true);
         });
         
         btnKreirajEvidenciju.addActionListener(e -> {
@@ -172,17 +318,16 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
                 
                 if(evidencija_id != 0l) {
                     JOptionPane.showMessageDialog(this, "Evidencija Kazni je uspesno kreirana.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
+                    this.setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(this, "Nastala je greska.", "Greska", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-        
-      
     }
     
     private void prepareGeneral() {
+        this.remove(lblTitle);
         this.remove(lblPU);
         this.remove(comboUprave);
         this.remove(lblVozilo);
@@ -194,19 +339,37 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         this.remove(lblKazna);
         this.remove(comboKazna);
         this.remove(lblDatum);
+        this.remove(txtDatumPrekrsaja);
         this.remove(lblPonder);
         this.remove(lblSliderValue);
         this.remove(sliderPonder);
         this.remove(jScrollPane1);
-        this.remove(btnPromeniEvidenciju);
     }
     
-    
     private void prepareForInsert() {
+        this.add(lblTitle);
+        this.add(lblPU);
+        this.add(comboUprave);
+        this.add(lblVozilo);
+        this.add(txtRegOznaka);
+        this.add(btnVoziloPretraga);
+        this.add(btnNovoVozilo);
+        this.add(lblRaskrsnica);
+        this.add(comboRaskrsnica);
+        this.add(lblKazna);
+        this.add(comboKazna);
+        this.add(lblDatum);
+        this.add(txtDatumPrekrsaja);
+        this.add(lblPonder);
+        this.add(lblSliderValue);
+        this.add(sliderPonder);
+        
+        btnKreirajEvidenciju.setEnabled(false);
+        btnPromeniEvidenciju.setEnabled(false);
+        
         ucitajUprave();
         ucitajKazne();
     }
-    
     
     private void ucitajUprave() {
         ArrayList<PolicijskaUprava> uprave = new ArrayList<PolicijskaUprava>();
@@ -283,7 +446,7 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         lblRaskrsnica.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblRaskrsnica.setText("Raskrsnica:");
 
-        btnKreirajEvidenciju.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnKreirajEvidenciju.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnKreirajEvidenciju.setText("Kreiraj Evidenciju");
 
         lblKazna.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -307,7 +470,7 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         lblSliderValue.setForeground(new java.awt.Color(255, 0, 51));
         lblSliderValue.setText("1");
 
-        btnPromeniEvidenciju.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnPromeniEvidenciju.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnPromeniEvidenciju.setText("Promeni Evidenciju");
 
         comboRaskrsnica.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -348,6 +511,7 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
 
         jScrollPane1.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
 
+        tblStavkeEvidencije.setFont(new java.awt.Font("Helvetica Neue", 0, 15)); // NOI18N
         tblStavkeEvidencije.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -361,7 +525,7 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(tblStavkeEvidencije);
 
-        btnDodajStavku.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        btnDodajStavku.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         btnDodajStavku.setText("Dodaj Stavku");
 
         lblDatum.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
@@ -371,101 +535,104 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTitle)
-                .addGap(428, 428, 428))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDodajStavku, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(131, 131, 131)
-                .addComponent(btnKreirajEvidenciju)
-                .addGap(56, 56, 56)
-                .addComponent(btnPromeniEvidenciju)
-                .addGap(181, 181, 181))
             .addGroup(layout.createSequentialGroup()
-                .addGap(148, 148, 148)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblPU)
-                    .addComponent(lblRaskrsnica)
-                    .addComponent(lblKazna)
-                    .addComponent(lblVozilo)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblPonder)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblSliderValue))
-                    .addComponent(lblDatum))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(comboUprave, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboKazna, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtDatumPrekrsaja)
-                            .addComponent(sliderPonder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(216, 216, 216)
+                        .addComponent(btnDodajStavku, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(112, 112, 112)
+                        .addComponent(btnKreirajEvidenciju)
+                        .addGap(99, 99, 99)
+                        .addComponent(btnPromeniEvidenciju))
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblVozilo)
                         .addGap(90, 90, 90)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboRaskrsnica, javax.swing.GroupLayout.Alignment.TRAILING, 0, 663, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtRegOznaka, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnVoziloPretraga)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnNovoVozilo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(58, 58, 58))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1049, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtRegOznaka, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnVoziloPretraga)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnNovoVozilo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblRaskrsnica)
+                            .addComponent(lblKazna)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblPonder)
+                                .addGap(59, 59, 59)
+                                .addComponent(lblSliderValue))
+                            .addComponent(lblDatum))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(88, 88, 88)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(comboKazna, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtDatumPrekrsaja)
+                                    .addComponent(sliderPonder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(comboRaskrsnica, 0, 801, Short.MAX_VALUE)))
+                        .addGap(62, 62, 62))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPU)
+                        .addGap(127, 127, 127)
+                        .addComponent(comboUprave, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(58, 58, 58))
+                    .addComponent(jScrollPane1)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(318, 318, 318))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblTitle)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPU)
-                    .addComponent(comboUprave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblVozilo)
-                    .addComponent(txtRegOznaka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVoziloPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNovoVozilo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboRaskrsnica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblRaskrsnica))
-                .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblKazna)
-                    .addComponent(comboKazna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDatum)
-                    .addComponent(txtDatumPrekrsaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPU)
+                            .addComponent(comboUprave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblVozilo)
+                            .addComponent(txtRegOznaka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnVoziloPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnNovoVozilo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboRaskrsnica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblRaskrsnica))
+                        .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblPonder)
-                                .addGap(5, 5, 5))
-                            .addComponent(lblSliderValue))
-                        .addGap(50, 50, 50))
+                            .addComponent(lblKazna)
+                            .addComponent(comboKazna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtDatumPrekrsaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDatum))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 65, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblPonder, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblSliderValue))
+                            .addComponent(sliderPonder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(113, 113, 113))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(sliderPonder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnKreirajEvidenciju)
-                    .addComponent(btnPromeniEvidenciju)
-                    .addComponent(btnDodajStavku, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnDodajStavku, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnKreirajEvidenciju)
+                            .addComponent(btnPromeniEvidenciju))
+                        .addGap(18, 18, 18))))
         );
 
         pack();
@@ -604,9 +771,6 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         if(!lettersOnly || !lettersOnly2 || !digitsOnly)
            return false;
         /////////////////////////////////////////////////
-        
-        
-        
         
         return true;
     }

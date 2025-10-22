@@ -26,141 +26,29 @@ public class KreirajPUForm extends javax.swing.JDialog {
         
         btnPromeni.addActionListener( e -> {
             try{
-                String username = txtUsername.getText();
+                String new_username = txtUsername.getText();
                 char[] pass_chars = txtPassword.getPassword();
-                String password = "";
+                String new_password = "";
                 for(char c : pass_chars) 
-                    password += c;
-                String grad = (String)comboGrad.getSelectedItem();
-                String opstina = (String)comboOpstina.getSelectedItem();
-                String adresa = txtAdresa.getText();
-                String policajac = txtPolicajac.getText();
+                    new_password += c;
+                String new_grad = (String)comboGrad.getSelectedItem();
+                String new_opstina = (String)comboOpstina.getSelectedItem();
+                String new_adresa = txtAdresa.getText();
+                String new_policajac = txtPolicajac.getText();
                 
-                
-                    
-                
-                
-                
-                /*
-                // Ako se nista ne promeni
-                if(username.equals(pu.getUsername()) && password.equals(pu.getPassword()) && adresa.equals(pu.getAdresa()) && policajac.equals(pu.getPolicajac()) ) {
-                    JOptionPane.showMessageDialog(this, "Unesite nove izmenjene podatke", "Poruka", JOptionPane.INFORMATION_MESSAGE);
+                if(new_username.equals("") || new_password.equals("") || new_password.length() < 8 || new_adresa.equals("") || new_policajac.equals("")) {
+                    JOptionPane.showMessageDialog(this, "Nisu uneti ispravni podaci.", "Greska", JOptionPane.ERROR_MESSAGE);
                     return;
-                }  
-                // Ako se promeni samo username
-                if(!username.equals(pu.getUsername()) && adresa.equals(pu.getAdresa())) {
-                    PolicijskaUprava polUp=new PolicijskaUprava(username);
-                    if(!Controller.getInstance().pretraziPolicijskaUpravaUsername(polUp)) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
-                            JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                            this.setVisible(false);
-                            new PromeniPUForm(null, true).setVisible(true);
-                        } else
-                            JOptionPane.showMessageDialog(this, "Greska pri promeni policijske uprave!", "Greska", JOptionPane.ERROR_MESSAGE);
-
-                    } else
-                        JOptionPane.showMessageDialog(this, "Policijska uprava sa datim nazivom vec postoji!", "Greska", JOptionPane.ERROR_MESSAGE);
-                } 
-
-                // Ako se promeni samo adresa
-                if(username.equals(pu.getUsername()) && !adresa.equals(pu.getAdresa()) ) {
-                    PolicijskaUprava p3=new PolicijskaUprava();
-                    p3.setAdresa(adresa);
-                    p3.setGrad(grad);
-                    if(!Controller.getInstance().pretraziPolicijskaUpravaAdresa(p3)) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
-                            JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                            this.setVisible(false);
-                            new PromeniPUForm(null, true).setVisible(true);
-                        } else
-                            JOptionPane.showMessageDialog(this, "Greska pri promeni policijske uprave!", "Greska", JOptionPane.ERROR_MESSAGE);
-
-                    } else
-                        JOptionPane.showMessageDialog(this, "Policijska uprava sa datom adresom vec postoji u istom gradu!", "Greska", JOptionPane.ERROR_MESSAGE);
-                } 
-
-                //Ako se promeni samo lozinka
-                if(username.equals(pu.getUsername()) && adresa.equals(pu.getAdresa()) && !password.equals(pu.getPassword()) ) {
-                    if(password.length() >= 8) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
-                            JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                            this.setVisible(false);
-                            new PromeniPUForm(null, true).setVisible(true);
-                        } else
-                            JOptionPane.showMessageDialog(this, "Greska pri promeni policijske uprave!", "Greska", JOptionPane.ERROR_MESSAGE);
-
-                    } else
-                        JOptionPane.showMessageDialog(this, "Lozinka mora biti minimum duzine 8 karaktera!", "Greska", JOptionPane.ERROR_MESSAGE);
                 }
-
-                // Ako se promene username i adresa, a ne lozinka
-                if(!username.equals(pu.getUsername()) && !adresa.equals(pu.getAdresa()) && password.equals(pu.getPassword()) ) {
-                    PolicijskaUprava policijska_uprava=new PolicijskaUprava();
-                    policijska_uprava.setUsername(username);
-                    policijska_uprava.setAdresa(adresa);
-                    policijska_uprava.setGrad(grad);
-                    if(Controller.getInstance().pretraziPolicijskaUpravaUsername(policijska_uprava) && Controller.getInstance().pretraziPolicijskaUpravaAdresa(policijska_uprava)) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
-                            JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                            this.setVisible(false);
-                            new PromeniPUForm(null, true).setVisible(true);
-                        } else
-                            JOptionPane.showMessageDialog(this, "Greska pri promeni policijske uprave!", "Greska", JOptionPane.ERROR_MESSAGE);
-
-                    } else
-                        JOptionPane.showMessageDialog(this, "Policijska uprava sa unetim nazivom ili adresom vec postoji!", "Greska", JOptionPane.ERROR_MESSAGE);
-                }
-
-                // Ako se promene username i lozinka, a ne adresa
-                if(!username.equals(pu.getUsername()) && adresa.equals(pu.getAdresa()) && !password.equals(pu.getPassword()) ) {
-                    PolicijskaUprava policijska_up=new PolicijskaUprava(username);
-                    if(Controller.getInstance().pretraziPolicijskaUpravaUsername(policijska_up) && password.length() >= 8) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
-                            JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                            this.setVisible(false);
-                            new PromeniPUForm(null, true).setVisible(true);
-                        } else
-                            JOptionPane.showMessageDialog(this, "Greska pri promeni policijske uprave!", "Greska", JOptionPane.ERROR_MESSAGE);
-
-                    } else
-                        JOptionPane.showMessageDialog(this, "Policijska uprava sa unetim nazivom vec postoji ili prekratka lozinka!", "Greska", JOptionPane.ERROR_MESSAGE);
-                }
-
-
-                // Ako se promene password i adresa, a ne username
-                if(username.equals(pu.getUsername()) && !adresa.equals(pu.getAdresa()) && !password.equals(pu.getPassword()) ) {
-                    PolicijskaUprava p4=new PolicijskaUprava();
-                    p4.setAdresa(adresa);
-                    p4.setGrad(grad);
-                    if(Controller.getInstance().pretraziPolicijskaUpravaAdresa(p4) && password.length() >= 8) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
-                            JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                            this.setVisible(false);
-                            new PromeniPUForm(null, true).setVisible(true);
-                        } else
-                            JOptionPane.showMessageDialog(this, "Greska pri promeni policijske uprave!", "Greska", JOptionPane.ERROR_MESSAGE);
-
-                    } else
-                        JOptionPane.showMessageDialog(this, "Policijska uprava sa unetom adresom u istom gradu vec postoji ili prekratka lozinka!", "Greska", JOptionPane.ERROR_MESSAGE);
-                }
-
-                //Ako se promene username, adresa i password
-                if(!username.equals(pu.getUsername()) && !adresa.equals(pu.getAdresa()) && !password.equals(pu.getPassword()) ) {
-                    PolicijskaUprava p2=new PolicijskaUprava(username);
-                    p2.setAdresa(adresa);
-                    p2.setGrad(grad);
-                    if(Controller.getInstance().pretraziPolicijskaUpravaUsername(p2) && Controller.getInstance().pretraziPolicijskaUpravaAdresa(p2) && password.length() >= 8) {
-                        if(Controller.getInstance().promeniPolicijskaUprava(new PolicijskaUprava(Long.parseLong(txtID.getText()), username, password, grad, opstina, adresa,policajac))) {
-                            JOptionPane.showMessageDialog(this, "Policijska uprava promenjena!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                            this.setVisible(false);
-                            new PromeniPUForm(null, true).setVisible(true);
-                        } else
-                            JOptionPane.showMessageDialog(this, "Greska pri promeni policijske uprave!", "Greska", JOptionPane.ERROR_MESSAGE);
-
-                    } else
-                        JOptionPane.showMessageDialog(this, "Policijska uprava sa unetim nazivom ili adresom vec postoji ili prekratka lozinka!", "Greska", JOptionPane.ERROR_MESSAGE);
-                }
-            */
+                
+                PolicijskaUprava pol_upr = new PolicijskaUprava(Long.parseLong(txtID.getText()), new_username, new_password, new_grad, new_opstina, new_adresa, new_policajac);
+                
+                if(Controller.getInstance().updatePolicijskaUprava(pol_upr)) {
+                    JOptionPane.showMessageDialog(this, "Policijska uprava je azurirana.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } else
+                    JOptionPane.showMessageDialog(this, "Policijska uprava nije azurirana.", "Greska", JOptionPane.ERROR_MESSAGE);
+                
             }catch(Exception greska){
                 JOptionPane.showMessageDialog(this, "Negde je nastala greska","Greska",JOptionPane.ERROR_MESSAGE);
             }
@@ -276,7 +164,6 @@ public class KreirajPUForm extends javax.swing.JDialog {
         }
         
         private void ucitajOpstine(String grad) {
-            
             if(grad == null) return;
             
             comboOpstina.removeAllItems();
@@ -324,7 +211,6 @@ public class KreirajPUForm extends javax.swing.JDialog {
         btnKreiraj = new javax.swing.JButton();
         txtPassword = new javax.swing.JPasswordField();
         comboGrad = new javax.swing.JComboBox<>();
-        comboOpstina = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         txtAdresa = new javax.swing.JTextField();
         btnPromeni = new javax.swing.JButton();
@@ -332,6 +218,7 @@ public class KreirajPUForm extends javax.swing.JDialog {
         txtID = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtPolicajac = new javax.swing.JTextField();
+        comboOpstina = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -359,8 +246,6 @@ public class KreirajPUForm extends javax.swing.JDialog {
 
         comboGrad.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
 
-        comboOpstina.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel6.setText("Adresa PU");
 
@@ -378,6 +263,8 @@ public class KreirajPUForm extends javax.swing.JDialog {
         jLabel7.setText("Policijski Sluzbenik");
 
         txtPolicajac.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+
+        comboOpstina.setFont(new java.awt.Font("Helvetica Neue", 0, 15)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -408,10 +295,10 @@ public class KreirajPUForm extends javax.swing.JDialog {
                     .addComponent(txtUsername)
                     .addComponent(txtPassword)
                     .addComponent(comboGrad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboOpstina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtAdresa)
                     .addComponent(txtID, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
-                    .addComponent(txtPolicajac))
+                    .addComponent(txtPolicajac)
+                    .addComponent(comboOpstina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -435,7 +322,7 @@ public class KreirajPUForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(comboGrad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(comboOpstina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -447,7 +334,7 @@ public class KreirajPUForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtPolicajac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnKreiraj)
                     .addComponent(btnPromeni))

@@ -23,8 +23,13 @@ public class PromeniVoziloForm extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Promeni vozilo");
-        tblVozila.setModel(new VoziloTableModel());
         
+        try {
+            tblVozila.setModel(new VoziloTableModel());
+        } catch(Exception exc)  {
+            exc.printStackTrace();
+        }
+            
         btnPromeni.addActionListener(e->{
             int selectedRow = tblVozila.getSelectedRow();
             TableModel tm = tblVozila.getModel();

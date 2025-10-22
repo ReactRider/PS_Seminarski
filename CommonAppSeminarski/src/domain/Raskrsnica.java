@@ -33,6 +33,10 @@ public class Raskrsnica implements OpstaDomenskaKlasa{
         this.grad = grad;
     }
     
+    public Raskrsnica(long id) {
+        this.id_raskrsnica = id;
+    }
+    
     public Raskrsnica() {}
 
     public long getId_raskrsnica() {

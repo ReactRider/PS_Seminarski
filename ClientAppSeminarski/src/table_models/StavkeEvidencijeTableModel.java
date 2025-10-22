@@ -4,7 +4,7 @@
  */
 package table_models;
 
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import domain.*;
 
@@ -13,10 +13,10 @@ import domain.*;
  * @author ennouser
  */
 public class StavkeEvidencijeTableModel extends AbstractTableModel {
-    private ArrayList<StavkaEvidencije> stavke = null;
+    private List<StavkaEvidencije> stavke = null;
     private String[] columns = {"Vozilo","Kazna", "Raskrsnica", "Datum Prekrsaja"};
     
-    public StavkeEvidencijeTableModel(ArrayList<StavkaEvidencije> stavke) {
+    public StavkeEvidencijeTableModel(List<StavkaEvidencije> stavke) {
         this.stavke = stavke;
     }
     

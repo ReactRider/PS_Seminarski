@@ -76,7 +76,7 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
     }
 
     public void setIznos_total() {
-        this.iznos_total = this.bazni_ponder * ( this.br_kazni_I * 750000 + this.br_kazni_II * 50000 + this.br_kazni_III * 25000);
+        this.iznos_total = this.bazni_ponder * ( this.br_kazni_I * 75000 + this.br_kazni_II * 50000 + this.br_kazni_III * 25000);
     }
 
     public Long getBr_kazni_I() {
@@ -214,16 +214,20 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
 
     @Override
     public String getValueForUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.setIznos_total();
+        return "br_kazni_I = " + this.getBr_kazni_I() + ", br_kazni_II=" + this.getBr_kazni_II() + ", br_kazni_III = " + this.getBr_kazni_III() + ", iznos_total = " + this.getIznos_total() ;
     }
 
     @Override
     public String getConditionForUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idEvidencija = " + this.getId_evidencija();
     }
 
     @Override
     public String getConditionForFind(String s, OpstaDomenskaKlasa t2) {
+        if(t2 == null && s.equals("pretraga")) 
+            return "ek.id_pu = " + this.getPu().getId() + " AND ek.id_vozilo = " + this.getVozilo().getId_vozilo();
+        
         if(t2 == null) {
             long num = this.getId_evidencija();
             if(num == 0) 
@@ -238,7 +242,8 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
             return "v.reg_oznaka='" + ((Vozilo)t2).getReg_oznaka() + "'";
         } else if(t2 instanceof Kazna) {
             return "se.idKazne=" + ((Kazna)t2).getId_kazna();
-        }
+        } 
+        
         return "bubicaa<3";
     }
 
@@ -344,10 +349,6 @@ public class EvidencijaKazni implements OpstaDomenskaKlasa{
         }
         return list;
     }
-    
-    
-    
-    
     
     
 }

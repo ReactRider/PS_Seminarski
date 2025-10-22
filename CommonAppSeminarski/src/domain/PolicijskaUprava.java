@@ -200,7 +200,7 @@ public class PolicijskaUprava implements OpstaDomenskaKlasa {
 
     @Override
     public String getValueForUpdate() {
-        return "username='"+this.username+"', password='"+this.password+"', adresa='"+this.adresa+"'";
+        return "username= '" + this.getUsername() + "', password = '" + this.getPassword() + "', adresa='" + this.getAdresa() + "', policajac = '" + this.getPolicajac() + "'";
     }
 
     @Override

@@ -5,7 +5,7 @@
 package table_models;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
+import java.util.*;
 import domain.*;
 import controller.Controller;
 
@@ -15,7 +15,7 @@ import controller.Controller;
  */
 public class PUTableModel extends AbstractTableModel {
     String[] columns = {"naziv", "grad", "opstina", "adresa"};
-    ArrayList<PolicijskaUprava> uprave;
+    List<PolicijskaUprava> uprave;
     
     public PUTableModel() throws Exception{
         try{

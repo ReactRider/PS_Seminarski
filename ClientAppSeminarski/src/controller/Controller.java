@@ -666,6 +666,52 @@ public class Controller {
             throw new Exception(res.getErrormessage());
     }
     
+    public ArrayList<StavkaEvidencije> vratiListuStavkiEvidencije(EvidencijaKazni ev) throws Exception {
+        Request r=new Request();
+        r.setOperation(Operation.VRATI_LISTU_STAVKI_EVIDENCIJE);
+        r.setData(ev);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        if(res.getStatus()==ResponseStatus.SUCCESS)
+            return (ArrayList<StavkaEvidencije>)res.getData();
+        else
+            throw new Exception(res.getErrormessage());
+    }
+    
+    public boolean updateEvidencijaKazni(EvidencijaKazni e) throws Exception {
+        Request r=new Request();
+        r.setOperation(Operation.UPDATE_EVIDENCIJA_KAZNI);
+        r.setData(e);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        return (boolean)res.getData();       
+    }
+
+    public boolean daLiPostojiEvidencija(EvidencijaKazni evidencija) throws Exception {
+        Request r = new Request();
+        r.setOperation(Operation.DA_LI_POSTOJI_EVIDENCIJA_KAZNI);
+        r.setData(evidencija);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        return (boolean)res.getData();
+    }
+
+    public boolean updatePolicijskaUprava(PolicijskaUprava pu) throws Exception {
+        Request r = new Request();
+        r.setOperation(Operation.UPDATE_PU);
+        r.setData(pu);
+        sender.send(r);
+        
+        Response res=(Response)receiver.receive();
+        
+        return (boolean)res.getData();
+    }
     
     
 }

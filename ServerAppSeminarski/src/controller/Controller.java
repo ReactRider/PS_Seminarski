@@ -47,8 +47,10 @@ public class Controller {
     }
     
     public PolicijskaUprava pretraziPolicijskaUprava(PolicijskaUprava pu) throws Exception{
-        AbstractSO findpu=new FindPolicijskaUpravaSO();
-        ArrayList<PolicijskaUprava> lista_pu= (ArrayList<PolicijskaUprava>)findpu.execute(pu,null,"jedan");
+        AbstractSO findpu = new FindPolicijskaUpravaSO();
+        ArrayList<PolicijskaUprava> lista_pu = (ArrayList<PolicijskaUprava>)findpu.execute(pu,null,"jedan");
+        if(lista_pu.isEmpty()) 
+            return null;
         return lista_pu.getFirst();
     }
     
@@ -266,7 +268,6 @@ public class Controller {
         if(raskrsnice.isEmpty()){
             return null;
         }
-        System.out.println(raskrsnice.getFirst());
         return raskrsnice.getFirst();
     }
     
@@ -326,4 +327,21 @@ public class Controller {
         
         return finalnaLista;
     }
+
+    public boolean updateEvidencijaKazni(EvidencijaKazni e) throws Exception {
+        AbstractSO updateEvid = new UpdateEvidencijaSO();
+        return (boolean)updateEvid.execute(e, null, "");
+    }
+
+    public boolean daLiPostojiEvidencija(EvidencijaKazni e) throws Exception {
+        AbstractSO findEvid = new FindEvidencijaSO();
+        
+        ArrayList<EvidencijaKazni> evidencija = (ArrayList<EvidencijaKazni>)findEvid.execute(e, null, "pretraga");
+        if(evidencija.isEmpty())
+            return false;
+        
+        return true;
+    }
+
+    
 }

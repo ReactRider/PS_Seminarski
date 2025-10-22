@@ -5,7 +5,8 @@
 package forms;
 
 import domain.*;
-
+import java.awt.Dimension;
+import java.awt.Toolkit;
 /**
  *
  * @author Stefan
@@ -18,14 +19,17 @@ public class HomeForm extends javax.swing.JDialog {
     public HomeForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
     }
     
      public HomeForm(java.awt.Frame parent, boolean modal, PolicijskaUprava pu) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        setTitle("Glavna Forma");
+        setTitle("Glavna Forma - Prijavljeni ste kao - Pol.Uprava " + pu.getUsername());
+        
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(0, 0);
+        this.setSize(screenSize.width, screenSize.height);
         
         ////////////////////////////////////////////////////////////////////////
         

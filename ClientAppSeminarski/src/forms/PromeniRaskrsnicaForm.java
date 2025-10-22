@@ -24,7 +24,11 @@ public class PromeniRaskrsnicaForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setTitle("Promeni Raskrsnicu");
         
-        tblRaskrsnice.setModel(new RaskrsnicaTableModel());
+        try {
+            tblRaskrsnice.setModel(new RaskrsnicaTableModel());
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
         
         btnPromeni.addActionListener( e -> {
             int selectedRow = tblRaskrsnice.getSelectedRow();

@@ -45,7 +45,7 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
 
     @Override
     public boolean edit(OpstaDomenskaKlasa t) throws Exception {
-        String query = "UPDATE "+t.getTableName()+" SET "+t.getValueForUpdate()+" WHERE "+t.getConditionForUpdate();
+        String query = "UPDATE " + t.getTableName() + " SET " + t.getValueForUpdate() + " WHERE " + t.getConditionForUpdate();
         System.out.println(query);
         Connection conn = DBConnectionFactory.getInstance().getConnection();
         Statement s = conn.createStatement();
@@ -84,6 +84,8 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
             query = "SELECT * FROM " + t.getJoinCondition() + " WHERE " + t.getConditionForFind(s, t2);
         else if(t instanceof EvidencijaKazni)
             query = "SELECT * FROM " + t.getJoinCondition() + " WHERE " + t.getConditionForFind(s, t2);
+        else if(t instanceof StavkaEvidencije)
+            query = "SELECT * FROM " + t.getJoinCondition() + " WHERE " + t.getConditionForFind(s, t2); 
         else
             query = "SELECT * FROM " + t.getTableName()+" WHERE " + t.getConditionForFind(s, t2);
         
@@ -96,7 +98,6 @@ public class RepositoryGeneric implements DbRepository<OpstaDomenskaKlasa, Long>
         statement.close();
         rs.close();
         return list;
-        
     }
 
     @Override

@@ -154,7 +154,12 @@ public class ClientThread extends Thread {
                     case Operation.VRATI_LISTU_EVIDENCIJA_KAZNI_VOZILO:
                         response = vratiListuEvidencijaVozilo(request);
                         break;
-                    
+                    case Operation.UPDATE_EVIDENCIJA_KAZNI:
+                        response = updateEvidencijaKazni(request);
+                        break;
+                    case Operation.DA_LI_POSTOJI_EVIDENCIJA_KAZNI:
+                        response = daLiPostojiEvidencija(request);
+                        break;
                 }
             
                 sender.send(response);
@@ -859,6 +864,45 @@ public class ClientThread extends Thread {
         }
         return response;
     }
+
+    private Response updateEvidencijaKazni(Request request) {
+        Response response = null;
+        EvidencijaKazni e = (EvidencijaKazni)request.getData();
+        boolean result = false;
+        
+        try {
+            response = new Response();
+            result = Controller.getInstance().updateEvidencijaKazni(e);
+            response.setData(result);
+            response.setStatus(ResponseStatus.SUCCESS);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
+
+    private Response daLiPostojiEvidencija(Request request) {
+        Response response = null;
+        EvidencijaKazni e = (EvidencijaKazni)request.getData();
+        boolean result = false;
+        
+        try {
+            response = new Response();
+            result = Controller.getInstance().daLiPostojiEvidencija(e);
+            response.setData(result);
+            if(!result)
+                response.setStatus(ResponseStatus.SUCCESS);
+            else
+                response.setStatus(ResponseStatus.ERROR);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setErrormessage(ex.getLocalizedMessage());
+        }
+        return response;
+    }
+
+    
         
         
         

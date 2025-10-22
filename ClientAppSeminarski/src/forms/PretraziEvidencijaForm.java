@@ -168,6 +168,8 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
             this.add(jScrollPane1);
             try {
                 tblEvidencije.setModel(new EvidencijeTableModel(new EvidencijaKazni(izbor)));
+                if(tblEvidencije.getModel().getRowCount() == 0) 
+                    JOptionPane.showMessageDialog(this, "Nema rezultata pretraga.", "Poruka", JOptionPane.INFORMATION_MESSAGE);
             } catch(Exception ex) {
                 ex.printStackTrace();
             }
@@ -198,7 +200,7 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
                     filter = (String)comboOpseg.getSelectedItem();
                 } else if(comboKazne.isDisplayable()) {
                     kriterijum = "Kazna";
-                    filter = (String)comboKazne.getSelectedItem();
+                    filter = ((Kazna)comboKazne.getSelectedItem()).getNaziv();
                 } else if(comboPU.isDisplayable()) {
                     kriterijum = "Policijska Uprava";
                     filter = (String)comboPU.getSelectedItem();
@@ -207,7 +209,7 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
                     filter = txtRegOznaka.getText();
                 }
                 
-                new KreirajEvidencijaForm(null, true, evidencija,kriterijum, filter).setVisible(true);
+                new KreirajEvidencijaForm(null, true, evidencija, kriterijum, filter).setVisible(true);
             } catch(Exception ex) {
                 JOptionPane.showMessageDialog(this, "Izaberite evidenciju kazne iz tabele!", "Greska", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -272,6 +274,8 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
             
             try {
                 tblEvidencije.setModel(new EvidencijeTableModel(new Vozilo(txtRegOznaka.getText())));
+                if(tblEvidencije.getModel().getRowCount() == 0) 
+                    JOptionPane.showMessageDialog(this, "Nema rezultata pretraga.", "Poruka", JOptionPane.INFORMATION_MESSAGE);
             } catch(Exception ex) {
                 ex.printStackTrace();
             }

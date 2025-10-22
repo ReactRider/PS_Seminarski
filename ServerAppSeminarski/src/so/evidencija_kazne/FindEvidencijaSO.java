@@ -5,6 +5,8 @@
 package so.evidencija_kazne;
 
 import domain.EvidencijaKazni;
+import domain.StavkaEvidencije;
+import java.util.List;
 import so.AbstractSO;
 
 /**
@@ -22,7 +24,15 @@ public class FindEvidencijaSO extends AbstractSO {
 
     @Override
     protected Object executeOperation(Object o, Object o1, String s) throws Exception {
-        return repository.getByClass((EvidencijaKazni)o, o1, s);
+        List<EvidencijaKazni> evidencije = repository.getByClass((EvidencijaKazni)o, o1, s);
+        
+        for(EvidencijaKazni e : evidencije) {
+            StavkaEvidencije se = new StavkaEvidencije();
+            List<StavkaEvidencije> stavke = repository.getByClass((StavkaEvidencije)se, e, "lista");
+            e.setStavke_ev(stavke);
+        }
+        
+        return evidencije;
     }
     
 }
