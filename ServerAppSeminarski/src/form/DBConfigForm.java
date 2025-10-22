@@ -4,6 +4,11 @@
  */
 package form;
 
+import java.io.FileOutputStream;
+import java.util.Properties;
+import javax.swing.JOptionPane;
+import util.MyConstants;
+
 /**
  *
  * @author ennouser
@@ -18,6 +23,8 @@ public class DBConfigForm extends javax.swing.JDialog {
     public DBConfigForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setTitle("Podešavanje parametara baze");
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -29,21 +36,126 @@ public class DBConfigForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtURL = new javax.swing.JTextField();
+        txtUSERNAME = new javax.swing.JTextField();
+        txtPASSWORD = new javax.swing.JTextField();
+        btnSacuvaj = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel3.setText("USERNAME:");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel4.setText("PASSWORD:");
+
+        txtURL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtURLActionPerformed(evt);
+            }
+        });
+
+        txtPASSWORD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPASSWORDActionPerformed(evt);
+            }
+        });
+
+        btnSacuvaj.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        btnSacuvaj.setText("Sacuvaj");
+        btnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSacuvajActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        jLabel1.setText("Parametri za konfiguraciju baze podataka:");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel2.setText("URL:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnSacuvaj)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGap(63, 63, 63)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtURL)
+                                .addComponent(txtUSERNAME)
+                                .addComponent(txtPASSWORD, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)))))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel1)
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtURL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtUSERNAME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtPASSWORD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addComponent(btnSacuvaj)
+                .addGap(26, 26, 26))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtURLActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtURLActionPerformed
+
+    private void txtPASSWORDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPASSWORDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPASSWORDActionPerformed
+
+    private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
+        // TODO add your handling code here:
+
+        String newUrl=txtURL.getText();
+        String newUsername=txtUSERNAME.getText();
+        String newPassword=txtPASSWORD.getText();
+        
+        Properties newProp=new Properties();
+        newProp.setProperty(MyConstants.DB_CONFIG_URL, newUrl);
+        newProp.setProperty(MyConstants.DB_CONFIG_USERNAME, newUsername);
+        newProp.setProperty(MyConstants.DB_CONFIG_PASSWORD, newPassword);
+        
+        try{
+            FileOutputStream out=new FileOutputStream(MyConstants.DB_CONFIG_FILE_NAME);
+            newProp.store(out, "Nova konfiguracija");
+            this.setVisible(false);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Fajl sa konfiguracijom nije uspesno sacuvan","Greska",JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_btnSacuvajActionPerformed
 
     /**
      * @param args the command line arguments
@@ -83,5 +195,13 @@ public class DBConfigForm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSacuvaj;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField txtPASSWORD;
+    private javax.swing.JTextField txtURL;
+    private javax.swing.JTextField txtUSERNAME;
     // End of variables declaration//GEN-END:variables
 }

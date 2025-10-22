@@ -422,9 +422,19 @@ public class HomeForm extends javax.swing.JDialog {
         menuHome.add(meniSifarnici);
 
         meniPodesavanja.setText("Podesavanja softverskog sistema");
+        meniPodesavanja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                meniPodesavanjaMouseClicked(evt);
+            }
+        });
         menuHome.add(meniPodesavanja);
 
         meniOProgramu.setText("O Programu");
+        meniOProgramu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                meniOProgramuMouseClicked(evt);
+            }
+        });
         menuHome.add(meniOProgramu);
 
         setJMenuBar(menuHome);
@@ -458,6 +468,16 @@ public class HomeForm extends javax.swing.JDialog {
     private void itemPretragaGradVlasnikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPretragaGradVlasnikActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_itemPretragaGradVlasnikActionPerformed
+
+    private void meniPodesavanjaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meniPodesavanjaMouseClicked
+        // TODO add your handling code here:
+        new PodesavanjeSistemaForm(null, true).setVisible(true);
+    }//GEN-LAST:event_meniPodesavanjaMouseClicked
+
+    private void meniOProgramuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meniOProgramuMouseClicked
+        // TODO add your handling code here:
+        new OProgramuForm(null, true).setVisible(true);
+    }//GEN-LAST:event_meniOProgramuMouseClicked
 
     /**
      * @param args the command line arguments

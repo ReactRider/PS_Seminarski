@@ -9,6 +9,7 @@ package form;
  * @author ennouser
  */
 
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import thread.ServerThread;
 
@@ -25,6 +26,7 @@ public class MainServerForm extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Serverska forma");
     }
 
     /**
@@ -36,43 +38,111 @@ public class MainServerForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        mStart = new javax.swing.JMenuItem();
+        mStop = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton1.setText("Start");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jMenu1.setText("Server");
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        mStart.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mStart.setText("start");
+        mStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                mStartActionPerformed(evt);
             }
         });
+        jMenu1.add(mStart);
+
+        mStop.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mStop.setText("stop");
+        mStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mStopActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mStop);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Konfiguracija");
+        jMenu2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem1.setText("baza podataka");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem2.setText("server");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(142, 142, 142)
-                .addComponent(jButton1)
-                .addContainerGap(186, Short.MAX_VALUE))
+            .addGap(0, 463, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jButton1)
-                .addContainerGap(263, Short.MAX_VALUE))
+            .addGap(0, 268, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        
+        new DBConfigForm(null, true).setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void mStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mStartActionPerformed
+        
         if(serverT == null || !serverT.isAlive()) {
             try {
                 serverT = new ServerThread();
                 serverT.start();
+                
+                
+                mStart.setEnabled(false);
+                mStop.setEnabled(true);
+                
             } catch(Exception ex) {
                 JOptionPane.showMessageDialog(this, "Greska pri pokretanju servera!", "Informacija", JOptionPane.ERROR_MESSAGE);
             }
@@ -80,7 +150,31 @@ public class MainServerForm extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Server je vec pokrenut!");
         }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_mStartActionPerformed
+
+    private void mStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mStopActionPerformed
+        
+        if (serverT.getServerSocket()!= null && serverT.getServerSocket().isBound()) {
+            try {
+                serverT.stopServerThread();
+                
+                
+                mStop.setEnabled(false);
+                mStart.setEnabled(true);
+                
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Greska pri gasenju servera","Greska!",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+        
+    }//GEN-LAST:event_mStopActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        
+        new ServerConfigForm(null, true).setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -120,6 +214,14 @@ public class MainServerForm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JMenuItem mStart;
+    private javax.swing.JMenuItem mStop;
     // End of variables declaration//GEN-END:variables
 }
