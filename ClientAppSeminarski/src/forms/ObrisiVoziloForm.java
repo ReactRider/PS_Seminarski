@@ -28,7 +28,7 @@ public class ObrisiVoziloForm extends javax.swing.JDialog {
         try{
             tblVozila.setModel(new VoziloTableModel());
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this,"Greska pri prikazivanju Vozila","Greska",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,"Greska pri prikazivanju vozila","Greska",JOptionPane.ERROR_MESSAGE);
         }
         
         btnObrisi.addActionListener( e-> {
@@ -43,10 +43,12 @@ public class ObrisiVoziloForm extends javax.swing.JDialog {
                 if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Potvrda", JOptionPane.YES_NO_OPTION) != 0)
                     return;
             
+                //JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise vozilo.", "Greska", JOptionPane.ERROR_MESSAGE);
+                
                 if(Controller.getInstance().obrisiVozilo(v)) {
-                    JOptionPane.showMessageDialog(this, "Vozilo obrisano", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Sistem je obrisao vozilo.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                     tblVozila.setModel(new VoziloTableModel());
-                }
+                } 
             } catch(Exception ex) {
                 JOptionPane.showMessageDialog(this, "Izaberite vozilo", "Greska", JOptionPane.ERROR_MESSAGE);
             }

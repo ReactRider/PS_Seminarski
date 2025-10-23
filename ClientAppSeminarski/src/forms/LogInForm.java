@@ -42,6 +42,7 @@ public class LogInForm extends javax.swing.JDialog {
             PolicijskaUprava pu = new PolicijskaUprava(username, password);
             try {
                 if(Controller.getInstance().prijaviPolicijskaUprava(pu) != null) {
+                    JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra su ispravni!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                     this.setVisible(false);
                     new HomeForm(null, true, pu).setVisible(true);
                 }
@@ -49,6 +50,8 @@ public class LogInForm extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Netacni podaci!\nPreostalo pokusaja: " + --LOGIN_POKUSAJI, "Greska", JOptionPane.ERROR_MESSAGE);
             }
         } else {
+            JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra nisu ispravni!", "Greska", JOptionPane.ERROR_MESSAGE);
+
             JOptionPane.showMessageDialog(this, "Forma se zatvara zbog 3 neuspela pokusaja logovanja!", "Greska", JOptionPane.ERROR_MESSAGE);
             this.setVisible(false);
         }

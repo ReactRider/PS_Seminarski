@@ -75,6 +75,8 @@ public class PretraziVoziloKritForm extends javax.swing.JDialog {
             
             this.add(jScrollPane2);
             try{
+                //JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje vozila po zadatim kriterijumima.", "Poruka", JOptionPane.INFORMATION_MESSAGE);
+
                 tblVozila2.setModel(new VoziloTableModel(new Vozilo((String) comboMarka.getSelectedItem(), 0)));
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(this, "Greska pri ucitavanju voizla","Greska",JOptionPane.ERROR_MESSAGE);

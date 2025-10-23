@@ -26,8 +26,6 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jLabel2" alignment="0" min="-2" pref="189" max="-2" attributes="0"/>
-                  <Component id="jLabel1" alignment="0" min="-2" pref="282" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel6" min="-2" pref="46" max="-2" attributes="0"/>
                       <EmptySpace pref="135" max="32767" attributes="0"/>
@@ -37,7 +35,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel3" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jLabel5" alignment="0" pref="76" max="32767" attributes="0"/>
+                              <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -48,6 +46,8 @@
                           <Component id="txtPASSWORD" alignment="0" pref="406" max="32767" attributes="0"/>
                       </Group>
                   </Group>
+                  <Component id="jLabel2" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="0" min="-2" pref="328" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="107" max="32767" attributes="0"/>
           </Group>

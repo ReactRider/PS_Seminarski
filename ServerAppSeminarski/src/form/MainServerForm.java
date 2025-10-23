@@ -27,6 +27,7 @@ public class MainServerForm extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Serverska forma");
+        mStop.setEnabled(false);
     }
 
     /**

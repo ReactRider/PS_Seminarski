@@ -179,7 +179,8 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
     }
     
     private void prepareBtnPromeni() {
-        btnPromeni.addActionListener( e -> {
+        btnPromeni.addActionListener( e -> {   
+            //JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje evidenciju kazni.", "Greska", JOptionPane.ERROR_MESSAGE);
             if(!jScrollPane1.isDisplayable()) {
                 JOptionPane.showMessageDialog(this, "Izaberite kriterijum pretrage!", "Greska", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -227,6 +228,7 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
             this.add(jScrollPane1);
             try {
                 tblEvidencije.setModel(new EvidencijeTableModel((Kazna)comboKazne.getSelectedItem()));
+                JOptionPane.showMessageDialog(this, "Sistem je nasao evidenciju kazni po zadatim kriterijumima.", "Poruka", JOptionPane.INFORMATION_MESSAGE);
                 if(tblEvidencije.getModel().getRowCount() == 0)
                     JOptionPane.showMessageDialog(this, "Ne postoje rezultati pretrage.", "Informacija", JOptionPane.INFORMATION_MESSAGE);
             } catch(Exception ex) {
@@ -265,8 +267,9 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
         this.add(btnPretraga);
         
         btnPretraga.addActionListener( e -> {
+
             if(!check_reg()) {
-                JOptionPane.showMessageDialog(this, "Neispravan unos!", "Greska", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje evidencije kazni po zadatim kriterijumima.", "Greska", JOptionPane.ERROR_MESSAGE);
                 tblEvidencije.setModel(new EvidencijeTableModel());
                 return;
             }
@@ -279,8 +282,6 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
             } catch(Exception ex) {
                 ex.printStackTrace();
             }
-            if(tblEvidencije.getRowCount() == 0)
-                JOptionPane.showMessageDialog(this, "Nema rezultata pretrage!", "Poruka", JOptionPane.INFORMATION_MESSAGE);
         });        
         this.add(btnPromeni);
         prepareBtnPromeni();
@@ -458,14 +459,13 @@ public class PretraziEvidencijaForm extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(30, 30, 30))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(281, 281, 281)
-                        .addComponent(lblTitle))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(446, 446, 446)
-                        .addComponent(btnPromeni)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(446, 446, 446)
+                .addComponent(btnPromeni)
+                .addContainerGap(544, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTitle)
+                .addGap(389, 389, 389))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

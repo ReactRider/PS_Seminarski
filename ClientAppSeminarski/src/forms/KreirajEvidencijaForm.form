@@ -53,12 +53,12 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblRaskrsnica" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblKazna" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblDatum" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lblPonder" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                              <Component id="lblSliderValue" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                              <Component id="lblSliderValue" min="-2" pref="22" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="lblDatum" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -130,11 +130,11 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                               <Component id="lblPonder" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="lblSliderValue" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblSliderValue" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <Component id="sliderPonder" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="59" max="32767" attributes="0"/>
+                      <EmptySpace pref="58" max="32767" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="235" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
                   </Group>

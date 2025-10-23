@@ -4,6 +4,7 @@
  */
 package form;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 import javax.swing.JOptionPane;
@@ -25,6 +26,7 @@ public class ServerConfigForm extends javax.swing.JDialog {
         initComponents();
         setTitle("Parametri za konfiguraciju servera");
         setLocationRelativeTo(null);
+        initLoad();
     }
 
     /**
@@ -155,4 +157,15 @@ public class ServerConfigForm extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField txtPORT;
     // End of variables declaration//GEN-END:variables
+
+    private void initLoad() {
+        try {
+            Properties prop = new Properties();
+            prop.load(new FileInputStream(MyConstants.SERVER_FILE_NAME));
+            String port = prop.getProperty(MyConstants.SERVER_PORT);
+            txtPORT.setText(port);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

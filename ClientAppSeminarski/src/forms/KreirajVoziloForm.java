@@ -47,7 +47,7 @@ public class KreirajVoziloForm extends javax.swing.JDialog {
                 try{
                     boolean b=Controller.getInstance().promeniVozilo(new Vozilo(Long.parseLong(txtID.getText()), (Vlasnik)comboVlasnici.getSelectedItem()));
                     if(b) {
-                        JOptionPane.showMessageDialog(null, "Vozilo promenjeno!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Sistem je zapamtio vozilo!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                         this.setVisible(false);
                         new PromeniVoziloForm(null, true).setVisible(true);
                     }
@@ -59,6 +59,13 @@ public class KreirajVoziloForm extends javax.swing.JDialog {
                 }
                 
             } 
+            
+            /*
+            else {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti vozilo.", "Informacija", JOptionPane.INFORMATION_MESSAGE);
+            }
+            */
+            
                
         });
     }
@@ -109,7 +116,7 @@ public class KreirajVoziloForm extends javax.swing.JDialog {
         btnKreiraj.addActionListener(e -> {
             try{
                 if(!check_reg()) {
-                    JOptionPane.showMessageDialog(this, "Neispravna registraciona oznaka", "Greska", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti vozilo zbog neispravne registracije.", "Greska", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 

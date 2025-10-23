@@ -37,9 +37,7 @@ public class UbaciRaskrsnicaForm extends javax.swing.JDialog {
                 }else{
                     continue;
                 }
-
             }
-
             //ArrayList<String> gradovi = Controller.getInstance().ucitajGradove();
             for(String grad : gradovi)
                 comboGradovi.addItem(grad);
@@ -69,7 +67,7 @@ public class UbaciRaskrsnicaForm extends javax.swing.JDialog {
                         if(!Controller.getInstance().daLiPostojiRaskrsnica(raskrsnica)) {
                             long id_kreirane_ras=Controller.getInstance().ubaciRaskrsnica(new Raskrsnica(naziv, grad));
                             if(id_kreirane_ras!=0) {
-                                JOptionPane.showMessageDialog(this, "Raskrsnica sacuvana!", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(this, "Sistem je zapamtio raskrsnicu.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
 
                                 if(JOptionPane.showConfirmDialog(this, "Novi unos?", "Potvrda", JOptionPane.YES_NO_OPTION) == 0) {
                                     txtNazivRaskrsnice.setText("");
@@ -79,12 +77,12 @@ public class UbaciRaskrsnicaForm extends javax.swing.JDialog {
                             } else 
                                 JOptionPane.showMessageDialog(this, "Raskrsnica nije sacuvana!", "Greska", JOptionPane.ERROR_MESSAGE);
                         } else 
-                            JOptionPane.showMessageDialog(this, "Raskrsnica sa unetim nazivom vec postoji", "Greska", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti raskrsnicu.", "Greska", JOptionPane.ERROR_MESSAGE);
                     }
                 } else
                     JOptionPane.showMessageDialog(this, "Neispravni podaci!", "Greska", JOptionPane.ERROR_MESSAGE);
-            }catch(Exception ex){
-                JOptionPane.showMessageDialog(this, "Greska pri preiranju raskrsnice","Greska",JOptionPane.ERROR_MESSAGE);
+            } catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti raskrsnicu.","Greska",JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
             }
         });

@@ -28,12 +28,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel1" alignment="0" min="-2" pref="141" max="-2" attributes="0"/>
-                  <Component id="jLabel4" alignment="0" min="-2" pref="237" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
-                  <Component id="jLabel2" alignment="0" min="-2" pref="724" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="0" min="-2" pref="236" max="-2" attributes="0"/>
+                  <Component id="jLabel4" alignment="0" min="-2" pref="295" max="-2" attributes="0"/>
+                  <Component id="jLabel2" alignment="0" min="-2" pref="778" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="92" max="32767" attributes="0"/>
+              <EmptySpace pref="38" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

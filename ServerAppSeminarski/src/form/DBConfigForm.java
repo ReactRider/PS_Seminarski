@@ -4,6 +4,7 @@
  */
 package form;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 import javax.swing.JOptionPane;
@@ -25,6 +26,7 @@ public class DBConfigForm extends javax.swing.JDialog {
         initComponents();
         setTitle("Podešavanje parametara baze");
         setLocationRelativeTo(null);
+        initLoad();
     }
 
     /**
@@ -204,4 +206,19 @@ public class DBConfigForm extends javax.swing.JDialog {
     private javax.swing.JTextField txtURL;
     private javax.swing.JTextField txtUSERNAME;
     // End of variables declaration//GEN-END:variables
+
+    private void initLoad() {
+        try {
+            Properties prop = new Properties();
+            prop.load(new FileInputStream(MyConstants.DB_CONFIG_FILE_NAME));
+            String url = prop.getProperty(MyConstants.DB_CONFIG_URL);
+            String username = prop.getProperty(MyConstants.DB_CONFIG_USERNAME);
+            String password = prop.getProperty(MyConstants.DB_CONFIG_PASSWORD);
+            txtURL.setText(url);
+            txtUSERNAME.setText(username);
+            txtPASSWORD.setText(password);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

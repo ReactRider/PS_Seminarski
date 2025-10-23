@@ -31,6 +31,8 @@ public class PromeniVoziloForm extends javax.swing.JDialog {
         }
             
         btnPromeni.addActionListener(e->{
+            //JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje vozilo.", "Poruka", JOptionPane.INFORMATION_MESSAGE);
+
             int selectedRow = tblVozila.getSelectedRow();
             TableModel tm = tblVozila.getModel();
             VoziloTableModel vtm = (VoziloTableModel)tm;

@@ -166,7 +166,7 @@ public class Controller {
     public Vozilo pretraziVozilo(Vozilo v) throws Exception{
         AbstractSO findVozilo=new FindVoziloSO();
         ArrayList<Vozilo> vozila=(ArrayList<Vozilo>)findVozilo.execute(v,null,"jedan");
-        if(vozila == null) 
+        if(vozila.isEmpty()) 
             return null;
         return vozila.getFirst();
     }

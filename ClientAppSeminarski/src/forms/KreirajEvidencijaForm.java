@@ -80,38 +80,21 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
                 return;
             }
             
-            if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni", "Poruka", JOptionPane.YES_NO_OPTION) != 0)
+            if(JOptionPane.showConfirmDialog(this, "Da li ste sigurni?", "Poruka", JOptionPane.YES_NO_OPTION) != 0)
                 return;
             
             try {
                 evidencija.setStavke_ev(noveStavke);
                 
                 if(Controller.getInstance().updateEvidencijaKazni(evidencija)) {
-                    JOptionPane.showMessageDialog(this, "Evidencija azurirana.");
+                    JOptionPane.showMessageDialog(this, "Evidencija je azurirana.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Evidencija nije azurirana.", "Greska", JOptionPane.ERROR_MESSAGE);
                 }
             } catch(Exception exc) {
                 exc.printStackTrace();
             }
-            
-             
-            
         });
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }
     
     private void prepareForUpdate(EvidencijaKazni e, String krit, String filter) {
@@ -135,7 +118,7 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         btnKreirajEvidenciju.setEnabled(false);
         
         sliderPonder.setValue((int)e.getBazni_ponder());
-        lblSliderValue.setText("" + e.getBazni_ponder());
+        lblSliderValue.setText(e.getBazni_ponder()+"");
         sliderPonder.setEnabled(false);
         
         lblTitle.setText("Promena Evidencije Kazni");
@@ -197,7 +180,7 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
                        JOptionPane.showMessageDialog(this, "Vozilo pronadjeno: " + v.getMarka() + " " + v.getModel() + ", " + v.getReg_oznaka().toUpperCase());
                        evidencija.setVozilo(v);
                    } else 
-                       JOptionPane.showMessageDialog(this, "Vozilo sa unetom registracionom oznakom  ne postoji! Mozete uneti vozilo na dugme 'Novo vozilo'!","Poruka",JOptionPane.INFORMATION_MESSAGE);
+                       JOptionPane.showMessageDialog(this, "Vozilo sa unetom registracionom oznakom ne postoji. Mozete uneti vozilo klikom na dugme 'Novo vozilo'!","Poruka",JOptionPane.INFORMATION_MESSAGE);
                } catch(Exception ex) {
                    ex.printStackTrace();
                }
@@ -248,12 +231,12 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
             try {
                 datumPrekrsaja = LocalDateTime.parse(unos, formatter);
             } catch (DateTimeParseException ex) {
-                JOptionPane.showMessageDialog(this, "Uneti datum prekrsaja nije ispravan.", "Pogresan format datuma", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti evidenciju kazni.", "Pogresan format datuma", JOptionPane.ERROR_MESSAGE);
             }
             
             LocalDateTime now = LocalDateTime.now();
             if(datumPrekrsaja.isAfter(now)) {
-                JOptionPane.showMessageDialog(this, "Unesite datum iz proslosti.", "Greska", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti evidenciju kazni.", "Greska", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             
@@ -317,7 +300,7 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
                 }
                 
                 if(evidencija_id != 0l) {
-                    JOptionPane.showMessageDialog(this, "Evidencija Kazni je uspesno kreirana.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Sistem je zapamtio evidenciju kazni.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                     this.setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(this, "Nastala je greska.", "Greska", JOptionPane.ERROR_MESSAGE);
@@ -395,7 +378,7 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
         } catch(Exception ex) {
             System.out.println("Greska pri ucitavanju raskrsnica iz baze podataka!");
         }
-        
+        comboRaskrsnica.removeAllItems();
         for(Raskrsnica r : raskrsnice)
             comboRaskrsnica.addItem(r);
         
@@ -561,11 +544,11 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblRaskrsnica)
                             .addComponent(lblKazna)
+                            .addComponent(lblDatum)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblPonder)
-                                .addGap(59, 59, 59)
-                                .addComponent(lblSliderValue))
-                            .addComponent(lblDatum))
+                                .addGap(50, 50, 50)
+                                .addComponent(lblSliderValue, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(88, 88, 88)
@@ -621,9 +604,9 @@ public class KreirajEvidencijaForm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(lblPonder, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblSliderValue))
+                                .addComponent(lblSliderValue, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(sliderPonder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(113, 113, 113))
                     .addGroup(layout.createSequentialGroup()
