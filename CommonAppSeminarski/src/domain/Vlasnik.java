@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author Stefan
  */
-public class Vlasnik implements OpstaDomenskaKlasa{
+public class Vlasnik implements OpstaDomenskaKlasa {
     private Long id_vlasnik;
     private String ime;
     private String prezime;

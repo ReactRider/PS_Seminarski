@@ -48,9 +48,6 @@ public class KreirajKaznaForm extends javax.swing.JDialog {
             else if(KategorijaKazna.Kategorija_III.equals((KategorijaKazna)comboKategorija.getSelectedItem()))
                 txtIznos.setText("25000");
         });
-        
-        
-        
     }
      
      private void prepareForUpdate(Kazna k) {
